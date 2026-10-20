@@ -1,0 +1,1623 @@
+<!doctype html><html lang='zh-Hant'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1,viewport-fit=cover'></head><body><title>說好了・體驗版</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: white / off-white sheets with warm terracotta + honey accents; color lives in borders, icons and text, not in large fills. Large type for older readers. */
+:root{
+  --bg:#fcf9f3; --sheet:#ffffff; --ink:#3b2a1e; --muted:#6e5646; --line:#eadccb;
+  --accent:#b8521c; --accent-ink:#9a4214; --tint:#fdf6ef;
+  --sun:#d99a22; --sun-ink:#8a5a00;
+  --good:#2e7a46; --good-tint:#f2f8f1; --bad:#b03a2e; --bad-tint:#fcf3f1; --mid:#c98a14; --mid-tint:#fdf8ec;
+  --on-accent:#ffffff; --hill:#f4ebdf; --stair:#ffffff;
+  --display:"LXGW WenKai TC","Noto Serif TC","Noto Serif CJK TC",serif;
+  --body:"Noto Sans TC","Noto Sans CJK TC","PingFang TC","Microsoft JhengHei",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1d1813; --sheet:#25201a; --ink:#f6ece0; --muted:#cbb6a2; --line:#4a3d31;
+  --accent:#f0945a; --accent-ink:#f6ad7d; --tint:#2e251d; --sun:#f0bf5a; --sun-ink:#f3cf83;
+  --good:#8acf96; --good-tint:#1f2c21; --bad:#f08a80; --bad-tint:#33201d; --mid:#f0bf5a; --mid-tint:#30281a;
+  --on-accent:#1d1813; --hill:#2e261e; --stair:#25201a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1d1813; --sheet:#25201a; --ink:#f6ece0; --muted:#cbb6a2; --line:#4a3d31;
+  --accent:#f0945a; --accent-ink:#f6ad7d; --tint:#2e251d; --sun:#f0bf5a; --sun-ink:#f3cf83;
+  --good:#8acf96; --good-tint:#1f2c21; --bad:#f08a80; --bad-tint:#33201d; --mid:#f0bf5a; --mid-tint:#30281a;
+  --on-accent:#1d1813; --hill:#2e261e; --stair:#25201a; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.7;margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding-block:20px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;margin-bottom:12px}
+h1{font-family:var(--display);font-size:2.3rem;margin:0;letter-spacing:.06em;line-height:1.15;color:var(--accent)}
+.sub{font-size:1.02rem;color:var(--muted)}
+.badge{font-size:1rem;background:var(--sheet);color:var(--sun-ink);padding:6px 16px;border-radius:999px;font-weight:700;border:2px solid var(--sun)}
+.trial{border:2px solid var(--good);border-left-width:8px;background:var(--sheet);border-radius:14px;padding:10px 16px;margin-bottom:12px}
+.trial strong{color:var(--good)}
+nav{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;margin:8px 0 6px}
+nav button{font:inherit;font-size:1rem;line-height:1.25;white-space:normal;text-wrap:balance;border:2px solid var(--line);background:var(--sheet);color:var(--ink);padding:8px 8px;border-radius:14px;cursor:pointer;text-align:left;min-width:0;display:flex;gap:6px;align-items:center;min-height:58px}
+nav button .n{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:700;border:2px solid var(--accent);color:var(--accent);font-size:1.02rem}
+nav button[aria-current="step"]{border-color:var(--accent);box-shadow:inset 0 -4px 0 var(--accent)}
+nav button[aria-current="step"] .n{background:var(--accent);color:var(--on-accent)}
+nav button:disabled{opacity:.45;cursor:not-allowed}
+.navnote{color:var(--accent-ink);font-weight:500;margin:0 0 14px;font-size:1rem}
+button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+section.sheet{background:var(--sheet);border:1px solid var(--line);border-radius:20px;padding:26px clamp(16px,3.4vw,38px);margin-top:8px}
+.law{display:inline-block;font-size:.98rem;color:var(--accent-ink);border:1.5px solid var(--accent);padding:2px 14px;border-radius:999px;font-weight:500}
+h2{font-family:var(--display);font-size:1.95rem;line-height:1.35;margin:12px 0 6px;text-wrap:balance}
+h3{font-size:1.22rem;margin:0}
+.lead{color:var(--muted);margin:0 0 16px;max-width:64ch;font-size:1.1rem}
+/* how-to box: always sits right above the thing it explains */
+.howto{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;border:2px solid var(--sun);border-radius:16px;padding:12px 16px;margin:6px 0 16px;background:var(--sheet)}
+.howto .ic{width:40px;height:40px;border-radius:50%;background:var(--sun);color:#3b2a1e;display:grid;place-items:center;font-weight:700;font-size:1.1rem}
+.howto b{color:var(--sun-ink)}
+.howto ol{margin:2px 0 0;padding-left:1.3em}
+.howto p{margin:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.cond{border:2px solid var(--line);border-radius:16px;padding:16px 18px;min-width:0;display:flex;gap:14px;align-items:flex-start;background:var(--sheet)}
+.ic5{flex:none;width:50px;height:50px;border-radius:14px;display:grid;place-items:center;border:2px solid var(--accent);color:var(--accent);font-family:var(--display);font-weight:700;font-size:1.5rem;background:var(--sheet)}
+.cond p{margin:4px 0 0;color:var(--muted)}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.btn{font:inherit;font-size:1.08rem;font-weight:700;border:2px solid var(--accent);background:var(--accent);color:var(--on-accent);padding:10px 24px;border-radius:14px;cursor:pointer;min-height:50px}
+.btn.ghost{background:var(--sheet);color:var(--accent)}
+.btn.small{min-height:42px;padding:4px 14px;font-size:1rem}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.why-off{color:var(--bad);font-weight:500}
+.q{border-top:2px dashed var(--line);padding:18px 0}
+.q:first-of-type{border-top:0;padding-top:4px}
+.q p{margin:0 0 10px;font-weight:700;font-size:1.14rem}
+.opts{display:flex;flex-wrap:wrap;gap:10px}
+.opt{font:inherit;border:2px solid var(--line);background:var(--sheet);color:var(--ink);padding:10px 18px;border-radius:14px;cursor:pointer;min-height:50px;text-align:left}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt.unsure{border-style:dashed;color:var(--muted)}
+.opt.right{border-color:var(--good);background:var(--good-tint);color:var(--good);font-weight:700}
+.opt.wrong{border-color:var(--bad);background:var(--bad-tint);color:var(--bad)}
+.opt.asked{border-color:var(--sun);color:var(--sun-ink);font-weight:700;border-style:solid}
+.opt:disabled{cursor:default}
+.why{color:var(--muted);margin-top:8px}
+.why b{color:var(--ink)}
+.score{display:flex;gap:10px 22px;align-items:center;flex-wrap:wrap;border:2px solid var(--line);border-radius:16px;padding:12px 18px;margin-top:14px}
+.score .k{display:flex;align-items:baseline;gap:6px}
+.score strong{font-size:1.9rem;font-variant-numeric:tabular-nums;font-family:var(--display)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;font-size:1rem;border:2px solid var(--line);background:var(--sheet);color:var(--ink);padding:8px 14px;border-radius:999px;cursor:pointer;min-height:46px}
+.chip[aria-pressed="true"]{border-color:var(--accent);color:var(--accent-ink);font-weight:700;box-shadow:inset 0 0 0 1px var(--accent)}
+.ccard{border:2px solid var(--line);border-radius:18px;padding:16px 20px;margin-bottom:14px}
+.ccard.ok{border-color:var(--good)}
+.ccard .head{display:flex;gap:14px;align-items:flex-start;margin-bottom:8px}
+.ccard .expl{color:var(--muted);margin:2px 0 0}
+.ccard .tr{display:grid;grid-template-columns:9.5em minmax(0,1fr);gap:10px;align-items:center;padding:8px 0;border-top:1px dashed var(--line)}
+.ccard .tr .lbl{font-weight:500}
+.fam{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:12px}
+.person{border:2px solid var(--line);border-radius:16px;padding:14px 16px;min-width:0}
+.person .who{color:var(--muted)}
+.pill{display:inline-block;font-size:.98rem;padding:2px 12px;border-radius:999px;border:1.5px solid var(--accent);color:var(--accent-ink);font-weight:500;background:var(--sheet)}
+.pill.good{border-color:var(--good);color:var(--good)}
+.pill.bad{border-color:var(--bad);color:var(--bad)}
+.pill.warn{border-color:var(--sun);color:var(--sun-ink)}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field label{font-weight:500}
+input[type=text],input[type=search],select{font:inherit;font-size:1.05rem;padding:10px 12px;border:2px solid var(--line);border-radius:12px;background:var(--sheet);color:var(--ink);max-width:100%;min-height:50px}
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;align-items:end;border:2px dashed var(--line);border-radius:16px;padding:14px}
+.big2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:6px}
+.bigchoice{font:inherit;text-align:left;border:3px solid var(--line);background:var(--sheet);color:var(--ink);border-radius:18px;padding:16px 20px;cursor:pointer;min-width:0}
+.bigchoice strong{display:block;font-size:1.3rem;font-family:var(--display)}
+.bigchoice span{color:var(--muted)}
+.bigchoice[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.bigchoice[aria-pressed="true"] strong{color:var(--accent)}
+.stepper{display:grid;gap:18px}
+.lab{font-weight:700;font-size:1.12rem;margin-bottom:8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.lab .k{width:30px;height:30px;border-radius:50%;background:var(--sun);color:#3b2a1e;display:grid;place-items:center;font-size:.98rem;flex:none}
+.lab .hint{font-weight:400;color:var(--muted);font-size:1rem}
+.counties{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+.counties .chip{border-radius:12px;padding:6px 8px}
+.hosp{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.hcard{font:inherit;text-align:left;border:2px solid var(--line);background:var(--sheet);color:var(--ink);border-radius:16px;padding:14px 16px;cursor:pointer;min-width:0}
+.hcard[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.hcard:disabled{cursor:not-allowed;opacity:.55}
+.hcard .p{font-family:var(--display);font-size:1.28rem;font-weight:700;color:var(--accent-ink)}
+.hcard .m{color:var(--muted);font-size:.98rem}
+.session{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr) auto;gap:14px;align-items:center;border-top:2px dashed var(--line);padding:16px 0}
+.session .meta{color:var(--muted)}
+.bar{height:14px;background:var(--mid-tint);border:1px solid var(--line);border-radius:7px;overflow:hidden;margin:8px 0}
+.bar i{display:block;height:100%;background:var(--sun)}
+.price{font-variant-numeric:tabular-nums;font-size:1.55rem;font-weight:700;font-family:var(--display);line-height:1.2;color:var(--accent-ink)}
+.price s{font-weight:400;color:var(--muted);font-size:1.02rem;margin-right:8px;font-family:var(--body)}
+.price small{display:block;font-size:.95rem;font-weight:400;color:var(--muted);font-family:var(--body)}
+.slots{display:flex;flex-wrap:wrap;gap:10px}
+.done-box{border:3px solid var(--good);border-radius:16px;padding:14px 18px;margin-top:16px;background:var(--sheet)}
+.done-box strong{color:var(--good)}
+.policy{border:2px solid var(--sun);border-radius:16px;padding:12px 16px;margin-top:10px}
+.policy h4{margin:0 0 6px;font-size:1.08rem;color:var(--sun-ink)}
+.policy ul{margin:0;padding-left:1.2em}
+.newgrp{border:2px dashed var(--accent);border-radius:16px;padding:14px 16px;margin-top:6px}
+.foot{color:var(--muted);margin-top:20px;max-width:74ch;font-size:1rem;border-top:2px dashed var(--line);padding-top:12px}
+.figwrap{overflow-x:auto;border-radius:18px;border:2px solid var(--line);background:var(--sheet);margin:6px 0 18px}
+.figwrap svg{display:block;min-width:820px;width:100%;height:auto}
+.figwrap.cable svg{min-width:640px}
+.vs{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:12px;align-items:stretch;margin:0 0 10px}
+.vscol{border:3px solid var(--line);border-radius:20px;padding:14px 18px;min-width:0;background:var(--sheet)}
+.vscol.ride{border-color:var(--accent)}
+.vshead{font-family:var(--display);font-size:1.6rem;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.vscol.ride .vshead{color:var(--accent)}
+.vstag{font-family:var(--body);font-size:.95rem;font-weight:700;border:2px solid currentColor;border-radius:999px;padding:0 10px;color:var(--muted)}
+.vscol.ride .vstag{color:var(--accent)}
+.vsrow{display:grid;grid-template-columns:3.2em minmax(0,1fr);gap:10px;align-items:start;border-top:2px dashed var(--line);padding:9px 0}
+.vsrow .vk{font-weight:700;color:var(--muted);padding-top:4px}
+.vsrow b{display:block;font-size:1.42rem;line-height:1.3;font-family:var(--display)}
+.vscol.ride .vsrow b{color:var(--accent-ink)}
+.vsrow small{display:block;color:var(--muted);font-size:1rem;line-height:1.45}
+.vsarrow{align-self:center;font-size:2.4rem;color:var(--accent);font-weight:700}
+.walk{border:2px solid var(--good);border-left-width:8px;border-radius:14px;padding:10px 16px;margin:4px 0 18px;font-size:1.08rem}
+.walk b{color:var(--good)}
+/* step 1: key points */
+.keys{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:14px}
+.key{border:2px solid var(--line);border-radius:18px;padding:16px 18px;min-width:0;display:flex;flex-direction:column;gap:8px}
+.key .kh{display:flex;gap:12px;align-items:center}
+.key .kn{flex:none;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:1.35rem}
+.key h3{font-family:var(--display);font-size:1.4rem;line-height:1.3}
+.key .big{font-size:1.14rem;font-weight:700;color:var(--accent-ink);margin:0}
+.key ul{margin:0;padding-left:1.2em}
+.key li{margin-bottom:2px}
+.key .lawref{font-size:.95rem;color:var(--muted);margin-top:auto}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tags span{border:2px solid var(--accent);border-radius:10px;padding:2px 10px;font-weight:700;color:var(--accent-ink);font-size:1.02rem}
+.optrow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.optrow div{border:2px solid var(--line);border-left-width:7px;border-radius:10px;padding:4px 10px;font-size:1rem;line-height:1.4}
+.optrow div b{display:block;font-size:1.04rem}
+.offl{border:2px solid var(--sun);border-radius:18px;padding:14px 18px;margin:18px 0 0}
+.offl h3{color:var(--sun-ink);margin-bottom:8px}
+.offl .links{display:flex;flex-wrap:wrap;gap:10px}
+.offl a{display:inline-flex;flex-direction:column;border:2px solid var(--accent);border-radius:14px;padding:8px 14px;text-decoration:none;color:var(--accent-ink);font-weight:700;min-width:0;max-width:100%}
+.offl a small{color:var(--muted);font-weight:400}
+/* step 6: reason */
+.why2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:8px 0 20px}
+.lawchg{border:3px solid var(--sun);border-radius:18px;padding:16px 18px;margin:0 0 20px}
+.lawchg h3{font-family:var(--display);font-size:1.4rem;color:var(--sun-ink)}
+.lcmp{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px;align-items:stretch;margin:10px 0}
+.lcmp .box{border:2px solid var(--line);border-radius:14px;padding:10px 14px}
+.lcmp .box.new{border-color:var(--accent)}
+.lcmp .mid{align-self:center;font-size:1.6rem;color:var(--accent);font-weight:700}
+.impact{border-left:6px solid var(--accent);padding:6px 12px;margin:8px 0;background:var(--tint);border-radius:8px}
+details.future{border:2px dashed var(--line);border-radius:16px;padding:10px 16px;margin-top:22px}
+details.future summary{cursor:pointer;font-weight:700;font-size:1.1rem;color:var(--accent-ink)}
+/* usability test */
+.likert{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.likert.l7{grid-template-columns:repeat(7,minmax(0,1fr))}
+.likert button{font:inherit;border:2px solid var(--line);background:var(--sheet);color:var(--ink);border-radius:12px;padding:6px 2px;cursor:pointer;min-height:50px;font-weight:700;line-height:1.2}
+.likert button small{display:block;font-weight:400;font-size:.8rem;color:var(--muted)}
+.likert button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--on-accent)}
+.likert button[aria-pressed="true"] small{color:var(--on-accent)}
+.sq{border-top:2px dashed var(--line);padding:14px 0}
+.sq>p{margin:0 0 8px;font-weight:700;font-size:1.1rem}
+.code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.95rem;word-break:break-all;border:2px dashed var(--good);border-radius:12px;padding:10px 12px;background:var(--good-tint);user-select:all}
+.overview{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.ov{border:2px solid var(--line);border-radius:16px;padding:14px 16px;min-width:0}
+.ov .n{font-family:var(--display);font-size:1.5rem;color:var(--accent);font-weight:700}
+.ov .t{color:var(--muted)}
+/* summary: big, friendly, glanceable */
+.sum{border:3px solid var(--accent);border-radius:22px;padding:18px;display:grid;gap:14px}
+.sum-top{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center}
+.avatar{width:64px;height:64px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-family:var(--display);font-size:2rem;font-weight:700;flex:none}
+.sum-name{font-family:var(--display);font-size:1.7rem;font-weight:700;line-height:1.2}
+.sum-sub{color:var(--muted)}
+.sum-book{margin-left:auto;border:2px solid var(--sun);border-radius:14px;padding:8px 14px;font-weight:700;max-width:100%}
+.sum-book span{display:block;font-weight:400;color:var(--muted);font-size:.95rem}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.tile{border:2px solid var(--line);border-radius:18px;padding:12px 14px;display:flex;gap:12px;align-items:center}
+.tile .g{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-size:1.6rem;font-weight:700;flex:none;color:#fff}
+.tile .v{font-family:var(--display);font-size:2.2rem;font-weight:700;line-height:1}
+.tile .l{color:var(--muted);font-size:1rem;line-height:1.3}
+.sum-cols{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:14px}
+.panel{border:2px solid var(--line);border-radius:18px;padding:14px 16px;min-width:0}
+.panel h4{margin:0 0 10px;font-size:1.2rem;display:flex;align-items:center;gap:8px}
+.panel h4::before{content:"";width:8px;height:22px;border-radius:4px;background:var(--accent)}
+.dgrid{display:grid;grid-template-columns:minmax(6.5em,1fr) minmax(0,1fr) minmax(0,1fr);gap:6px 8px;align-items:center}
+.dgrid .hd{color:var(--muted);font-size:.95rem}
+.dgrid .cn{font-weight:700}
+.dp{display:flex;align-items:center;gap:6px;border:2px solid var(--line);border-radius:12px;padding:4px 8px;font-weight:500;font-size:1rem;line-height:1.3;min-width:0}
+.dp i{font-style:normal;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;flex:none;font-size:.95rem}
+.dp.r0{border-color:var(--bad)} .dp.r0 i{background:var(--bad)}
+.dp.r1{border-color:var(--mid)} .dp.r1 i{background:var(--mid)}
+.dp.r2{border-color:var(--good)} .dp.r2 i{background:var(--good)}
+.dp.rn{border-style:dashed;color:var(--muted)} .dp.rn i{background:var(--muted)}
+.qlist{list-style:none;margin:0;padding:0;display:grid;gap:8px;counter-reset:q}
+.qlist li{counter-increment:q;display:grid;grid-template-columns:36px minmax(0,1fr);gap:10px;align-items:start;border:2px solid var(--sun);border-radius:14px;padding:8px 12px;font-weight:500}
+.qlist li::before{content:counter(q);width:32px;height:32px;border-radius:50%;background:var(--sun);color:#3b2a1e;display:grid;place-items:center;font-weight:700}
+.qlist li small{display:block;color:var(--muted);font-weight:400}
+.famchips{display:flex;flex-wrap:wrap;gap:8px}
+.famchip{border:2px solid var(--line);border-radius:999px;padding:4px 14px}
+.famchip b{margin-right:4px}
+.sum-note{border-top:2px dashed var(--line);padding-top:10px;color:var(--muted)}
+/* step 6 */
+.status{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:22px}
+.stat{border:2px solid var(--line);border-radius:16px;padding:14px 16px;min-width:0}
+.stat .k{color:var(--muted);font-size:1rem}
+.stat .v{font-size:1.28rem;font-weight:700}
+.notice{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:start;border:2px solid var(--sun);border-left-width:8px;border-radius:16px;padding:16px 18px;margin-bottom:24px;background:var(--sheet)}
+.notice .bell{width:46px;height:46px;border-radius:50%;background:var(--sun);color:#3b2a1e;display:grid;place-items:center;font-weight:700;font-size:1.25rem}
+.notice p{margin:4px 0 10px}
+.matrix{display:grid;grid-template-columns:minmax(7.5em,1.1fr) repeat(2,minmax(0,1fr));gap:8px;align-items:stretch}
+.matrix .h{font-weight:500;color:var(--muted);padding:4px 2px}
+.matrix .c{font-weight:500;display:flex;align-items:center}
+.cell{font:inherit;font-size:1rem;border:2px solid var(--line);border-radius:14px;padding:10px;cursor:pointer;text-align:left;min-height:60px;line-height:1.35;color:var(--ink);background:var(--sheet);border-left-width:8px}
+.cell[data-r="0"]{border-left-color:var(--bad)}
+.cell[data-r="1"]{border-left-color:var(--mid)}
+.cell[data-r="2"]{border-left-color:var(--good)}
+.cell.changed{border-color:var(--accent);border-left-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.cell .was{display:block;font-size:.92rem;color:var(--muted);text-decoration:line-through}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin:10px 0 0;color:var(--muted);font-size:1rem}
+.legend span::before{content:"";display:inline-block;width:8px;height:18px;border-radius:3px;margin-right:6px;vertical-align:-3px;background:var(--c)}
+.choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:8px 0 22px}
+.choice{font:inherit;text-align:left;border:3px solid var(--line);background:var(--sheet);color:var(--ink);border-radius:16px;padding:16px;cursor:pointer;min-width:0}
+.choice[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.choice[aria-pressed="true"] strong{color:var(--accent)}
+.choice strong{display:block;font-size:1.18rem}
+.choice span{color:var(--muted)}
+.mode{display:inline-grid;grid-template-columns:1fr 1fr;border:2px solid var(--accent);border-radius:14px;overflow:hidden;margin:6px 0 10px;max-width:100%}
+.mode button{font:inherit;font-size:1.05rem;border:0;padding:10px 18px;background:var(--sheet);color:var(--accent);cursor:pointer;min-height:50px}
+.mode button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);font-weight:700}
+.verdict{display:flex;gap:12px;align-items:center;flex-wrap:wrap;border-radius:16px;padding:12px 16px;margin-bottom:16px;font-size:1.1rem;border:2px solid var(--line);border-left-width:8px;background:var(--sheet)}
+.verdict.low{border-color:var(--good)} .verdict.high{border-color:var(--bad)} .verdict.none{border-style:dashed}
+.chg{list-style:none;padding:0;margin:0 0 14px;display:grid;gap:10px}
+.chg li{border:2px solid var(--line);border-radius:14px;padding:10px 14px}
+.path{list-style:none;margin:0;padding:0;display:grid}
+.path li{display:grid;grid-template-columns:50px minmax(0,1fr);gap:14px;position:relative;padding-bottom:18px}
+.path li::before{content:"";position:absolute;left:24px;top:48px;bottom:0;width:3px;background:var(--line)}
+.path li:last-child::before{display:none}
+.dot{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:1.15rem;border:3px solid var(--line);background:var(--sheet);color:var(--muted);position:relative;z-index:1}
+.path li.done .dot{background:var(--good);border-color:var(--good);color:#fff}
+.path li.now .dot{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.path .t{font-weight:700;font-size:1.1rem;padding-top:8px}
+.path .d{color:var(--muted)}
+.path .who{display:inline-block;font-size:.95rem;font-weight:500;padding:0 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);margin-left:6px;vertical-align:1px}
+.wait{display:inline-block;margin-top:4px;border:2px solid var(--sun);border-radius:10px;padding:2px 10px;color:var(--sun-ink);font-weight:500;font-size:.98rem}
+.wait::before{content:"⏳ ";}
+.gray{border:2px solid var(--sun);border-left-width:8px;border-radius:14px;padding:12px 16px;margin:4px 0 0;background:var(--sheet)}
+.gate{border:2px solid var(--line);border-radius:16px;padding:6px 18px 14px;margin:6px 0 18px}
+.mohw{border:3px solid var(--good);border-radius:18px;padding:16px 18px;margin:0 0 18px}
+.mohw h4{margin:0 0 8px;font-size:1.25rem;color:var(--good)}
+.mohw a.link{display:inline-block;font-size:1.12rem;font-weight:700;color:var(--accent-ink);word-break:break-all;border:2px solid var(--accent);border-radius:12px;padding:8px 14px;text-decoration:none;margin:4px 0}
+.mohw ol{margin:8px 0 0;padding-left:1.3em}
+.mohw li{margin-bottom:4px}
+.cols{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:start}
+.toggle{display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:2px dashed var(--line);padding:12px 0}
+.sw{font:inherit;border:2px solid var(--line);background:var(--sheet);color:var(--muted);border-radius:999px;padding:6px 16px;cursor:pointer;min-height:46px;font-weight:500}
+.sw[aria-pressed="true"]{border-color:var(--good);color:var(--good)}
+.overlay{position:fixed;inset:0;background:color-mix(in srgb,var(--ink) 40%,transparent);display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));z-index:50}
+.dialog{background:var(--sheet);border-radius:20px;max-width:640px;width:100%;max-height:100%;overflow:auto;padding:22px 24px;border:3px solid var(--accent)}
+.dialog h3{font-family:var(--display);font-size:1.5rem;margin-bottom:6px}
+.cmp{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px;align-items:stretch;margin:12px 0}
+.cmp .box{border-radius:14px;padding:12px 14px;border:2px solid var(--line)}
+.cmp .box.new{border-color:var(--accent)}
+.cmp .mid{align-self:center;font-size:1.6rem;color:var(--accent);font-weight:700}
+.empty{border:2px dashed var(--line);border-radius:16px;padding:18px;color:var(--muted);text-align:center}
+.lawbox{border:1.5px solid var(--line);border-left:6px solid var(--accent);border-radius:10px;padding:8px 12px;margin-top:8px;font-size:1rem;color:var(--ink)}
+.lawbox .tag{display:inline-block;font-weight:700;color:var(--accent-ink);margin-right:6px}
+.person.off{opacity:.55;border-style:dashed}
+.reasonform{border:2px solid var(--accent);border-radius:16px;padding:14px 16px;margin-top:12px}
+.reasonform textarea{font:inherit;font-size:1.02rem;width:100%;min-height:90px;padding:10px 12px;border:2px solid var(--line);border-radius:12px;background:var(--sheet);color:var(--ink)}
+.draft{border:2px dashed var(--good);border-radius:14px;padding:12px 14px;margin-top:10px;white-space:pre-wrap;line-height:1.8}
+.keepbar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;border:2px solid var(--accent);border-radius:16px;padding:10px 16px;margin:8px 0 0;background:var(--sheet)}
+.keepbar strong{font-family:var(--display);font-size:1.35rem;color:var(--accent)}
+.signed{border:3px solid var(--good);border-radius:20px;padding:16px 18px;margin-bottom:22px;display:grid;gap:14px}
+.signed h3{font-family:var(--display);font-size:1.45rem;color:var(--good)}
+.booked{border:3px solid var(--accent);border-radius:20px;padding:18px;display:grid;gap:14px}
+.bk-when{font-family:var(--display);font-size:2rem;font-weight:700;line-height:1.2;color:var(--accent-ink)}
+.okmark{width:72px;height:72px;border-radius:50%;background:var(--good);color:#fff;display:grid;place-items:center;font-size:2.4rem;font-weight:700;margin:0 auto 8px}
+.dialog ul.ck{margin:8px 0 12px;padding-left:1.2em}
+.dialog ul.ck li{margin-bottom:4px}
+.warnline{border:2px solid var(--bad);border-radius:12px;padding:8px 12px;color:var(--bad);font-weight:500;margin:6px 0 12px}
+@media (max-width:980px){nav{grid-template-columns:repeat(4,minmax(0,1fr))} .cols,.sum-cols{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:720px){.vs{grid-template-columns:minmax(0,1fr)} .vsarrow{justify-self:center;transform:rotate(90deg)} .lcmp{grid-template-columns:minmax(0,1fr)} .lcmp .mid{justify-self:center;transform:rotate(90deg)} .optrow{grid-template-columns:minmax(0,1fr)} .likert.l7 button small{display:none}}
+@media (max-width:560px){nav{grid-template-columns:repeat(2,minmax(0,1fr))} .session{grid-template-columns:minmax(0,1fr)} h1{font-size:1.9rem} h2{font-size:1.5rem} .matrix{grid-template-columns:minmax(0,1fr) minmax(0,1fr)} .matrix .c{grid-column:1 / -1} .matrix .h0{display:none} .ccard .tr{grid-template-columns:minmax(0,1fr)} .cmp{grid-template-columns:minmax(0,1fr)} .cmp .mid{justify-self:center;transform:rotate(90deg)} .sum-book{margin-left:0} .dgrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)} .dgrid .cn{grid-column:1 / -1} .dgrid .h0{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>說好了</h1>
+      <div class="sub">預立醫療照護諮商（ACP）事前準備與決定維護平台・提案原型</div>
+    </div>
+    <span class="badge" id="badge"></span>
+  </header>
+  <div class="trial" id="trialNote" hidden><strong>體驗版：</strong>您輸入的內容僅保留在本瀏覽器分頁，不會傳送至任何醫療機構或衛福部；重新整理頁面後即會清除。醫療機構名稱與收費取自衛福部公開名單，場次、時間與網址均為示意。</div>
+
+  <nav aria-label="使用步驟">
+    <button data-step="intro"><span class="n">★</span>簡介</button>
+    <button data-step="learn"><span class="n">1</span>認識決定書</button>
+    <button data-step="quiz"><span class="n">2</span>理解測驗</button>
+    <button data-step="values"><span class="n">3</span>想法與家人</button>
+    <button data-step="group"><span class="n">4</span>預約諮商</button>
+    <button data-step="summary"><span class="n">5</span><span id="nav5">諮商前摘要</span></button>
+    <button data-step="keep"><span class="n">6</span>簽署之後</button>
+  </nav>
+  <p class="navnote" id="navNote" hidden>完成「理解測驗」全部題目後，即可進入第 3 至第 6 步。</p>
+
+  <!-- INTRO -->
+  <section class="sheet" id="intro" hidden>
+    <span class="law">病人自主權利法・預立醫療照護諮商</span>
+    <h2>把每個人都一樣的準備，留在家裡完成</h2>
+    <p class="lead">完成預立醫療決定，目前就像一階一階地爬山。「說好了」如同一條纜車：<strong>前四階可在家中線上完成</strong>；依法須由本人到場的部分，則由諮商團隊在現場陪同您完成。</p>
+    <div class="figwrap cable" id="mountain"></div>
+    <div class="vs" id="vsBox">
+      <div class="vscol climb">
+        <div class="vshead"><span class="vstag">現在</span>自己爬山</div>
+        <div class="vsrow"><span class="vk">準備</span><div><b>自行查詢、逐家電洽</b><small>411 家機構收費各自公告</small></div></div>
+        <div class="vsrow"><span class="vk">費用</span><div><b>約 2,800 元</b><small>個人諮商平均（1,000–3,700 元）</small></div></div>
+        <div class="vsrow"><span class="vk">時間</span><div><b>半天以上</b><small>諮商 60–90 分鐘＋交通、等候（估計）</small></div></div>
+        <div class="vsrow"><span class="vk">家人</span><div><b>家人需請假陪同</b><small>至少 1 位二親等內親屬參與</small></div></div>
+      </div>
+      <div class="vsarrow" aria-hidden="true">→</div>
+      <div class="vscol ride">
+        <div class="vshead"><span class="vstag">說好了</span>搭纜車</div>
+        <div class="vsrow"><span class="vk">準備</span><div><b>在家 20–30 分鐘</b><small>看說明、做測驗、填草稿（估計）</small></div></div>
+        <div class="vsrow"><span class="vk">費用</span><div><b>每人約 1,593 元</b><small>3 人同行全國平均；團體場最低 500 元</small></div></div>
+        <div class="vsrow"><span class="vk">時間</span><div><b>現場直接確認</b><small>說明可先在家閱讀，現場時間用於回答疑問與確認</small></div></div>
+        <div class="vsrow"><span class="vk">家人</span><div><b>家人可視訊參與</b><small>依各機構規定</small></div></div>
+      </div>
+    </div>
+    <p class="walk"><b>最後一段，依法須由本人親自完成：</b>個別確認意思能力與自願性、簽署、見證或公證（病主法 §9）。</p>
+    <h3 style="font-size:1.35rem;margin:6px 0 10px">使用流程</h3>
+    <div class="overview">
+      <div class="ov"><div class="n">1</div><strong>認識決定書</strong><div class="t">6 張重點卡片，約 10 分鐘</div></div>
+      <div class="ov"><div class="n">2</div><strong>理解測驗</strong><div class="t">隨機 6 題；不確定的題目可請團隊說明</div></div>
+      <div class="ov"><div class="n">3</div><strong>想法與家人</strong><div class="t">先寫草稿，邀請家人參與（可視訊）</div></div>
+      <div class="ov"><div class="n">4</div><strong>預約諮商</strong><div class="t">揪團享多人優惠，或個別預約；涵蓋全臺 22 縣市</div></div>
+      <div class="ov"><div class="n">5</div><strong>諮商前摘要</strong><div class="t">事先提供諮商團隊，現場直接確認</div></div>
+      <div class="ov"><div class="n">6</div><strong>簽署之後</strong><div class="t">定期回顧；變更或撤回的書面一次備妥</div></div>
+    </div>
+    <p class="foot">本平台不取代預立醫療照護諮商。意思能力與自願性的判斷、簽署、核章、見證或公證、健保卡註記，依法仍由醫療機構辦理。圖中的時間與費用依公開資料整理，標示「估計」者為提案推估。</p>
+    <div class="row" style="margin-top:16px"><button class="btn" data-go="learn">開始第一步</button></div>
+  </section>
+
+  <!-- STEP 1 -->
+  <section class="sheet" id="learn" hidden>
+    <span class="law">病人自主權利法・管理辦法 §5</span>
+    <h2>預立醫療決定：6 個重點</h2>
+    <p class="lead">以下 6 項重點涵蓋下一步理解測驗的所有內容。每張卡片下方均標示法令依據，正式內容以法律及衛福部公告格式為準。</p>
+    <div class="keys">
+      <div class="key">
+        <div class="kh"><span class="kn">1</span><h3>在什麼情況下適用？</h3></div>
+        <p class="big">僅在下列 5 種情況，醫療團隊才會依您的決定處理。</p>
+        <div class="tags"><span>末期病人</span><span>不可逆轉的昏迷</span><span>永久植物人</span><span>極重度失智</span><span>衛福部公告的疾病</span></div>
+        <ul><li>「衛福部公告的疾病」要同時符合：痛苦難以忍受、無法治癒、<strong>依當時醫療水準</strong>沒有其他合適方法；目前公告 12 種。若日後醫學進步，可能不再符合。</li>
+          <li>還要經<strong>兩位相關專科醫師確診</strong>，並由<strong>緩和醫療團隊至少照會兩次</strong>確認。</li>
+          <li>一般的感冒、住院或手術，<strong>完全不受影響</strong>。</li></ul>
+        <div class="lawref">病主法 §14、施行細則 §10–§15</div>
+      </div>
+      <div class="key">
+        <div class="kh"><span class="kn">2</span><h3>可以決定哪些醫療？</h3></div>
+        <p class="big">兩類醫療，每一類有 4 種選擇。</p>
+        <ul><li><strong>維持生命治療</strong>：心肺復甦術、呼吸器、輸血、特定疾病的專門治療、重度感染時的抗生素。</li>
+          <li><strong>人工營養及流體餵養</strong>：用鼻胃管、胃造口等<strong>導管</strong>提供營養和水分（並非一般進食與喝水）。</li></ul>
+        <div class="optrow">
+          <div style="border-left-color:var(--bad)"><b>不希望接受</b>仍會提供緩和醫療與照顧</div>
+          <div style="border-left-color:var(--mid)"><b>先嘗試一段時間</b>先接受治療，再評估是否繼續</div>
+          <div style="border-left-color:var(--mid)"><b>交給代理人決定</b>由醫療委任代理人代為表達</div>
+          <div style="border-left-color:var(--good)"><b>希望接受</b>依醫療常規治療</div>
+        </div>
+        <div class="lawref">病主法 §3、§16；預立醫療決定書（衛福部公告格式）</div>
+      </div>
+      <div class="key">
+        <div class="kh"><span class="kn">3</span><h3>誰可以簽署？與安樂死相同嗎？</h3></div>
+        <p class="big">具完全行為能力者均可簽署；預立醫療決定不是安樂死。</p>
+        <ul><li>不限年齡或疾病，<strong>健康時</strong>即可預先思考；須由本人決定，家屬不得代簽。</li>
+          <li>僅決定在上述 5 種情況下，<strong>是否接受維生醫療</strong>；法院亦說明，病主法與安樂死性質完全不同。</li></ul>
+        <div class="lawref">病主法 §1、§8；最高法院 114 年度台簡抗字第 328 號裁定</div>
+      </div>
+      <div class="key">
+        <div class="kh"><span class="kn">4</span><h3>如何才算完成？</h3></div>
+        <p class="big">下列 3 項程序均完成，決定才成立。</p>
+        <ul><li><strong>到醫療機構諮商並核章</strong>：本人＋至少 1 位<strong>二親等內親屬</strong>＋醫療委任代理人（有指定時）參與；親屬死亡、失蹤或有特殊事由時得不參與；部分機構接受家人以視訊參與。</li>
+          <li><strong>公證，或 2 位見證人在場</strong>：您的醫療委任代理人、主責照護團隊成員、會因您死亡而得到利益的人，<strong>不得擔任見證人</strong>。</li>
+          <li><strong>註記到健保卡</strong>。</li></ul>
+        <div class="lawref">病主法 §9</div>
+      </div>
+      <div class="key">
+        <div class="kh"><span class="kn">5</span><h3>醫療委任代理人</h3></div>
+        <p class="big">當您無法表達時，由代理人代為表達；您能表達時，仍由您本人決定。</p>
+        <ul><li>須<strong>成年、具行為能力</strong>，並<strong>書面同意</strong>；不限子女或親屬。</li>
+          <li>受遺贈人、遺體或器官的受贈人等會因您死亡而得到利益的人，不得擔任（繼承人除外）。</li></ul>
+        <div class="lawref">病主法 §3 第 5 款、§10</div>
+      </div>
+      <div class="key">
+        <div class="kh"><span class="kn">6</span><h3>簽署後仍可調整</h3></div>
+        <p class="big">可隨時以書面撤回或變更。</p>
+        <ul><li>依現行規定須以書面<strong>向醫療機構</strong>提出，由機構上傳、衛福部更新健保卡註記；僅口頭告知家人並不生效力。</li>
+          <li>住院時以書面表示<strong>想接受治療</strong>，醫師即依您新的意思處理；若希望<strong>拒絕更多治療</strong>，則須待變更程序完成。</li></ul>
+        <div class="lawref">病主法 §8、§13；施行細則 §6、§8</div>
+      </div>
+    </div>
+    <div class="offl">
+      <h3>官方資料</h3>
+      <div class="links">
+        <a href="https://www.mohw.gov.tw/dl-48462-0fdd14a0-1e16-4c6b-bac8-73209c3cf825.html" target="_blank" rel="noopener">預立醫療決定書<small>衛福部公告格式（PDF）</small></a>
+        <a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=L0020189" target="_blank" rel="noopener">病人自主權利法全文<small>全國法規資料庫</small></a>
+        <a href="https://hpcod.mohw.gov.tw/" target="_blank" rel="noopener">查詢諮商機構與簽署統計<small>衛福部意願資訊系統</small></a>
+      </div>
+    </div>
+    <p class="foot">本平台的說明同時呈現接受與拒絕兩種選擇，不引導您做任何決定。</p>
+    <div class="row" style="margin-top:16px"><button class="btn" data-go="quiz">下一步：理解測驗</button></div>
+  </section>
+
+  <!-- STEP 2 -->
+  <section class="sheet" id="quiz" hidden>
+    <span class="law">健康識能・取代逐一電話衛教</span>
+    <h2>理解測驗：確認重點都已清楚</h2>
+    <div class="howto"><div class="ic">?</div><div><b>怎麼作答</b>
+      <ol><li>每題請<strong>點選一個</strong>您認為正確的答案，點選後會顯示正確與否及說明（作答後無法更改）。</li>
+      <li>如不確定，請點選最後一個選項「<strong>不清楚，請團隊說明</strong>」，不必猜測。</li>
+      <li>答錯或不清楚的題目，會自動列入諮商前摘要的「想請團隊說明」，諮商當天由團隊為您說明。</li>
+      <li>6 題<strong>全部作答</strong>後，即可進入下一步。</li></ol></div></div>
+    <div id="quizBox"></div>
+    <div class="score" id="scoreBox"></div>
+    <div class="row" style="margin-top:16px"><button class="btn" id="quizNext">下一步：我的想法</button><span id="quizWhy" class="why-off"></span></div>
+    <div class="row" style="margin-top:10px"><button class="btn ghost small" id="newSet">重新抽一組題目</button><span class="why" id="newSetHint">答錯或「不清楚」的題目會保留在摘要裡。</span></div>
+    <div id="quizLog"></div>
+  </section>
+
+  <!-- STEP 3 -->
+  <section class="sheet" id="values" hidden>
+    <span class="law">病人自主權利法 §9Ⅱ・管理辦法 §8</span>
+    <h2>我的想法，和誰一起討論</h2>
+    <div class="howto"><div class="ic">?</div><div><b>怎麼填</b>
+      <ol><li>下列共有五種情況，請先閱讀每張卡片上的說明。</li>
+      <li>每種情況有兩列：「維持生命治療」和「人工營養及流體餵養」，<strong>每一列各點一個選項</strong>。</li>
+      <li>尚未想好時，可點選「尚未決定」，諮商時再與團隊討論。此處僅為草稿，正式選擇須於現場確認後才簽署。</li></ol></div></div>
+    <div id="condCards"></div>
+    <h2 style="font-size:1.45rem;margin-top:26px">陪同參與的家人</h2>
+    <div class="howto"><div class="ic">?</div><div><p>依法至少一位<strong>二親等內親屬</strong>要參與諮商（可到場；許多機構也接受視訊，依機構規定）。請於下方填寫稱呼、關係與參與方式，再點選「加入」；也可以加入醫療委任代理人。</p></div></div>
+    <div class="fam" id="famBox"></div>
+    <div class="form" id="famForm" style="margin-top:12px">
+      <div class="field"><label for="famName">家人稱呼</label><input type="text" id="famName" placeholder="例如：長子"></div>
+      <div class="field"><label for="famRel">關係</label><select id="famRel"><option>子女</option><option>配偶</option><option>父母</option><option>兄弟姊妹</option><option>孫子女</option><option>祖父母</option><option>醫療委任代理人（非親屬）</option></select></div>
+      <div class="field"><label for="famMode">參與方式</label><select id="famMode"><option>到場</option><option>視訊</option><option>尚未確定</option></select></div>
+      <div class="field"><button class="btn" id="famAdd">加入</button><span id="famMsg" class="why-off"></span></div>
+    </div>
+    <div class="row" style="margin-top:14px"><button class="btn ghost" id="noRelative" aria-pressed="false">我沒有可以參與的二親等親屬</button><span class="why" id="noRelHint">僅於二親等內親屬已過世、失蹤或有特殊事由時選擇；如選錯，再點一次即可取消。</span></div>
+    <div id="noRelBox"></div>
+    <div class="row" style="margin-top:16px"><button class="btn" data-go="group">下一步：預約諮商</button><span class="why" id="valHint"></span></div>
+  </section>
+
+  <!-- STEP 4 -->
+  <section class="sheet" id="group" hidden>
+    <span class="law">依各機構經衛生局核定的收費</span>
+    <h2>預約諮商</h2>
+    <p class="lead">揪團是與其他已完成準備的民眾一同參加團體諮商，每人費用較低；您也可以自行開團。若您偏好個別進行，也可以個別預約。</p>
+    <div class="howto" style="margin-bottom:10px"><div class="ic">?</div><div><p><b>請先選擇預約方式：</b>點選下方兩個按鈕之一。</p></div></div>
+    <div class="big2">
+      <button class="bigchoice" data-gmode="group" aria-pressed="false"><strong>我要揪團</strong><span>地區 → 醫院 → 加入團體，或自己開一團</span></button>
+      <button class="bigchoice" data-gmode="solo" aria-pressed="false"><strong>不揪團，個別預約</strong><span>地區 → 醫院 → 時間，與家人一起諮商</span></button>
+    </div>
+    <div id="bookBox" style="margin-top:14px"></div>
+    <p class="foot">醫院與收費取自衛福部「預立醫療照護諮商機構」名單（2026 年 10 月 15 日下載，22 縣市、411 家，另加 3 項已公告的團體方案）；揪團價為「3 人同行」平均每人費用。場次、時間與已報名人數為示意。實際收費以各機構經衛生局核定者為準。</p>
+    <div class="row" style="margin-top:16px"><button class="btn" data-go="summary">下一步：產生諮商前摘要</button><span class="why" id="bookHint"></span></div>
+  </section>
+
+  <!-- STEP 5 -->
+  <section class="sheet" id="summary" hidden>
+    <span class="law">管理辦法 §6：說明、紀錄、核章由諮商團隊現場完成</span>
+    <h2>諮商前摘要</h2>
+    <p class="lead">本摘要將於諮商前提供給諮商團隊，讓團隊事先了解您已掌握的重點與想進一步詢問的問題，現場時間即可用於確認與說明。</p>
+    <div id="docBox"></div>
+    <div class="howto" style="margin-top:16px"><div class="ic">?</div><div><p>確認上方內容無誤後，請點選<strong>「送出摘要給諮商團隊」</strong>。系統會再請您確認一次；送出後，第 2 至第 4 步的答案與預約將無法在平台上修改。</p></div></div>
+    <div class="row">
+      <button class="btn" id="sendBtn">送出摘要給諮商團隊</button>
+      <button class="btn ghost" id="copyBtn">複製摘要文字</button>
+      <span id="sendWhy" class="why-off"></span><span id="copyMsg" role="status"></span>
+    </div>
+    <p class="foot">本平台不取代預立醫療照護諮商。意思能力與自願性判斷、紀錄簽名、核章、見證或公證、健保卡註記，依法仍由諮商機構辦理。</p>
+  </section>
+
+  <!-- AFTER SUBMIT -->
+  <section class="sheet" id="booked" hidden>
+    <span class="law">已送出・等待諮商</span>
+    <h2>我的預約</h2>
+    <p class="lead">諮商前摘要已送出，諮商團隊將依摘要預作準備。如需更改時間或內容，請直接與機構聯繫；為避免資料重複，平台不再開放修改。</p>
+    <div id="bookedBox"></div>
+    <div id="signBox"></div>
+  </section>
+
+  <!-- STEP 6 -->
+  <div class="keepbar" id="keepBar" hidden><strong>我的預立醫療決定</strong><button class="btn ghost small" id="keepBack"></button></div>
+  <section class="sheet" id="keep" hidden>
+    <span class="law">病人自主權利法 §8、§12、§13・施行細則 §6、§8</span>
+    <h2>簽署之後：我的決定</h2>
+    <p class="lead">預立醫療決定可以隨時撤回或變更。這一頁幫您定期回顧、收到法規異動通知，並把修改的書面作業一次備妥。</p>
+    <div id="keepLocked" class="empty" hidden></div>
+    <div id="keepBody">
+      <div class="signed" id="signedBox"></div>
+      <h3 style="font-size:1.38rem">這次想調整，原因是？</h3>
+      <div class="howto" style="margin:6px 0 4px"><div class="ic">?</div><div><p>請先點選<strong>原因</strong>，下方將顯示對應的辦理方式。</p></div></div>
+      <div class="why2" id="whyBox">
+        <button class="bigchoice" data-why="law" aria-pressed="false"><strong>法規修正了，我想重新檢視</strong><span>先看修正前、後的差別，再決定要不要調整</span></button>
+        <button class="bigchoice" data-why="self" aria-pressed="false"><strong>我自己的想法改變了</strong><span>與法規無關，直接修改、撤回或更換代理人</span></button>
+      </div>
+      <div id="lawBox" hidden></div>
+      <div id="changeArea" hidden>
+      <h3 style="font-size:1.38rem">我想要</h3>
+      <div class="howto" style="margin:6px 0 4px"><div class="ic">?</div><div><p>請在下方三個按鈕中<strong>點選一項</strong>要辦理的事項，再依右側步驟完成。</p></div></div>
+      <div class="choices" id="actions">
+        <button class="choice" data-act="change"><strong>修改部分選擇</strong><span>點選格子即可修改，每項修改都會先請您確認</span></button>
+        <button class="choice" data-act="withdraw"><strong>全部撤回</strong><span>回到一般醫療方式，由醫師與家屬依當時情況決定</span></button>
+        <button class="choice" data-act="agent"><strong>更換醫療委任代理人</strong><span>新代理人須書面同意（§10），並更新註記（§13）</span></button>
+      </div>
+      <div class="cols">
+        <div>
+          <div id="matrixWrap">
+            <h3 style="font-size:1.22rem;margin-bottom:6px">我的決定</h3>
+            <div class="howto" style="margin:0 0 10px"><div class="ic">?</div><div><p><strong>點選格子</strong> → 在視窗中選擇新的選項 → 確認「原本」與「修改後」的差別 → 點選「確認這項修改」。可連續修改多項。</p></div></div>
+            <div class="matrix" id="matrix"></div>
+            <div class="legend">
+              <span style="--c:var(--bad)">不希望接受</span>
+              <span style="--c:var(--mid)">先嘗試一段時間・交給代理人</span>
+              <span style="--c:var(--good)">希望接受</span>
+            </div>
+          </div>
+          <div id="agentWrap" hidden>
+            <h3 style="font-size:1.22rem;margin-bottom:8px">更換醫療委任代理人</h3>
+            <div class="person"><strong id="agentNow">現任：—</strong></div>
+            <div class="field" style="margin-top:10px"><label for="agentNew">新任代理人稱呼（填好後右邊會出現辦理步驟）</label><input type="text" id="agentNew" placeholder="例如：二女兒"></div>
+            <p class="why">新代理人須成年、具行為能力，並在委任書上親自簽名同意（病主法 §10Ⅰ）。</p>
+          </div>
+          <div id="withdrawWrap" hidden>
+            <h3 style="font-size:1.22rem;margin-bottom:8px">撤回後會怎樣？</h3>
+            <p style="margin:0">原本的預立醫療決定將失效，健保卡註記會被移除。日後在五種情況下，由醫師依醫療常規，並與家屬或關係人討論後決定。若想再次簽署，須重新完成諮商、見證與註記（病主法 §9）。</p>
+          </div>
+          <div style="margin-top:22px">
+            <h3 style="font-size:1.22rem;margin-bottom:6px">家人知情名單（由您決定）</h3>
+            <p class="why" style="margin:0 0 4px">點選右側按鈕，設定辦理完成後是否通知這位家人。</p>
+            <div id="famToggles"></div>
+          </div>
+        </div>
+        <div>
+          <div class="lab" style="margin-bottom:6px">辦理方式<span class="hint">依現行法規</span></div>
+          <div class="verdict" id="verdict"></div>
+          <div id="chgWrap"></div>
+          <div id="gateWrap"></div>
+          <div id="mohwWrap"></div>
+          <div class="lab" style="margin-bottom:8px">辦理進度<span class="hint">⏳ 標示需要等待的步驟</span></div>
+          <ol class="path" id="path"></ol>
+          <div id="grayWrap"></div>
+          <div class="row" style="margin-top:16px"><button class="btn" id="submitBtn">送出</button><button class="btn ghost" id="resetBtn">還原</button></div>
+          <p id="submitWhy" class="why-off" style="margin:8px 0 0"></p>
+        </div>
+      </div>
+      <details class="future" id="futureBox" hidden></details>
+      </div>
+      <p class="foot">現行法下，撤回或變更須以書面向醫療機構提出，由機構上傳後更新健保卡註記（施行細則 §6）；平台只負責預填、身分核實與轉送。等待天數標示「估計」者為提案推估，待向機構與衛福部確認。</p>
+    </div>
+  </section>
+</div>
+<div class="overlay" id="dlg" hidden></div>
+
+<script>
+const MODE = "try"; // "demo" = proposal screenshots with sample data, "try" = blank hands-on version
+const DEMO = MODE === "demo";
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const money = v => Number(v).toLocaleString("zh-TW");
+
+/* ---------- content ---------- */
+const CONDS = [
+  {k:"末期病人", ic:"1", d:"疾病無法治癒，經醫師判斷病程已不可避免地走向死亡。"},
+  {k:"不可逆轉的昏迷", ic:"2", d:"腦部嚴重受損，持續重度昏迷，經檢查判斷極難恢復意識。"},
+  {k:"永久植物人狀態", ic:"3", d:"因腦部病變長期失去認知與溝通能力，經評估無改善跡象。"},
+  {k:"極重度失智", ic:"4", d:"失智程度嚴重，持續有意識障礙，生活完全仰賴他人。"},
+  {k:"衛福部公告的疾病", ic:"5", d:"痛苦難以忍受、無法治癒，且依當時醫療水準沒有其他合適解決方法的疾病，目前公告 12 種。"}
+];
+const TREAT = [{k:"life", t:"維持生命治療"}, {k:"nutri", t:"人工營養及流體餵養"}];
+const OPTS = ["尚未決定","不希望接受","先嘗試一段時間","交給醫療委任代理人決定","希望接受"];
+const SHORT = ["尚未決定","不接受","先試一段時間","交給代理人","接受"];
+const GLYPH = ["…","✕","試","代","✓"];
+const RANK = {0:-1, 1:0, 2:1, 3:1, 4:2};
+const EFFECT = {
+  1:"醫師會依您的決定，不施行或撤除這項治療，並提供緩和醫療與其他適當照顧（病主法 §16）。",
+  2:"醫師會先提供這項治療一段時間，再評估是否繼續。",
+  3:"由您的醫療委任代理人在當時代您表達意願。",
+  4:"醫師會依醫療常規提供這項治療。",
+  0:"尚未決定。"
+};
+const UNSURE = "不清楚，請團隊說明";
+
+/* question bank: 6 categories, one drawn from each. law = short plain-language summary of the provision */
+const L = {
+  p14_1:"病主法第14條第1項：病人符合下列臨床條件之一，且有預立醫療決定者，醫療機構或醫師得依其決定，終止、撤除或不施行維持生命治療或人工營養及流體餵養的全部或一部：一、末期病人；二、處於不可逆轉之昏迷狀況；三、永久植物人狀態；四、極重度失智；五、其他經中央主管機關公告之病人疾病狀況或痛苦難以忍受、疾病無法治癒且依當時醫療水準無其他合適解決方法之情形。",
+  p14_2:"病主法第14條第2項：前項各款應由二位具相關專科醫師資格之醫師確診，並經緩和醫療團隊至少二次照會確認。",
+  p14_5:"病主法第14條第1項第5款：其他經中央主管機關公告之病人疾病狀況或痛苦難以忍受、疾病無法治癒且依當時醫療水準無其他合適解決方法之情形（衛福部已公告12種疾病）。",
+  p3_1:"病主法第3條第1款：維持生命治療，指心肺復甦術、機械式維生系統、血液製品、為特定疾病而設之專門治療、重度感染時所給予之抗生素等任何有可能延長病人生命之必要醫療措施。",
+  p3_2:"病主法第3條第2款：人工營養及流體餵養，指透過導管或其他侵入性措施餵養食物與水分。",
+  p16:"病主法第16條：醫療機構或醫師終止、撤除或不施行維持生命治療或人工營養及流體餵養時，應提供病人緩和醫療及其他適當處置。",
+  form:"預立醫療決定書（衛福部公告格式）：每一項醫療都可選擇「不希望接受」「在一段時間內接受（限時嘗試）」「交由醫療委任代理人決定」或「希望接受」。",
+  p9_2:"病主法第9條第2項：意願人、二親等內之親屬至少一人及醫療委任代理人應參與預立醫療照護諮商；經意願人同意之親屬亦得參與。但二親等內之親屬死亡、失蹤或具特殊事由時，得不參與。",
+  p9_1:"病主法第9條第1項：意願人為預立醫療決定，應符合：一、經醫療機構提供預立醫療照護諮商，並經其於預立醫療決定上核章證明；二、經公證人公證或有具完全行為能力者二人以上在場見證；三、經註記於全民健康保險憑證。",
+  p9_4:"病主法第9條第4項：意願人之醫療委任代理人、主責照護醫療團隊成員及第10條第2項各款之人，不得為見證人。",
+  p8_1:"病主法第8條第1項：具完全行為能力之人，得為預立醫療決定，並得隨時以書面撤回或變更之。",
+  r6:"施行細則第6條（要旨）：撤回或變更預立醫療決定，應以書面向醫療機構為之；由醫療機構掃描上傳，中央主管機關據以更新健保卡註記。另依病主法第13條，撤回或變更時應申請更新註記。",
+  r8:"施行細則第8條（要旨）：意願人在醫療過程中以書面表示希望接受治療，與原決定不同時，醫療機構應依其書面意思處理；若表示要拒絕更多治療，則須完成變更程序後才依新的決定。",
+  p1:"病主法第1條：為尊重病人醫療自主、保障其善終權益，促進醫病關係和諧，特制定本法。本法規範的是在第14條特定臨床條件下，是否終止、撤除或不施行維持生命治療或人工營養；最高法院114年度台簡抗字第328號裁定亦說明，病主法與安樂死性質不同。",
+  p10_3:"病主法第3條第5款、第10條第3項：醫療委任代理人於意願人意識昏迷或無法清楚表達意願時，代理意願人表達醫療意願。",
+  p10_1:"病主法第10條第1項、第2項（2021年1月20日修正）：意願人指定之醫療委任代理人，應以成年且具行為能力之人為限，並經其書面同意。意願人之受遺贈人、遺體或器官指定之受贈人、其他因意願人死亡而獲得利益之人，除意願人之繼承人外，不得為醫療委任代理人。"
+};
+const BANK = [
+ {c:"生效條件", t:"下列哪一種情況，預立醫療決定才可能被執行？", o:["極重度失智","一般肺炎住院","骨折開刀"], a:0, why:"只有在五種特定臨床條件下，經確診程序後才會執行。", law:L.p14_1},
+ {c:"生效條件", t:"執行預立醫療決定之前，要由誰確認符合臨床條件？", o:["兩位相關專科醫師確診，並經緩和醫療團隊至少兩次照會","家屬兩人同意即可","主治醫師一人判斷即可"], a:0, why:"確診和照會都完成，才能依決定執行。", law:L.p14_2},
+ {c:"生效條件", t:"「衛福部公告的疾病」需要符合什麼條件？", o:["痛苦難以忍受、無法治癒，且依當時醫療水準沒有其他合適解決方法","只要是罕見疾病就適用","由病人自己認定"], a:0, why:"要由衛福部公告，並符合三個條件。", law:L.p14_5},
+ {c:"生效條件", t:"如果未來醫學進步，某種疾病有了合適的治療方法，會怎樣？", o:["可能不再符合條件，決定不會因此被執行","決定一定照樣執行","決定書自動作廢"], a:0, why:"第5款以「依當時醫療水準」判斷，執行前還要經兩位醫師確診。", law:L.p14_5},
+ {c:"醫療選項", t:"「維持生命治療」包括哪一項？", o:["心肺復甦術、呼吸器、輸血","止痛藥","一般門診領藥"], a:0, why:"指可能延長生命的必要醫療措施。", law:L.p3_1},
+ {c:"醫療選項", t:"「人工營養及流體餵養」指的是？", o:["用鼻胃管等導管提供營養和水分","一般由口進食與喝水","吃營養補充品"], a:0, why:"指用導管或侵入性方式餵食，不是一般吃飯喝水。", law:L.p3_2},
+ {c:"醫療選項", t:"選擇「不希望接受維持生命治療」後，醫院還會照顧我嗎？", o:["會，醫療機構應提供緩和醫療與其他適當處置","不會，醫院會停止所有照顧"], a:0, why:"不施行維生治療，不等於不照顧。", law:L.p16},
+ {c:"醫療選項", t:"選項「先嘗試一段時間」是什麼意思？", o:["先接受治療一段時間，再評估是否繼續","永遠接受治療","完全不接受治療"], a:0, why:"適合尚無法確定治療效果時選擇。", law:L.form},
+ {c:"簽署程序", t:"諮商時至少要有誰參與？", o:["本人和至少一位二親等內親屬","只要本人","所有子女都必須到場"], a:0, why:"親屬死亡、失蹤或有特殊事由時，可以不參與；部分機構接受家人視訊參與。", law:L.p9_2},
+ {c:"簽署程序", t:"完成諮商後，還需要哪些步驟才算完成？", o:["機構核章、兩位見證人或公證、健保卡註記","只要自己簽名","只要家人同意"], a:0, why:"三項都要完成，決定才算成立。", law:L.p9_1},
+ {c:"簽署程序", t:"下列哪一位「不能」擔任見證人？", o:["自己的醫療委任代理人","認識多年的朋友","鄰居"], a:0, why:"代理人與照護團隊成員等利害關係人不能當見證人。", law:L.p9_4},
+ {c:"簽署程序", t:"誰可以簽署預立醫療決定？", o:["具完全行為能力的人","任何年齡的人","家屬可以代簽"], a:0, why:"必須是本人，且具完全行為能力。", law:L.p8_1},
+ {c:"變更撤回", t:"預立醫療決定簽了以後還能改嗎？", o:["可以隨時以書面撤回或變更","不能改","只能改一次"], a:0, why:"可隨時調整，但須以書面為之。", law:L.p8_1},
+ {c:"變更撤回", t:"想撤回或變更，現在要怎麼辦？", o:["以書面向醫療機構提出，由機構上傳並更新健保卡註記","打電話告知家人即可","在網路上留言"], a:0, why:"僅口頭告知家人並不生效力，須向醫療機構辦理。", law:L.r6},
+ {c:"變更撤回", t:"住院時，我以書面表示「想接受治療」，和健保卡上的註記不同，醫師會怎麼做？", o:["依我書面表示要接受治療的意思處理","一律照健保卡上的舊註記"], a:0, why:"想接受治療時，依您新的書面意思處理。", law:L.r8},
+ {c:"常見誤解", t:"簽了預立醫療決定，以後感冒住院，醫師就不會治療我？", o:["不會，平常就醫不受影響","會停止所有治療"], a:0, why:"只有在五種特定情況下才會執行。", law:L.p14_1},
+ {c:"常見誤解", t:"預立醫療決定和安樂死一樣嗎？", o:["不一樣，只決定特定情況下是否接受維生醫療","一樣"], a:0, why:"兩者性質完全不同。", law:L.p1},
+ {c:"常見誤解", t:"只有老人或重病的人才能簽預立醫療決定嗎？", o:["不是，具完全行為能力的人都可以","是，只有 65 歲以上"], a:0, why:"不限年齡或疾病，健康時就能先想清楚。", law:L.p8_1},
+ {c:"代理人", t:"醫療委任代理人什麼時候代我表達意願？", o:["當我意識昏迷或無法清楚表達意願時","隨時都能替我決定","只在我過世後"], a:0, why:"您能表達時，仍由您自己決定。", law:L.p10_3},
+ {c:"代理人", t:"沒有子女，可以指定醫療委任代理人嗎？", o:["可以，只要對方成年、具行為能力並書面同意","不行，只能是子女"], a:0, why:"代理人不限子女或親屬。", law:L.p10_1},
+ {c:"代理人", t:"醫療委任代理人需要符合什麼條件？", o:["成年、具行為能力，並書面同意","只要是親戚就可以","一定要是醫師"], a:0, why:"還要排除會因您死亡而獲利的人（繼承人除外）。", law:L.p10_1}
+];
+const CATS = ["生效條件","醫療選項","簽署程序","變更撤回","常見誤解","代理人"];
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
+function drawQuiz(){
+  return CATS.map(c=>{
+    const pool = BANK.filter(q=>q.c===c); const q = pool[Math.floor(Math.random()*pool.length)];
+    return {q, order: shuffle(q.o.map((_,i)=>i)), ans:null};   // ans: null | option index | -1 (unsure)
+  });
+}
+
+/* institutions: MOHW list (2026-10-15), per county; g = 3-person average per head */
+const INST = {"基隆市":[{"n":"衛生福利部基隆醫院","i":3000,"g":1800,"c":4,"m":3,"t":60,"p":"團體價:第一位:3000元/人 第二位至第四位:1200元/人 特殊個案:請來電洽詢","s":null},{"n":"林承興診所","i":3000,"g":2667,"c":null,"m":3,"t":60,"p":"同行第2人起，每人費用：2,500元/60分鐘/人","s":null},{"n":"基隆市立醫院","i":3000,"g":2000,"c":null,"m":3,"t":60,"p":"同行第2人起，每人費用：1,500元/60分鐘/人","s":null},{"n":"佑仁聯合診所","i":3000,"g":1667,"c":null,"m":3,"t":60,"p":"同行第2人起，每人費用：1,000元/60分鐘/人","s":null},{"n":"紀醫師診所","i":3000,"g":1500,"c":null,"m":3,"t":30,"p":"2人同行2,000元/30分鐘/人 3人以上同行：1,500元/20分鐘/人","s":null},{"n":"醫療財團法人臺灣區煤礦業基金會臺灣礦工醫院","i":3500,"g":null,"c":null,"m":3,"t":90,"p":"","s":null},{"n":"長庚醫療財團法人基隆長庚紀念醫院(包含情人湖 院區)","i":3600,"g":2600,"c":4,"m":3,"t":60,"p":"同一時段每人2,600元/次/1.5-2小時，4人為上限。","s":null}],"臺北市":[{"n":"臺北市立聯合醫院（團體諮商場次）","i":null,"g":800,"c":5,"m":3,"t":null,"p":"團體諮商每位800元，以3–5組家庭為原則；企業團體8–10組家庭","s":"grp"},{"n":"康育診所","i":2000,"g":null,"c":null,"m":3,"t":60,"p":"（未填）","s":null},{"n":"臺北市立聯合醫院","i":2250,"g":1283,"c":null,"m":3,"t":60,"p":"同行第2人起：800元/人","s":null},{"n":"臺北市立聯合醫院仁愛院區","i":2250,"g":1283,"c":null,"m":3,"t":60,"p":"同行第2人起：800元/人","s":null},{"n":"臺北市立聯合醫院中興院區","i":2250,"g":1283,"c":null,"m":3,"t":60,"p":"同行第2人起：800元/人","s":null},{"n":"臺北市立聯合醫院和平婦幼院區","i":2250,"g":1283,"c":null,"m":3,"t":60,"p":"同行第2人起：800元/人","s":null},{"n":"臺北市立聯合醫院忠孝院區","i":2250,"g":1283,"c":null,"m":3,"t":60,"p":"同行第2人起：800元/人","s":null},{"n":"臺北市立聯合醫院陽明院區","i":2250,"g":1283,"c":null,"m":3,"t":60,"p":"同行第2人起：800元/人","s":null},{"n":"臺北市立聯合醫院松德院區","i":2250,"g":1283,"c":null,"m":3,"t":60,"p":"同行第2人起：800元/人","s":null},{"n":"臺北市立聯合醫院附設松山門診部","i":2250,"g":1283,"c":6,"m":3,"t":60,"p":"同行第2人起：800元/人 (每次諮商以6人為上限(含二親等))","s":null},{"n":"臺北市立聯合醫院附設士林門診部","i":2250,"g":1283,"c":null,"m":3,"t":60,"p":"同行第2人起：800元/人","s":null},{"n":"臺北市立聯合醫院林森中醫昆明院區","i":2250,"g":1283,"c":null,"m":3,"t":60,"p":"同行第2人起：800元/人","s":null},{"n":"國立臺灣大學醫學院附設醫院","i":2500,"g":1500,"c":5,"m":3,"t":60,"p":"同行第2人起： 1,000元/60分鐘/人(5人為上限)","s":null},{"n":"振興醫療財團法人振興醫院","i":2500,"g":1200,"c":null,"m":3,"t":90,"p":"2人同行: 1,700元/90分鐘/人 3人以上同行: 1,200元/90分鐘/人","s":null},{"n":"李文珍小兒科診所","i":2500,"g":null,"c":null,"m":3,"t":60,"p":"（未填）","s":null},{"n":"國立臺灣大學醫學院附設醫院癌醫中心分院","i":2500,"g":1500,"c":null,"m":3,"t":60,"p":"同行第2人起：1,000元/60分鐘/人","s":null},{"n":"三軍總醫院松山分院附設民眾診療服務處","i":2500,"g":null,"c":null,"m":3,"t":60,"p":"一位軍眷同行免費","s":null},{"n":"國立臺灣大學醫學院附設醫院北護分院","i":2550,"g":1550,"c":null,"m":3,"t":60,"p":"同行第2人起：1,050元/人 (含掛號費)","s":null},{"n":"宏恩醫療財團法人宏恩綜合醫院","i":2920,"g":null,"c":8,"m":3,"t":60,"p":"1,000元/90分鐘/人 (團體諮商5-8人為限)","s":null},{"n":"三軍總醫院附設民眾診療服務處","i":3000,"g":2333,"c":5,"m":3,"t":60,"p":"同行第2人起：2,000元/60分鐘/人。 (人數上限5人)","s":null},{"n":"育睿診所","i":3000,"g":1667,"c":null,"m":3,"t":60,"p":"同時段第2人1,000元/人","s":null},{"n":"行一診所","i":3000,"g":null,"c":null,"m":3,"t":60,"p":"（未填）","s":null},{"n":"承功診所","i":3000,"g":2667,"c":4,"m":3,"t":60,"p":"同行第2人起，2,500元/60分鐘/人（上限4人)","s":null},{"n":"天行健診所","i":3000,"g":1400,"c":null,"m":3,"t":60,"p":"同時段第2人600元/人","s":null},{"n":"臺北榮民總醫院","i":3100,"g":1100,"c":null,"m":3,"t":90,"p":"2人同行：1,600元/90分鐘/人 3人以上同行：1,100元/90分鐘/人","s":null},{"n":"臺北市立關渡醫院─委託臺北榮民總醫院經營","i":3100,"g":1100,"c":3,"m":3,"t":60,"p":"2人同行:1600元/人次; 3人同行(最多三人)1100元/人次","s":null},{"n":"台灣基督長老教會馬偕醫療財團法人馬偕紀念醫院","i":3180,"g":1713,"c":6,"m":3,"t":60,"p":"同行第2人起，980元/人(6人為上限)。","s":null},{"n":"新光醫療財團法人新光吳火獅紀念醫院","i":3200,"g":2200,"c":null,"m":3,"t":60,"p":"同行第2人起：1,700元/60分鐘/人","s":null},{"n":"基督復臨安息日會醫療財團法人臺安醫院","i":3250,"g":1650,"c":8,"m":3,"t":60,"p":"同行第2人起 ，850元/人(8人為上限)","s":null},{"n":"國泰醫療財團法人國泰綜合醫院","i":3500,"g":1750,"c":null,"m":3,"t":60,"p":"同行2人以上起， 1,750元/人 本方案至114年12月31日止","s":null},{"n":"臺北市立萬芳醫院－委託臺北醫學大學辦理","i":3500,"g":2333,"c":null,"m":3,"t":60,"p":"同行家屬：1,750元/60分鐘/人","s":null},{"n":"臺北醫學大學附設醫院","i":3500,"g":1050,"c":null,"m":3,"t":90,"p":"2人同行：2,100元/90分鐘/人 3人以上同行: 1,050元/90分鐘/人","s":null},{"n":"長庚醫療財團法人台北長庚紀念醫院","i":3600,"g":2600,"c":4,"m":3,"t":60,"p":"同一時段每人 2,600元/次/1.5-2小時，4人為上限。","s":null},{"n":"醫療財團法人辜公亮基金會和信治癌中心醫院","i":3700,"g":3033,"c":null,"m":3,"t":60,"p":"同行第2人起 ，2,700元/人","s":null},{"n":"西園醫療社團法人西園醫院","i":3700,"g":2700,"c":3,"m":3,"t":60,"p":"同一時段每人2,700元/90-120分鐘/人（上限3人）","s":null}],"新北市":[{"n":"國立臺灣大學醫學院附設醫院金山分院","i":2250,"g":800,"c":6,"m":3,"t":60,"p":"2人-6人同行：800元/60分鐘/人","s":null},{"n":"新北市八里區衛生所","i":3000,"g":1000,"c":6,"m":3,"t":60,"p":"1-3人 共3000元/60分鐘，每增加一人+1000元/60分鐘/人（最多6人）","s":null},{"n":"衛生福利部樂生療養院","i":3000,"g":null,"c":null,"m":3,"t":90,"p":"","s":null},{"n":"新北市平溪區衛生所","i":3000,"g":1000,"c":5,"m":3,"t":60,"p":"2人：1500元/60分鐘/每人，3-5人：1000元/60分鐘/每人","s":null},{"n":"元復醫院","i":3000,"g":800,"c":6,"m":3,"t":60,"p":"2人-6人同行：800元/60～90分鐘/人","s":null},{"n":"仁邦診所","i":3150,"g":950,"c":6,"m":3,"t":60,"p":"2人-6人同行：950元/60分鐘/人","s":null},{"n":"台灣基督長老教會馬偕醫療財團法人淡水馬偕紀念醫院","i":3150,"g":1683,"c":6,"m":3,"t":60,"p":"第2人(含)起：950元/60-90分鐘/人(團體上限6人)","s":null},{"n":"醫療財團法人徐元智先生醫藥基金會亞東紀念醫院","i":3150,"g":1683,"c":6,"m":3,"t":60,"p":"同行第2人起: 950元/60-90分鐘/人(團體諮商上限6人)","s":null},{"n":"宜興診所","i":3500,"g":800,"c":5,"m":3,"t":60,"p":"2人以上~5人以下同行：800元/60分鐘/人","s":null},{"n":"常春聯合診所","i":3500,"g":1700,"c":null,"m":3,"t":null,"p":"每增加1人800元","s":null},{"n":"博新小兒科家庭醫學科診所","i":3500,"g":800,"c":5,"m":3,"t":60,"p":"2人-5人同行：800元/60分鐘/人","s":null},{"n":"樂文診所","i":3500,"g":1700,"c":null,"m":3,"t":60,"p":"第2人(含)起：800元/60分鐘/人","s":null},{"n":"新北市貢寮區衛生所","i":3500,"g":null,"c":null,"m":3,"t":60,"p":"2人同行：800元/60分鐘/人","s":null},{"n":"新北市萬里區衛生所","i":3500,"g":null,"c":null,"m":3,"t":60,"p":"2人同行： 800元/60分鐘/人","s":null},{"n":"新北市金山區衛生所","i":3500,"g":null,"c":null,"m":3,"t":60,"p":"2人同行：800元/60分鐘/人","s":null},{"n":"新北市三芝區衛生所","i":3500,"g":null,"c":null,"m":3,"t":60,"p":"2人同行：800元/60分鐘/人","s":null},{"n":"天主教耕莘醫療財團法人耕莘醫院","i":3500,"g":800,"c":6,"m":3,"t":60,"p":"2人-6人同行：800元/60分鐘/人","s":null},{"n":"新北市深坑區衛生所","i":3500,"g":800,"c":6,"m":3,"t":60,"p":"2人-6人同行：800元/60分鐘/人","s":null},{"n":"新北市雙溪區衛生所","i":3500,"g":800,"c":6,"m":3,"t":60,"p":"2人-6人同行： 800元/60分鐘/人","s":null},{"n":"新北市瑞芳區衛生所","i":3500,"g":800,"c":6,"m":3,"t":60,"p":"2人-6人同行：800元/60分鐘/人","s":null},{"n":"新北市坪林區衛生所","i":3500,"g":800,"c":6,"m":3,"t":60,"p":"2人-6人同行： 800元/60分鐘/人","s":null},{"n":"新北市烏來區衛生所","i":3500,"g":800,"c":5,"m":3,"t":60,"p":"2人-5人同行：800元/60分鐘/人","s":null},{"n":"新北市立聯合醫院","i":3500,"g":800,"c":6,"m":3,"t":60,"p":"2-6人同行： 800元/60分鐘/人 團體第1人(以新北市市民或於新北市就業之民眾為限)只需自付掛號費2000元","s":null},{"n":"衛生福利部臺北醫院","i":3500,"g":800,"c":5,"m":3,"t":null,"p":"2-5人同行：800元/人","s":null},{"n":"天主教耕莘醫療財團法人永和耕莘醫院","i":3500,"g":800,"c":6,"m":3,"t":60,"p":"2人-6人同行：800元/60分鐘/人","s":null},{"n":"新北市石碇區衛生所","i":3500,"g":800,"c":6,"m":3,"t":60,"p":"2人-6人同行： 800元/60分鐘/人","s":null},{"n":"輔仁大學學校財團法人輔仁大學附設醫院","i":3500,"g":1700,"c":null,"m":3,"t":60,"p":"同行第2人以上：800元/60分鐘/人","s":null},{"n":"佛教慈濟醫療財團法人台北慈濟醫院","i":3500,"g":1700,"c":6,"m":3,"t":60,"p":"2人同行(第二人起)：800元/60分鐘/人 (團體諮商上限6人)","s":null},{"n":"行天宮醫療志業醫療財團法人恩主公醫院","i":3500,"g":1700,"c":5,"m":3,"t":60,"p":"同行第2人起，800元/人(團體諮商上限5人)","s":null},{"n":"衛生福利部雙和醫院〈委託臺北醫學大學興建經營〉","i":3530,"g":1810,"c":6,"m":3,"t":60,"p":"第2人(含)起：950元/60-90分鐘/人(團體上限6人)","s":null},{"n":"新北市石門區衛生所","i":3550,"g":850,"c":5,"m":3,"t":60,"p":"2人-5人同行：850元/60分鐘/人","s":null},{"n":"新北市立土城醫院（委託長庚醫療財團法人興建經營）","i":3650,"g":2650,"c":4,"m":3,"t":60,"p":"2人(含)以上同行：2,650元/60分鐘/人，4人為上限。","s":null},{"n":"國泰醫療財團法人汐止國泰綜合醫院","i":3650,"g":950,"c":4,"m":3,"t":60,"p":"2-4人同行：950元/60-90分鐘/人","s":null}],"桃園市":[{"n":"桃園區衛生所（團體諮商場次）","i":null,"g":500,"c":15,"m":10,"t":90,"p":"每團10–15人，每人500；未達10人取消","s":"grp"},{"n":"德仁醫院","i":1500,"g":1000,"c":null,"m":3,"t":60,"p":"2人同行1,200元/60分鐘；3人以上同行1,000元/60分鐘/人","s":null},{"n":"華揚醫院","i":1500,"g":1000,"c":null,"m":3,"t":60,"p":"2人同行1,200元/60分鐘/人 3人以上同行1,000元/60分鐘/人","s":null},{"n":"桃園市龍潭區衛生所","i":2000,"g":1333,"c":4,"m":3,"t":60,"p":"同時段第2-4人1,000元/次/60分鐘/人","s":null},{"n":"豐田健康診所","i":2000,"g":1000,"c":null,"m":3,"t":60,"p":"同時段2人以上，每人1,000元(依身份收取掛號費)","s":null},{"n":"桃園市觀音區衛生所","i":2000,"g":1333,"c":4,"m":3,"t":60,"p":"同時段第2-4人1,000元/次/60分鐘/人","s":null},{"n":"桃園市桃園區衛生所","i":2000,"g":1333,"c":4,"m":3,"t":60,"p":"同時段第2-4人1,000元/次/60分鐘/人","s":null},{"n":"桃園市中壢區衛生所","i":2000,"g":1333,"c":4,"m":3,"t":60,"p":"同時段第2-4人1,000元/次/60分鐘/人","s":null},{"n":"桃園市八德區衛生所","i":2000,"g":1333,"c":4,"m":3,"t":60,"p":"同時段第2-4人1,000元/次/60分鐘/人","s":null},{"n":"桃園市平鎮區衛生所","i":2000,"g":1333,"c":4,"m":3,"t":60,"p":"同時段第2-4人1,000元/次/60分鐘/人","s":null},{"n":"桃園市龜山區衛生所","i":2000,"g":1333,"c":4,"m":3,"t":60,"p":"同時段第2-4人1,000元/次/60分鐘/人","s":null},{"n":"桃園市楊梅區衛生所","i":2000,"g":1333,"c":4,"m":3,"t":60,"p":"同時段第2-4人1,000元/次/60分鐘/人","s":null},{"n":"桃園市蘆竹區衛生所","i":2000,"g":1333,"c":4,"m":3,"t":60,"p":"同時段第2-4人1,000元/次/60分鐘/人","s":null},{"n":"桃園市大溪區衛生所","i":2000,"g":1333,"c":4,"m":3,"t":60,"p":"同時段第2-4人1,000元/次/60分鐘/人","s":null},{"n":"桃園市大園區衛生所","i":2000,"g":1333,"c":4,"m":3,"t":60,"p":"同時段第2-4人1,000元/次/60分鐘/人","s":null},{"n":"桃園市新屋區衛生所","i":2000,"g":1333,"c":4,"m":3,"t":60,"p":"同時段第2-4人1,000元/次/60分鐘/人","s":null},{"n":"桃園市復興區衛生所","i":2000,"g":1333,"c":4,"m":3,"t":60,"p":"同時段第2-4人1,000元/次/60分鐘/人","s":null},{"n":"衛生福利部桃園醫院","i":2280,"g":1447,"c":null,"m":3,"t":60,"p":"同一時段親屬或關係人：1,030元/人","s":null},{"n":"聯恩診所","i":2800,"g":2500,"c":3,"m":3,"t":60,"p":"同一時段2人以上7,500元/60分鐘，3人為限","s":null},{"n":"恩舟診所","i":3000,"g":800,"c":6,"m":3,"t":60,"p":"2-6人同行800元/60分鐘/人(掛號費200元)","s":null},{"n":"沙爾德聖保祿修女會醫療財團法人聖保祿醫院","i":3000,"g":2000,"c":4,"m":3,"t":60,"p":"同一時段第2人：1,500元/人次 4人為上限","s":null},{"n":"臺北榮民總醫院桃園分院","i":3150,"g":1150,"c":5,"m":3,"t":90,"p":"兩人團體1650/90分鐘/人 三人以上(至多五人)1150/90分鐘/人","s":null},{"n":"何翊菁診所","i":3200,"g":2200,"c":null,"m":3,"t":60,"p":"同時段諮商費用：2,200元/次/60分鐘/人","s":null},{"n":"中路翊菁診所","i":3250,"g":2250,"c":4,"m":3,"t":60,"p":"同時段2人~4人/2,250元/次/60分鐘/人","s":null},{"n":"龍潭敏盛醫院","i":3500,"g":2333,"c":null,"m":3,"t":60,"p":"第2人以上每人1,750元/120分鐘","s":null},{"n":"大園敏盛醫院","i":3500,"g":2333,"c":null,"m":3,"t":60,"p":"同時段諮商第二人以上1,750元/次/60分鐘/人","s":null},{"n":"明欣診所","i":3500,"g":3000,"c":null,"m":3,"t":60,"p":"同時段諮商費用：3,000元/次/60分鐘/人","s":null},{"n":"龍和診所","i":3500,"g":null,"c":2,"m":3,"t":60,"p":"兩人同行6,000元","s":null},{"n":"王德和診所","i":3500,"g":3000,"c":null,"m":3,"t":60,"p":"3,000元/次/60分鐘/人","s":null},{"n":"豐田診所","i":3500,"g":3000,"c":null,"m":3,"t":60,"p":"3,000元/次/60分鐘/人","s":null},{"n":"鼎侑診所","i":3500,"g":2167,"c":3,"m":3,"t":60,"p":"同一時段第二人每人1,500/次/60 分鐘，3 人為上限","s":null},{"n":"天成醫院","i":3500,"g":2333,"c":null,"m":3,"t":60,"p":"同一時段第2人：1,750元/60分鐘/人","s":null},{"n":"活力診所","i":3500,"g":null,"c":2,"m":3,"t":60,"p":"兩人同行6,000元","s":null},{"n":"同心藝文診所","i":3500,"g":2167,"c":null,"m":3,"t":null,"p":"2人同行共6,000元/次，第3人以上每人多收500元行政處理費","s":null},{"n":"民安診所","i":3500,"g":null,"c":2,"m":3,"t":null,"p":"兩人同行6,000元/次","s":null},{"n":"敏盛綜合醫院","i":3500,"g":2333,"c":null,"m":3,"t":60,"p":"同行之二親等：1,750元/60分鐘/人","s":null},{"n":"聯新國際醫院","i":3500,"g":1833,"c":null,"m":3,"t":60,"p":"同一時段第2人(二等親) 1,000元/次/60分鐘/人","s":null},{"n":"天成醫療社團法人天晟醫院","i":3500,"g":2333,"c":null,"m":3,"t":60,"p":"同一時段第2人：1,750元/60分鐘/人","s":null},{"n":"怡仁綜合醫院","i":3500,"g":1833,"c":null,"m":3,"t":60,"p":"同一時段第2人：1,000元/60分鐘/人","s":null},{"n":"國軍桃園總醫院附設民眾診療服務處","i":3500,"g":2500,"c":null,"m":3,"t":60,"p":"同一時段第2人： 2,000元/60分鐘/人 1,800元/60分鐘/人 (軍人、院內員工)","s":null},{"n":"高揚威家醫科診所","i":3600,"g":2600,"c":null,"m":3,"t":60,"p":"同時段第二人2,100元/次/60分鐘/人","s":null},{"n":"泰千診所","i":3600,"g":2600,"c":null,"m":3,"t":60,"p":"同一時段第2人2,100元/60分鐘/人","s":null},{"n":"愛麗康診所","i":3600,"g":2933,"c":null,"m":3,"t":60,"p":"第2人以上2,600元/60分鐘/人/次","s":null},{"n":"長庚醫療財團法人林口長庚紀念醫院","i":3600,"g":2600,"c":4,"m":3,"t":60,"p":"同一時段每人 2,600元/次/1.5-2小時，4人為上限。","s":null},{"n":"長庚醫療財團法人桃園長庚紀念醫院","i":3650,"g":2650,"c":4,"m":3,"t":60,"p":"2,650元/次/1.5-2小時，4人為上限。","s":null},{"n":"敏盛智慧健康管理診所","i":3700,"g":2567,"c":null,"m":3,"t":60,"p":"同行家屬2,000元/次/60分鐘/人","s":null},{"n":"范姜皮膚科診所","i":3700,"g":2500,"c":null,"m":3,"t":60,"p":"同一時段第2人1,900元/次/60分鐘/人","s":null},{"n":"晨新診所","i":3700,"g":2700,"c":null,"m":3,"t":60,"p":"同一時段第2人2,200元/次/60分鐘/人","s":null}],"新竹市":[{"n":"國泰醫療財團法人新竹國泰綜合醫院","i":3500,"g":1800,"c":5,"m":3,"t":null,"p":"團體諮商(上限5人)：第1人3,500元，第2-4人每人950元","s":null},{"n":"台灣基督長老教會馬偕醫療財團法人新竹馬偕紀念醫院","i":3500,"g":null,"c":null,"m":3,"t":null,"p":"（未填）","s":null},{"n":"國立臺灣大學醫學院附設醫院新竹臺大分院新竹醫院","i":3500,"g":null,"c":3,"m":3,"t":null,"p":"團體諮商(上限3人)：3,500元/人次","s":null},{"n":"南門綜合醫院","i":3500,"g":2667,"c":null,"m":3,"t":60,"p":"第2-3位每位收費2,250元 第4位以上每位收費1,500元","s":null}],"新竹縣":[{"n":"哈佛診所","i":2000,"g":1500,"c":15,"m":3,"t":60,"p":"2~5人同行1,500元/60分鐘/人，掛號費另計 6~15人同行1,000元/60分鐘/人，掛號費另計","s":null},{"n":"東元醫療社團法人東元綜合醫院","i":3000,"g":1667,"c":5,"m":3,"t":60,"p":"3,000元/第1人、1,000元/第2人、1,000元/第3人、1,000元/第4人、1,000元/第5人。","s":null},{"n":"臺北榮民總醫院新竹分院","i":3000,"g":1000,"c":null,"m":3,"t":60,"p":"兩人同行1,500元/60分鐘/人，掛號費另計。 三人同行1,000元/60分鐘/人，掛號費另計。","s":null},{"n":"中國醫藥大學新竹附設醫院","i":3000,"g":2500,"c":null,"m":3,"t":null,"p":"3,000元/第1人，2,500元/第2人，2,000元/第3人。","s":null},{"n":"竹北新仁醫療社團法人新仁醫院","i":3000,"g":null,"c":null,"m":3,"t":60,"p":"","s":null}],"苗栗縣":[{"n":"協和醫院","i":3000,"g":null,"c":2,"m":3,"t":90,"p":"2人同行：1,500元/90分鐘/人","s":null},{"n":"慈祐醫院","i":3000,"g":null,"c":2,"m":3,"t":90,"p":"2人同行：1,500元/90分鐘/人","s":null},{"n":"重光醫院","i":3000,"g":null,"c":2,"m":3,"t":null,"p":"限定2人：1,500元/人","s":null},{"n":"衛生福利部苗栗醫院","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"為恭醫療財團法人為恭紀念醫院","i":3000,"g":null,"c":2,"m":3,"t":null,"p":"限定2人：1,500元/人","s":null},{"n":"大千綜合醫院","i":3000,"g":null,"c":2,"m":3,"t":null,"p":"限定2人：1,500元/人","s":null},{"n":"天恩診所","i":null,"g":null,"c":null,"m":3,"t":null,"p":"0","s":null}],"臺中市":[{"n":"欣源美診所","i":1500,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"澄清綜合醫院中港分院","i":2500,"g":2333,"c":4,"m":3,"t":null,"p":"(加第一人)二五○○元/次/小時/人為上限； (加第二人(含)以上)二○○○元/次/小時/人為上限","s":null},{"n":"澄清綜合醫院","i":2500,"g":2333,"c":4,"m":3,"t":null,"p":"(加第一人)二五○○元/次/小時/人為上限； (加第二人(含)以上)二○○○元/次/小時/人為上限","s":null},{"n":"童綜合醫療社團法人童綜合醫院","i":2500,"g":1833,"c":null,"m":3,"t":null,"p":"同行第二人起，1500元/人","s":null},{"n":"佳禾診所","i":2500,"g":null,"c":null,"m":3,"t":null,"p":"（未填）","s":null},{"n":"黃純義內小兒科診所","i":2500,"g":null,"c":null,"m":3,"t":null,"p":"（未填）","s":null},{"n":"主悅診所","i":2500,"g":null,"c":null,"m":3,"t":null,"p":"（未填）","s":null},{"n":"李昭德診所","i":2500,"g":1833,"c":null,"m":3,"t":null,"p":"同行第二位2000, 第三位1000, 第四位1000.","s":null},{"n":"明朗身心診所","i":2500,"g":1500,"c":null,"m":3,"t":60,"p":"1,000元/同診同行第2人","s":null},{"n":"力倫診所","i":2500,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"仁愛醫療財團法人大里仁愛醫院","i":2600,"g":1967,"c":4,"m":3,"t":null,"p":"同行第二人700元；第三人恢復2600元、第四人700元 (以上皆含掛號費100元)；團體諮商上限4人","s":null},{"n":"佛教慈濟醫療財團法人台中慈濟醫院","i":2700,"g":1767,"c":null,"m":3,"t":null,"p":"同行第二人起：1,300元/人(掛號費另計) 【身心障礙者、失智診斷】同行第二人1300元、第三人以上免費 【重大傷病卡、慈濟…","s":null},{"n":"衛生福利部豐原醫院","i":3000,"g":1667,"c":null,"m":3,"t":null,"p":"同診親友1,000元/人","s":null},{"n":"國軍臺中總醫院附設民眾診療服務處","i":3000,"g":null,"c":2,"m":3,"t":null,"p":"同診親友(限一人) 1,000元","s":null},{"n":"臺中榮民總醫院","i":3000,"g":1000,"c":5,"m":3,"t":null,"p":"兩人同行，一人1,500元/三人以上同行，一人1,000元(團體諮商上限5人)","s":null},{"n":"亞洲大學附屬醫院","i":3000,"g":2500,"c":null,"m":3,"t":null,"p":"同診諮商親友費：2,500元/人。 同診諮商親友費-加第二人（含以上）：2,000元/人。","s":null},{"n":"宏美德生診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"（未填）","s":null},{"n":"天行健診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"軒宇診所","i":3000,"g":2167,"c":5,"m":3,"t":null,"p":"同行同一時段，第二位2,000元，第三位起1,500元(同一時段上限5人)","s":null},{"n":"長頸鹿小兒科診所","i":3000,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"元亨診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"臺中市立老人復健綜合醫院(委託財團法人中國醫藥大學興建經營)","i":3000,"g":1833,"c":null,"m":3,"t":null,"p":"專業諮詢 ◆ 第1人 3,000元 ◆ 第2人 1,500元 ◆ 第3人 1,000元 +每人掛號費100元","s":null},{"n":"欣里美診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"（未填）","s":null},{"n":"維恩耳鼻喉科診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"衛生福利部臺中醫院","i":3100,"g":2433,"c":null,"m":3,"t":null,"p":"同行第二人2,100元","s":null},{"n":"中國醫藥大學附設醫院","i":3150,"g":1150,"c":null,"m":3,"t":null,"p":"同診諮商親友費(加一人)1,650元/人次(含掛號費150元) 同診諮商親友費(加二人含以上) 1,150元/(含掛號費150…","s":null},{"n":"中山醫學大學附設醫院","i":3150,"g":2150,"c":null,"m":3,"t":null,"p":"同行第二人起，1,650元/人","s":null},{"n":"霧峰澄清醫院","i":3200,"g":2867,"c":null,"m":3,"t":null,"p":"(第二人起)2,700元/次/小時","s":null},{"n":"賢德醫院","i":3500,"g":2500,"c":null,"m":3,"t":null,"p":"同行第一人，2,500元/人， 同行第二人（含）起，2,000元/人","s":null},{"n":"林新醫療社團法人林新醫院","i":3500,"g":2667,"c":3,"m":3,"t":null,"p":"同行第二人2,500人 同行第三人2,000人 (每診最多3人)","s":null},{"n":"光田醫療社團法人光田綜合醫院","i":3500,"g":1700,"c":null,"m":3,"t":null,"p":"同行第二人起，800元/人","s":null},{"n":"柏羽診所","i":3500,"g":2833,"c":null,"m":3,"t":60,"p":"同行第2人：2,500元/人","s":null},{"n":"東榮診所","i":3500,"g":2000,"c":null,"m":3,"t":null,"p":"2,500元/加第2人 2,000元/3人以上","s":null},{"n":"林新醫療社團法人烏日林新醫院","i":3500,"g":2667,"c":null,"m":3,"t":null,"p":"同診諮商第二位:2500元/次，同診諮商第三位:2000元/次","s":null},{"n":"李綜合醫療社團法人大甲李綜合醫院","i":3500,"g":2967,"c":null,"m":3,"t":null,"p":"同行第二人(限二親等內親屬) 2700元/人","s":null}],"彰化縣":[{"n":"員林郭醫院大村分院","i":1000,"g":null,"c":null,"m":3,"t":null,"p":"1,000元/人次","s":null},{"n":"蔡文瑞耳鼻喉科診所","i":1200,"g":1000,"c":null,"m":3,"t":null,"p":"2人以上：1,000元/每人","s":null},{"n":"黃建成診所","i":2000,"g":1000,"c":null,"m":3,"t":null,"p":"2人團體：1,500元/人 3人團體：1,000元/人","s":null},{"n":"庚新診所","i":2000,"g":1200,"c":null,"m":3,"t":null,"p":"2人：1500/人次 3人：1200/人次 4人以上：1000/人次","s":null},{"n":"合濟診所","i":2000,"g":1200,"c":null,"m":3,"t":null,"p":"1,200元/人次","s":null},{"n":"豐安診所","i":2000,"g":1500,"c":null,"m":3,"t":null,"p":"1,500元/每人","s":null},{"n":"明穎耳鼻喉科診所","i":2000,"g":1200,"c":null,"m":3,"t":null,"p":"2人同行：3000元諮商費+200元掛號費*2人=總收3400元、 3人同行：3600元諮商費+200元掛號費*3人=總收42…","s":null},{"n":"陽光小兒科診所","i":2000,"g":1000,"c":null,"m":3,"t":null,"p":"1,000元/每人","s":null},{"n":"安怡診所","i":2500,"g":2000,"c":null,"m":3,"t":60,"p":"2人以上：2000元/小時/每人，超過每15分鐘加收200元，上限3500元/人","s":null},{"n":"頂安診所","i":2650,"g":1050,"c":null,"m":3,"t":null,"p":"2人團體：1,450元/每人、 3人團體：1,050元/每人","s":null},{"n":"莊永勳耳鼻喉科診所","i":2800,"g":1800,"c":null,"m":3,"t":null,"p":"1,800元/每人","s":null},{"n":"彰化基督教醫療財團法人鹿港基督教醫院","i":3100,"g":1100,"c":5,"m":3,"t":null,"p":"2人同行 ：1,600元/每人、 3人以上團體 (上限5人)：1,100元/每人","s":null},{"n":"彰化基督教醫療財團法人二林基督教醫院","i":3100,"g":1100,"c":null,"m":3,"t":null,"p":"二人同行：1,600元/人次 三人同行：1,100元/人","s":null},{"n":"員郭醫院","i":3100,"g":2100,"c":null,"m":3,"t":null,"p":"2人以上團體：1,600元/第2位以上","s":null},{"n":"彰化基督教醫療財團法人漢銘基督教醫院","i":3100,"g":1100,"c":5,"m":3,"t":null,"p":"2人團體：1,600元/每人、 3人以上團體 (上限5人) ：1,100元/每人","s":null},{"n":"彰化基督教醫療財團法人員林基督教醫院","i":3150,"g":1150,"c":3,"m":3,"t":null,"p":"2人：1,650元/每人 3人：1,150元/每人 (上限3人)","s":null},{"n":"彰化基督教醫療財團法人彰化基督教醫院","i":3150,"g":1150,"c":5,"m":3,"t":null,"p":"2人：1,650元/每人 3人以上 (上限5人) ：1,150元/每人","s":null},{"n":"員榮醫療社團法人員榮醫院","i":3150,"g":1150,"c":3,"m":3,"t":null,"p":"2人：1,650元/每人 3人：1,150元/每人 (上限3人)","s":null},{"n":"衛生福利部彰化醫院","i":3400,"g":null,"c":null,"m":3,"t":null,"p":"（未填）","s":null},{"n":"秀傳醫療社團法人秀傳紀念醫院","i":3500,"g":1200,"c":null,"m":3,"t":75,"p":"團體諮商費用/時間： 2人同行：每人費用1,750元/75分鐘。3人同行：每人費用1,200元/75分鐘","s":null},{"n":"秀傳醫療財團法人彰濱秀傳紀念醫院","i":3500,"g":null,"c":null,"m":3,"t":75,"p":"","s":null},{"n":"彰化縣二水鄉衛生所","i":null,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"大生診所","i":null,"g":null,"c":null,"m":3,"t":null,"p":"2人(總計費用)：$600(＞0分鐘，＜16分鐘)、$1200(≧16分鐘，＜31分鐘)、$1800(≧31分鐘，＜46分鐘)…","s":null},{"n":"彰化縣竹塘鄉衛生所","i":null,"g":null,"c":null,"m":3,"t":null,"p":"","s":null}],"南投縣":[{"n":"陳宏麟診所","i":1800,"g":1400,"c":null,"m":3,"t":null,"p":"2人以上費用1,600元/人次，3人以上費用1,400元/人次。","s":null},{"n":"竹山秀傳醫療社團法人竹山秀傳醫院","i":1900,"g":1400,"c":null,"m":3,"t":null,"p":"一人簽屬1,900元(專業諮詢費1,500元/人、行政費用400元/人)；兩人簽屬一人1,600元(專業諮詢費1,200元/人…","s":null},{"n":"普仁診所","i":2100,"g":1000,"c":null,"m":3,"t":null,"p":"2人以上費用1,000元/人","s":null},{"n":"臺中榮民總醫院埔里分院","i":2400,"g":800,"c":5,"m":3,"t":null,"p":"兩人同行，1,200元/人 三人以上同行，800元/人(每次以5人為限)","s":null},{"n":"東華醫院","i":2500,"g":1367,"c":6,"m":3,"t":60,"p":"同行之二親等：800元/60分鐘/人(每次以6人為限)","s":null},{"n":"詹建盛診所","i":3000,"g":2400,"c":null,"m":3,"t":60,"p":"2,400元/次/60分鐘/人 (同一時段三人以上費用)","s":null},{"n":"埔基醫療財團法人埔里基督教醫院","i":3000,"g":2400,"c":null,"m":3,"t":null,"p":"3人以上費用2,400元/人","s":null},{"n":"惠和醫院","i":3100,"g":2500,"c":3,"m":3,"t":null,"p":"同行收費三位為限(專業諮詢費3,000元/人次)，3,000元/第1人 2,500元/第2人 2,000元/第3人","s":null},{"n":"衛生福利部南投醫院","i":3400,"g":2400,"c":null,"m":3,"t":null,"p":"兩人同行，3,400元/第1人，1,900元/第2人(專業諮詢費1,500元/人；行政費用400元/人) 十人以上同行，1,9…","s":null},{"n":"衛生福利部草屯療養院","i":3400,"g":null,"c":null,"m":3,"t":null,"p":"未訂定","s":null}],"雲林縣":[{"n":"廖寶全診所","i":2500,"g":1667,"c":null,"m":3,"t":null,"p":"團體第二人起1,250元/人","s":null},{"n":"好所宅診所","i":2500,"g":1667,"c":null,"m":3,"t":null,"p":"團體第二人起1,250元/人","s":null},{"n":"崙背台全診所","i":2500,"g":1667,"c":null,"m":3,"t":60,"p":"團體第二人起$1250/60分鐘/人※超過60分鐘，延長服務時間:每30分鐘，每人收費$500","s":null},{"n":"劉泰成診所","i":2500,"g":1667,"c":null,"m":3,"t":null,"p":"團體第二人起1,250元/人","s":null},{"n":"國立成功大學醫學院附設醫院斗六分院","i":2630,"g":1380,"c":null,"m":3,"t":60,"p":"同行2人(含)起1,380元/人","s":null},{"n":"天主教若瑟醫療財團法人若瑟醫院","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"彰化基督教醫療財團法人雲林基督教醫院","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"（未填）","s":null},{"n":"國軍退除役官兵輔導委員會雲林榮譽國民之家附設醫務室","i":3000,"g":1000,"c":null,"m":3,"t":60,"p":"若兩人同時進行，每位意願人收費 1,500 元，三人同時進行，則每位意願人收費 1,000 元","s":null},{"n":"中國醫藥大學北港附設醫院","i":3100,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"國立臺灣大學醫學院附設醫院雲林分院","i":3600,"g":2933,"c":null,"m":3,"t":60,"p":"同行第2人起， 2,600元/人","s":null}],"嘉義市":[{"n":"陽明醫院等合作院所（健康台灣深耕計畫）","i":null,"g":0,"c":null,"m":3,"t":120,"p":"65歲以上免費；每場20–30人","s":"free"},{"n":"亞人醫療社團法人盧亞人醫院","i":2500,"g":1167,"c":null,"m":3,"t":null,"p":"第一人2500元，每加一人加計500元。","s":null},{"n":"仁德醫療社團法人陳仁德醫院","i":2500,"g":1167,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"王國哲診所","i":2500,"g":null,"c":null,"m":3,"t":null,"p":"（未填）","s":null},{"n":"孫小兒科診所","i":2500,"g":null,"c":null,"m":3,"t":null,"p":"（未填）","s":null},{"n":"王診所","i":2500,"g":null,"c":null,"m":3,"t":null,"p":"（未填）","s":null},{"n":"羅大德診所","i":2500,"g":null,"c":null,"m":3,"t":null,"p":"（未填）","s":null},{"n":"大恩整體自然醫學診所","i":2500,"g":null,"c":null,"m":3,"t":null,"p":"（未填）","s":null},{"n":"陽明醫院","i":2500,"g":1167,"c":null,"m":3,"t":90,"p":"同行第2人起，500元/60分鐘/人","s":null},{"n":"長椿耳鼻喉科診所","i":2500,"g":null,"c":null,"m":3,"t":null,"p":"（未填）","s":null},{"n":"吳長宗診所","i":2500,"g":1167,"c":null,"m":3,"t":null,"p":"同行第2人起，每人500元","s":null},{"n":"真善渼診所","i":2500,"g":1167,"c":null,"m":3,"t":null,"p":"同行第2人起，每人500元","s":null},{"n":"陳明煌診所","i":2500,"g":1167,"c":null,"m":3,"t":null,"p":"同行第2人起，每人500元","s":null},{"n":"衛生福利部嘉義醫院","i":3000,"g":1000,"c":7,"m":3,"t":null,"p":"2人同行：1,500元/60分鐘/人 3人同行：1,000元/60分鐘/人 4~7人同行：800元/60分鐘/人","s":null},{"n":"臺中榮民總醫院嘉義分院","i":3000,"g":1000,"c":null,"m":3,"t":60,"p":"2人同行：1,500元/60-90分鐘/人 3人同行：1,000元/90分鐘/人","s":null},{"n":"戴德森醫療財團法人嘉義基督教醫院","i":3000,"g":1667,"c":null,"m":3,"t":90,"p":"同行第2人以上，1,000元/90分鐘/人","s":null},{"n":"崇安診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"信賴眼科診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"仁愛神經內科診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"泌琪林泌尿科診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"福音聯合診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"欣愛診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"新恩診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"華山診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"弘仁診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"怡康診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"安家診所","i":3000,"g":1333,"c":null,"m":3,"t":null,"p":"同行第2人起500元","s":null},{"n":"宋思權診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"吳南逸診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"張耿源診所","i":3000,"g":2500,"c":null,"m":3,"t":null,"p":"2500元","s":null},{"n":"順安診所","i":3000,"g":1333,"c":null,"m":3,"t":60,"p":"同行第2人以上，500元/60分/人","s":null},{"n":"德方平安診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"黃銘模診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"（未填）","s":null},{"n":"劉耳鼻喉科診所","i":3000,"g":1667,"c":null,"m":3,"t":null,"p":"同行第2人起，每人1,000元","s":null},{"n":"政康診所","i":3000,"g":1667,"c":null,"m":3,"t":null,"p":"第1人3000，第二人起每人+1000","s":null},{"n":"祥太醫療社團法人祥太醫院","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"文祥小兒科診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"洪瑞禧診所","i":3000,"g":1667,"c":null,"m":3,"t":null,"p":"第一人3000元、第二人+1000元。","s":null},{"n":"佛教慈濟醫療財團法人慈濟診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"慶昇醫療社團法人慶昇醫院","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"李英徽耳鼻喉科","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"正安診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"（未填）","s":null},{"n":"開心診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"（未填）","s":null},{"n":"長鴻診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"何光哲小兒科診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"黃彬診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"安心醫療社團法人安心醫院","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"史兆明消化外科診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"慎諭婦產科診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"賴瑪莉診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"柏安診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"德星耳鼻喉科診所","i":3000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"曾良達診所","i":3250,"g":null,"c":2,"m":3,"t":null,"p":"同行第2人，加收 1,250元(每次含意願人不超過2人，諮商日起3個月內AD上傳註記，免行政費用250元)","s":null},{"n":"天主教中華聖母修女會醫療財團法人天主教聖馬爾定醫院","i":3500,"g":3167,"c":null,"m":3,"t":90,"p":"同行第2人以上3,000元(掛號費另計)/90分鐘/人","s":null}],"嘉義縣":[{"n":"臺中榮民總醫院灣橋分院","i":2430,"g":830,"c":null,"m":3,"t":60,"p":"2人同行：1,230元/60分鐘/人 3人同行：830元/60分鐘/人","s":null},{"n":"衛生福利部朴子醫院","i":3000,"g":1800,"c":null,"m":3,"t":60,"p":"2人（含）以上同行：1,800元/60分鐘/每人","s":null},{"n":"佛教慈濟醫療財團法人大林慈濟醫院","i":3000,"g":1500,"c":4,"m":3,"t":60,"p":"2-4人同行: 1,500元/60分鐘/人","s":null},{"n":"長庚醫療財團法人嘉義長庚紀念醫院","i":3500,"g":2600,"c":null,"m":3,"t":60,"p":"2人以上同行：2,600元/60分鐘/每人","s":null}],"臺南市":[{"n":"鄭建輝婦產科診所","i":2000,"g":1467,"c":6,"m":3,"t":null,"p":"第2~6人：1,200元/人(不限時間，最多6人行) (不另酌收掛號費)","s":null},{"n":"莊金城診所","i":2000,"g":1333,"c":5,"m":3,"t":null,"p":"第2~5人：1,000元/人(不限時間，最多5人行) (不另酌收掛號費)","s":null},{"n":"奇美醫療財團法人奇美醫院","i":2000,"g":1667,"c":15,"m":3,"t":60,"p":"1.第2~5人：1,500元/60分鐘/人 2.第6~15人：1,000元/60分鐘/人 (以上費用，皆須另付掛號費140元/…","s":null},{"n":"奇美醫療財團法人柳營奇美醫院","i":2000,"g":1667,"c":5,"m":3,"t":60,"p":"第2~5人：1,500元/60分鐘/人 (以上費用，皆須另付掛號費100元/人)","s":null},{"n":"世澤居家醫療診所","i":2500,"g":2167,"c":4,"m":3,"t":60,"p":"第2~4人：加收2000元/60分鐘/人(最多4人行) (不另酌收掛號費)","s":null},{"n":"維摩詰診所","i":2500,"g":2167,"c":6,"m":3,"t":60,"p":"第2~6人：2,000元/人(60分鐘) (不另酌收掛號費)","s":null},{"n":"王肇陽皮膚科診所","i":2600,"g":2000,"c":null,"m":3,"t":60,"p":"團體2,000元/60分鐘/人(須另付掛號費150元/人)","s":null},{"n":"全裕診所","i":3000,"g":2000,"c":15,"m":3,"t":60,"p":"1.第2~5 人：1,500元/60 分鐘/人 2.第6~15 人：1,000 元/60 分鐘/人 (以上費用，皆須另付掛號費…","s":null},{"n":"宗詰診所","i":3000,"g":null,"c":null,"m":3,"t":60,"p":"不收團體","s":null},{"n":"台灣基督長老教會新樓醫療財團法人麻豆新樓醫院","i":3000,"g":1667,"c":6,"m":3,"t":null,"p":"第2~6人：1,000元/人(不限時間，最多6人行) (不另酌收掛號費)","s":null},{"n":"衛生福利部臺南醫院","i":3000,"g":2000,"c":5,"m":3,"t":60,"p":"第2~5人: 1,500元/60分鐘/人 (每人須另付掛號費120元以及用印費150元)","s":null},{"n":"臺南市立安南醫院-委託中國醫藥大學興建經營","i":3000,"g":1533,"c":3,"m":3,"t":60,"p":"第2-3人800元/60分鐘/人 (限二等親) (須另付掛號費140元)","s":null},{"n":"國立成功大學醫學院附設醫院","i":3000,"g":1500,"c":null,"m":3,"t":90,"p":"2人(含)以上：1,500元/90分鐘/人 (須另付掛號費150元/人及就醫證明費30元/人)","s":null},{"n":"台灣基督長老教會新樓醫療財團法人台南新樓醫院","i":3000,"g":1667,"c":6,"m":3,"t":null,"p":"第2-6人：1,000元/人 (不限時間，最多6人行) (不另酌收掛號費)","s":null},{"n":"高雄榮民總醫院臺南分院","i":3000,"g":1000,"c":null,"m":3,"t":60,"p":"1.團體諮商(二位以上)每位意願人收費1,500元(含諮商、核章與預立醫療決定書掃描上傳等行政費用)，另掛號費100 元/人。…","s":null},{"n":"台南市立醫院(委託秀傳醫療社團法人經營)","i":3500,"g":3167,"c":4,"m":3,"t":60,"p":"第2~4人：3,000元/60分鐘/人","s":null}],"高雄市":[{"n":"育明診所","i":1500,"g":1167,"c":null,"m":3,"t":null,"p":"第二人開始 1,000元/人","s":null},{"n":"大中診所","i":1500,"g":1167,"c":null,"m":3,"t":null,"p":"第二人起1,000元/人","s":null},{"n":"厚澤九如診所","i":1500,"g":1167,"c":null,"m":3,"t":null,"p":"第2人起1,000/人。","s":null},{"n":"鄰好西醫診所","i":2000,"g":1333,"c":null,"m":3,"t":60,"p":"■第1人2,000元，第2人起1,000元/人。(不再收掛號費) ■超過60分鐘，每30分鐘加收500元。","s":null},{"n":"趙大夫診所","i":2000,"g":1167,"c":4,"m":3,"t":60,"p":"■2至4人同行；3,500元/60分鐘/次/團體。(不再收掛號費) ■超過60分鐘，每30分鐘加收500/團體。","s":null},{"n":"陳乃菁診所","i":2500,"g":2000,"c":null,"m":3,"t":50,"p":"■2人以上:2,000元/50分鐘/人。(已含掛號費) ■超過50分鐘，每30分鐘加收500元。","s":null},{"n":"為好診所","i":2500,"g":null,"c":2,"m":3,"t":60,"p":"■ 2人同行，4,000元/次/時/2人。 ■ 超過1小時，每30分鐘加收500元","s":null},{"n":"天主教聖功醫療財團法人聖功醫院","i":3000,"g":1200,"c":null,"m":3,"t":60,"p":"■2人同行：1,800元/人/60分鐘。 ■3人同行：1,200元/人/60分鐘。","s":null},{"n":"信義醫療財團法人高雄基督教醫院","i":3000,"g":null,"c":null,"m":3,"t":60,"p":"■2人同行/60分鐘︰1,800元/每人。(不再收掛號費?) ■超過60分鐘，每30分鐘加收500元/人。","s":null},{"n":"國軍高雄總醫院附設民眾診療服務處","i":3000,"g":2333,"c":null,"m":3,"t":60,"p":"■第二位起2000元/60分鐘/人。(不再收掛號費) ■超過60分鐘，每30分鐘加收500元/人。","s":null},{"n":"高雄市立聯合醫院","i":3050,"g":1050,"c":null,"m":3,"t":60,"p":"■同一時段2人同行，1,550元/時/人。 ■同一時段3人同行1,050元/時/人。 ■諮詢時間以60分鐘/次為上限，每超過3…","s":null},{"n":"劉永豐診所","i":3050,"g":1250,"c":null,"m":3,"t":60,"p":"■2人同行：1,850元/次/60分鐘/人(已含掛號費)。 ■3人同行：1,250元/次/60分鐘/人(已含掛號費)。 ■超過…","s":null},{"n":"高雄市立民生醫院","i":3050,"g":1050,"c":null,"m":3,"t":60,"p":"■同一時段2人同行，共3,100元(已含掛號費)。 ■同一時段3人同行，共3,150元(已含掛號費)。 ■每超過30分鐘，加收…","s":null},{"n":"高雄市立岡山醫院(委託秀傳社團法人經營)","i":3100,"g":1767,"c":null,"m":3,"t":90,"p":"■第2人起每人1,100元。(已含掛號費)","s":null},{"n":"建佑醫院","i":3100,"g":1300,"c":null,"m":3,"t":60,"p":"■2人同行：1900元/60分鐘。(已含掛號費) ■3人同行：1300元/60分鐘。(已含掛號費) ■超過60分鐘，每30分鐘…","s":null},{"n":"高雄榮民總醫院","i":3150,"g":1150,"c":null,"m":3,"t":90,"p":"■2人同行:1,650元/90分鐘/人。 ■3人同行:1,150元/90分鐘/人。 ■超過90分鐘，每30分鐘加收500元/人…","s":null},{"n":"義大醫療財團法人義大醫院","i":3150,"g":1150,"c":null,"m":3,"t":90,"p":"■2人同行：1,650元/90分鐘/人。 ■3人同行：1,150元/90分鐘/人。 ■4人同行：900元/90分鐘/人。 ■超…","s":null},{"n":"楊寧正診所","i":3150,"g":2150,"c":null,"m":3,"t":null,"p":"■第2人以上1,650元/人。(已含掛號費) ■收費以次計費。","s":null},{"n":"祥全診所","i":3150,"g":2150,"c":4,"m":3,"t":60,"p":"■2150元/次/時/人(含掛號費) ■4人為上限 ■超過1小時，每30分鐘加收500元。","s":null},{"n":"財團法人私立高雄醫學大學附設中和紀念醫院","i":3450,"g":1150,"c":5,"m":3,"t":60,"p":"■2人同行：1,725元/60分鐘/人。 ■3-5人同行:1,150元/60分鐘/人。 ■超過60分鐘，每人加收500元。","s":null},{"n":"阮綜合醫療社團法人阮綜合醫院","i":3450,"g":1150,"c":null,"m":3,"t":60,"p":"■2人共同諮商:1,725元/人。 ■3人共同諮商:1,150元/人。 ■超過60分鐘，延長服務時間:每30分鐘，每人收費50…","s":null},{"n":"高雄市立小港醫院（委託財團法人私立高雄醫學大學經營）","i":3550,"g":1250,"c":null,"m":3,"t":null,"p":"■2人同行：每人1,825元/次。 ■3人同行：每人1,250元/次。 ■以上費用已含掛號費。","s":null},{"n":"高雄市立旗津醫院(委託財團法人私立高雄醫學大學經營)","i":3550,"g":1250,"c":null,"m":3,"t":60,"p":"■2人：1825元/次/時/人(含掛號費) ■3人：1250元/次/時/人(含掛號費) ■超過1小時，每30分鐘每人加收500元","s":null},{"n":"長庚醫療財團法人高雄長庚紀念醫院","i":3600,"g":1250,"c":5,"m":3,"t":60,"p":"■同一時段，2人同行：1,825元/時/人。 ■同一時段，3-5人同行：1,250元/時/人。 ■超時，每30分鐘加收1000…","s":null},{"n":"高雄市立大同醫院(長庚醫療財團法人醫療合作)","i":3600,"g":1250,"c":5,"m":3,"t":60,"p":"■2人每人1,825元。3~5人每人1,250元。(已含掛號費)。","s":null},{"n":"高雄市立鳳山醫院(委託長庚醫療財團法人經營)","i":3600,"g":2600,"c":4,"m":3,"t":60,"p":"■同一時段每人 2,600 元/次/1.5-2小時，4人為上限。(含掛號費100元)。","s":null},{"n":"衛生福利部旗山醫院","i":3700,"g":null,"c":null,"m":3,"t":60,"p":"■2人同行，3,000元/60分鐘/人。(已含掛號費) ■諮詢時間以60分鐘/次為上限，每超過30分鐘額外收取1,000元。","s":null}],"屏東縣":[{"n":"屏東縣來義鄉衛生所","i":1500,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"屏東縣九如鄉衛生所","i":1500,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"屏東縣牡丹鄉衛生所","i":1500,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"屏東縣萬巒鄉衛生所","i":1500,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"屏東縣萬丹鄉衛生所","i":1500,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"屏東縣瑪家鄉衛生所","i":1500,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"慶仁診所","i":1500,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"屏東縣南州鄉衛生所","i":1500,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"鄭英傑診所","i":1500,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"屏東縣霧台鄉衛生所","i":1500,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"屏東縣麟洛鄉衛生所","i":1500,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"屏東縣獅子鄉衛生所","i":1500,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"屏東縣枋寮鄉衛生所","i":1500,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"李洮俊診所","i":1500,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"屏東縣竹田鄉衛生所","i":1500,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"屏東縣新園鄉衛生所","i":1500,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"屏東縣東港鎮衛生所","i":1500,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"屏東縣泰武鄉衛生所","i":1500,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"屏東縣琉球鄉衛生所","i":1500,"g":833,"c":3,"m":3,"t":60,"p":"第2或3人同行（不超過3人）收費500元","s":null},{"n":"屏東縣長治鄉衛生所","i":1500,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"屏東縣車城鄉衛生所","i":1500,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"民眾醫院","i":2000,"g":1000,"c":null,"m":3,"t":60,"p":"2人同行:2500元、3人同行3000元、4人同行3500元","s":null},{"n":"屏東縣恆春鎮衛生所","i":2000,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"迦樂醫療財團法人迦樂醫院","i":2000,"g":500,"c":null,"m":3,"t":60,"p":"二人各1000元、三人各500元、四人各250元。","s":null},{"n":"枋寮醫療社團法人枋寮醫院","i":2000,"g":1500,"c":null,"m":3,"t":null,"p":"每人1750/2人同行 每人1500/3人以上","s":null},{"n":"屏東縣鹽埔鄉衛生所","i":2000,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"屏東縣林邊鄉衛生所","i":2000,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"崁頂鄉衛生所","i":2000,"g":null,"c":null,"m":3,"t":null,"p":"（未填）","s":null},{"n":"屏東縣高樹鄉衛生所","i":2000,"g":1000,"c":null,"m":3,"t":60,"p":"2人以上同行，則第一人收費2000元，第二人起皆收費500元","s":null},{"n":"恆基醫療財團法人恆春基督教醫院","i":2050,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"屏東榮民總醫院龍泉分院","i":2150,"g":1150,"c":null,"m":3,"t":60,"p":"二人同行：1,150元/人 三人同行：1,150元/人","s":null},{"n":"屏基醫療財團法人屏東基督教醫院","i":2250,"g":1500,"c":null,"m":3,"t":60,"p":"1.同行第2、3人：1,125元 2.同行第4人以上免費","s":null},{"n":"大新醫院","i":2250,"g":1000,"c":null,"m":3,"t":60,"p":"2人同行:1500元，3人同行:1000元元，4人同行:750元","s":null},{"n":"屏東榮民總醫院","i":2350,"g":1450,"c":3,"m":3,"t":60,"p":"第2或3人同行(不超3人)：1000元/60分鐘/人(含掛號費及上傳費)。超過60分鐘則1,000元/人/30分鐘/人","s":null},{"n":"寶建醫療社團法人寶建醫院","i":2500,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"屏安醫療社團法人屏安醫院","i":2500,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"安泰醫療社團法人安泰醫院","i":3000,"g":null,"c":null,"m":3,"t":60,"p":"（未填）","s":null},{"n":"輔英科技大學附設醫院","i":3000,"g":1833,"c":null,"m":3,"t":60,"p":"同行第二人次：1,500元/60分鐘同行； 第三人次：1,000元/60分鐘","s":null},{"n":"衛生福利部屏東醫院","i":3080,"g":1560,"c":null,"m":3,"t":60,"p":"同行第二人次：800元/60分鐘","s":null}],"宜蘭縣":[{"n":"心安診所","i":3000,"g":1500,"c":null,"m":3,"t":null,"p":"2人費用：3,000元（2人以上，1人1,500元） 3人費用：4,500元","s":null},{"n":"信望愛診所","i":3000,"g":1500,"c":null,"m":3,"t":null,"p":"2人費用：3,000元（2人以上，1人1,500元） 3人費用：4,500元","s":null},{"n":"怡然診所","i":3000,"g":1500,"c":null,"m":3,"t":null,"p":"2人以上，1人1,500元","s":null},{"n":"宜蘭仁愛醫療財團法人宜蘭仁愛醫院","i":3000,"g":1500,"c":null,"m":3,"t":null,"p":"2人以上同行:1,500元/人","s":null},{"n":"長庚家安診所","i":3000,"g":1500,"c":null,"m":3,"t":null,"p":"2人以上同行:1,500元/人","s":null},{"n":"吳震世診所","i":3000,"g":1000,"c":null,"m":3,"t":null,"p":"2人，1,500元/人 3人，1,000元/人","s":null},{"n":"岳成診所","i":3000,"g":1000,"c":null,"m":3,"t":null,"p":"2人，1,500元/人 3人，1,000元/人","s":null},{"n":"開蘭安心診所","i":3000,"g":2000,"c":null,"m":3,"t":null,"p":"同行第二人以上每人每次1,500元","s":null},{"n":"臺北榮民總醫院員山分院","i":3000,"g":1000,"c":null,"m":3,"t":null,"p":"2人同行：1,500元/人； 3人以上：1,000元/人","s":null},{"n":"維揚診所","i":3000,"g":1500,"c":null,"m":3,"t":null,"p":"2人以上同行：1,500元/人 (含原本第一人)","s":null},{"n":"王維昌診所","i":3000,"g":1500,"c":null,"m":3,"t":null,"p":"2人以上同行：1,500元/人 (含原本第一人)","s":null},{"n":"愛德仁診所","i":3000,"g":1500,"c":null,"m":3,"t":null,"p":"2人以上同行：1,500元/人 (含原本第一人)","s":null},{"n":"醫療財團法人羅許基金會羅東博愛醫院","i":3000,"g":1500,"c":null,"m":3,"t":null,"p":"2人以上同行：1,500元/人","s":null},{"n":"天主教靈醫會醫療財團法人羅東聖母醫院","i":3000,"g":1500,"c":null,"m":3,"t":null,"p":"2人同行:一人免費 3人以上：1,500/90分鐘/人","s":null},{"n":"國立陽明交通大學附設醫院","i":3000,"g":1000,"c":null,"m":3,"t":null,"p":"同行2人：1,500/人；同行3人含以上，1000元/人","s":null},{"n":"臺北榮民總醫院蘇澳分院","i":3000,"g":1000,"c":null,"m":3,"t":null,"p":"2人同行：1,500元/人； 3人以上：1,000元/人","s":null},{"n":"奕康內科診所","i":3150,"g":1600,"c":null,"m":3,"t":null,"p":"2人費用：3150元（2人以上，1人1500元） 3人費用：4800元","s":null},{"n":"宜蘭縣員山鄉衛生所","i":null,"g":null,"c":null,"m":3,"t":null,"p":"無，服務對象僅限「居家失能個案家庭醫師照護方案」之個案","s":null},{"n":"宜蘭縣蘇澳鎮衛生所","i":null,"g":null,"c":null,"m":3,"t":null,"p":"無，服務對象僅限「居家失能個案家庭醫師照護方案」之個案","s":null},{"n":"宜蘭縣羅東鎮衛生所","i":null,"g":null,"c":null,"m":3,"t":null,"p":"無，服務對象僅限「居家失能個案家庭醫師照護方案」之個案","s":null},{"n":"宜蘭縣礁溪鄉衛生所","i":null,"g":null,"c":null,"m":3,"t":null,"p":"無，服務對象僅限「居家失能個案家庭醫師照護方案」之個案","s":null},{"n":"宜蘭縣宜蘭市衛生所","i":null,"g":null,"c":null,"m":3,"t":null,"p":"無，服務對象僅限「居家失能個案家庭醫師照護方案」之個案","s":null},{"n":"宜蘭縣五結鄉衛生所","i":null,"g":null,"c":null,"m":3,"t":null,"p":"無，服務對象僅限「居家失能個案家庭醫師照護方案」之個案","s":null},{"n":"宜蘭縣壯圍鄉衛生所","i":null,"g":null,"c":null,"m":3,"t":null,"p":"無，服務對象僅限「居家失能個案家庭醫師照護方案」之個案","s":null},{"n":"宜蘭縣頭城鎮衛生所","i":null,"g":null,"c":null,"m":3,"t":null,"p":"無，服務對象僅限「居家失能個案家庭醫師照護方案」之個案","s":null},{"n":"宜蘭縣大同鄉衛生所","i":null,"g":null,"c":null,"m":3,"t":null,"p":"無，服務對象僅限「居家失能個案家庭醫師照護方案」之個案","s":null},{"n":"宜蘭縣三星鄉衛生所","i":null,"g":null,"c":null,"m":3,"t":null,"p":"無，服務對象僅限「居家失能個案家庭醫師照護方案」之個案","s":null}],"花蓮縣":[{"n":"花蓮縣新城鄉衛生所","i":1500,"g":1000,"c":null,"m":3,"t":60,"p":"兩人以上同行：1,000元/60分鐘/人","s":null},{"n":"臺北榮民總醫院玉里分院","i":2000,"g":1000,"c":null,"m":3,"t":60,"p":"兩人以上同行：1,000元/60分鐘/人","s":null},{"n":"臺北榮民總醫院鳳林分院","i":2000,"g":1000,"c":null,"m":3,"t":60,"p":"兩人以上同行：1,000元/60分鐘/人","s":null},{"n":"柏仁診所","i":2000,"g":1000,"c":null,"m":3,"t":60,"p":"1,000元/60分鐘/人","s":null},{"n":"衛生福利部玉里醫院","i":2250,"g":null,"c":null,"m":3,"t":60,"p":"","s":null},{"n":"佛教慈濟醫療財團法人花蓮慈濟醫院","i":3000,"g":1667,"c":null,"m":3,"t":60,"p":"同行第二人起(限家人)： 1,000元/60分鐘/人","s":null},{"n":"衛生福利部花蓮醫院","i":3000,"g":1667,"c":6,"m":3,"t":60,"p":"團體諮商總費用：同行第二人起(需確認身份)1,000元，最多6人，上述諮商費用為60分鐘/人","s":null},{"n":"康寧診所","i":3000,"g":1667,"c":null,"m":3,"t":60,"p":"預立醫療照護諮商費 第2人同行：1,000/60分鐘/人 第3人同行：1,000/60分鐘/人","s":null},{"n":"國軍花蓮總醫院附設民眾診療服務處","i":3000,"g":1000,"c":null,"m":3,"t":null,"p":"1,000元","s":null},{"n":"珍幸福診所","i":3000,"g":1667,"c":null,"m":3,"t":60,"p":"第二人同行1,000元/每人","s":null},{"n":"福田耳鼻喉科診所","i":3000,"g":1000,"c":null,"m":3,"t":60,"p":"兩人以上同行：1,000元/60分鐘/人","s":null},{"n":"臺灣基督教門諾會醫療財團法人門諾醫院","i":3500,"g":1833,"c":null,"m":3,"t":60,"p":"同行第2人起(需為二親等內親屬) 1,000元/人","s":null},{"n":"臺灣基督教門諾會醫療財團法人門諾醫院壽豐分院","i":3500,"g":1833,"c":null,"m":3,"t":60,"p":"同行第2人起(需為二親等內親屬) 1,000元/人","s":null},{"n":"花蓮縣瑞穗鄉衛生所","i":3500,"g":1000,"c":null,"m":3,"t":60,"p":"兩人以上同行：1,000元/60分鐘/人","s":null},{"n":"光鹽診所","i":3500,"g":1000,"c":null,"m":3,"t":60,"p":"兩人以上同行：1,000元/60分鐘/人","s":null},{"n":"花蓮縣吉安鄉衛生所","i":3500,"g":1000,"c":null,"m":3,"t":60,"p":"兩人以上同行：1,000元/60分鐘/人","s":null},{"n":"奇美診所","i":3500,"g":1000,"c":null,"m":3,"t":60,"p":"兩人以上同行：1,000元/60分鐘/人","s":null},{"n":"花蓮縣花蓮市衛生所","i":3500,"g":1000,"c":null,"m":3,"t":60,"p":"兩人以上同行：1,000元/60分鐘/人","s":null},{"n":"悅思身心診所","i":3500,"g":1000,"c":null,"m":3,"t":60,"p":"兩人以上同行：1,000元/60分鐘/人","s":null},{"n":"張曉昇診所","i":3500,"g":1000,"c":null,"m":3,"t":60,"p":"兩人以上同行：1,000元/60分鐘/人","s":null}],"臺東縣":[{"n":"佛教慈濟醫療財團法人關山慈濟醫院","i":2000,"g":null,"c":null,"m":3,"t":60,"p":"2,000元(預立醫療照護諮商費兩人同行1人免費(60分鐘/次)+掛號費50元*2人=2,100元","s":null},{"n":"都蘭診所","i":2000,"g":null,"c":null,"m":3,"t":null,"p":"","s":null},{"n":"臺北榮民總醫院臺東分院","i":2000,"g":1000,"c":3,"m":3,"t":null,"p":"1,000元/人次 (最多3人共同諮商)","s":null},{"n":"台灣基督長老教會馬偕醫療財團法人台東馬偕紀念醫院","i":2100,"g":null,"c":null,"m":3,"t":null,"p":"","s":null}],"澎湖縣":[{"n":"三軍總醫院澎湖分院附設民眾診療服務處","i":2250,"g":1125,"c":null,"m":3,"t":60,"p":"兩人同行：1,800元/人 三人同行：1,125元/人","s":null},{"n":"衛生福利部澎湖醫院","i":2250,"g":1500,"c":null,"m":3,"t":60,"p":"64歲以下/同診第二人1,125元/人","s":null},{"n":"天主教靈醫會醫療財團法人惠民醫院","i":2250,"g":1500,"c":null,"m":3,"t":60,"p":"64歲以下同診第二人1,125元/人","s":null}],"金門縣":[{"n":"衛生福利部金門醫院","i":1500,"g":null,"c":null,"m":3,"t":null,"p":"","s":null}],"連江縣":[{"n":"連江縣立醫院","i":1530,"g":1030,"c":null,"m":3,"t":60,"p":"2人同行：1,030元/60分鐘/人 3人同行：1,030元/60分鐘/人","s":null}]};
+const COUNTIES = Object.keys(INST);
+
+/* ---------- dates ---------- */
+const TODAY = DEMO ? new Date(2026,9,19) : (()=>{const d=new Date(); d.setHours(0,0,0,0); return d;})();
+const WK = "日一二三四五六";
+const addDays = (d,n)=>{const x=new Date(d); x.setDate(x.getDate()+n); return x;};
+const fmtD = d => `${d.getMonth()+1}/${d.getDate()}（${WK[d.getDay()]}）`;
+function hash(s){let h=7; for(const ch of s) h=(h*31+ch.charCodeAt(0))>>>0; return h;}
+function slotDays(seed, n, from){ // weekdays (Mon–Sat) from `from` days ahead
+  const out=[]; let d=from+(seed%3);
+  while(out.length<n){ const x=addDays(TODAY,d); if(x.getDay()!==0) out.push(x); d+= 2+((seed>>>out.length)%3); }
+  return out;
+}
+const TIMES = ["09:30","10:30","14:00","15:30"];
+function groupSessions(H){
+  const h=hash(H.n), cap=H.c||5, min=Math.min(H.m||3,cap);
+  if(H.s==="grp" && /桃園/.test(H.n)){ // Friday evening sessions
+    const fr=[]; let d=7; while(fr.length<2){const x=addDays(TODAY,d); if(x.getDay()===5) fr.push(x); d++;}
+    return [{date:fr[0],time:"18:00",joined:9,cap,min},{date:fr[1],time:"18:00",joined:4,cap,min}];
+  }
+  const n=h%3, days=slotDays(h,n,9);
+  return days.map((dt,i)=>({date:dt,time:TIMES[(h>>>(i+2))%4],joined:1+((h>>>(i*3))%Math.max(1,min)),cap,min}));
+}
+function openSlots(H){ return slotDays(hash(H.n)+5,6,8).map((dt,i)=>({date:dt,time:TIMES[(hash(H.n)>>>i)%4]})); }
+function soloSlots(H){ return slotDays(hash(H.n)+11,5,4).map((dt,i)=>({date:dt,time:TIMES[(hash(H.n)>>>(i+1))%4]})); }
+
+/* ---------- state ---------- */
+const S = {
+  name: DEMO ? "王阿姨" : "", quiz: drawQuiz(), round:1, quizLog:[], choices:{}, noRel:false,
+  family: DEMO ? [{name:"王小明",rel:"兒子",mode:"到場"},{name:"王小美",rel:"女兒",mode:"視訊"},{name:"陳先生",rel:"醫療委任代理人（非親屬）",mode:"尚未確定"}] : [],
+  gmode: DEMO ? "group" : null, county: DEMO ? "桃園市" : null, inst: DEMO ? "桃園區衛生所（團體諮商場次）" : null, q:"", showAll:false,
+  book:null, opening:null, submitted:false, submitTime:"", noRelDoc:{reason:null,text:"",done:false}, signKind: DEMO ? "團體諮商" : "",
+  signed: DEMO, signDate: "2026/10/30", signPlace: "桃園區衛生所", agent: DEMO ? "陳先生" : "",
+  act:"change", mode:"now", why:null, lawDecision:null, sent:false, gate:{}, fam:{}, gateOrder:null, progress:undefined
+};
+CONDS.forEach((c,i)=>{ S.choices[c.k] = DEMO ? {life: i===3?2:1, nutri: i===0?3:(i===3?2:1)} : {life:0, nutri:0}; });
+let SIGNED = DEMO ? JSON.parse(JSON.stringify(S.choices)) : null;
+let EDIT = SIGNED ? JSON.parse(JSON.stringify(SIGNED)) : null;
+if (DEMO){
+  const H=INST["桃園市"].find(x=>x.n===S.inst), ss=groupSessions(H)[0];
+  S.book={kind:"join", county:"桃園市", inst:H.n, date:ss.date, time:ss.time, joined:ss.joined+1, cap:ss.cap, min:ss.min, price:H.g};
+}
+
+/* ---------- navigation ---------- */
+const STEPS = ["intro","learn","quiz","values","group","summary","booked","keep"];
+const quizDone = () => S.quiz.every(x=>x.ans!==null);
+function updateNav(){
+  const done=quizDone();
+  document.querySelectorAll("nav button").forEach(b=>{
+    const st=b.dataset.step;
+    if(S.submitted) b.disabled = ["quiz","values","group"].includes(st);
+    else b.disabled = ["values","group","summary","keep"].includes(st) && !done;
+  });
+  $("nav5").textContent = S.submitted ? "我的預約" : "諮商前摘要";
+  const nn=$("navNote");
+  if(S.submitted){ nn.hidden=false; nn.textContent="諮商前摘要已送出，第 2 至第 4 步已鎖定，無法再修改。"; }
+  else { nn.hidden=done; nn.textContent="完成「理解測驗」全部題目後，即可進入第 3 至第 6 步。"; }
+}
+function show(step){
+  if(S.submitted && ["quiz","values","group","summary"].includes(step)) step="booked";
+  const keep = step==="keep";
+  document.querySelector("nav").hidden = keep;
+  $("keepBar").hidden = !keep;
+  document.querySelectorAll("section.sheet").forEach(s=>s.hidden = s.id!==step);
+  document.querySelectorAll("nav button").forEach(b=>{
+    const cur = b.dataset.step===step || (step==="booked" && b.dataset.step==="summary");
+    b.setAttribute("aria-current", cur?"step":"false");
+  });
+  if(step==="summary") renderDoc();
+  if(step==="booked") renderBooked();
+  if(step==="keep") renderKeep();
+  if(step==="group") renderBook();
+  if(step==="values") renderValues();
+  if(step==="quiz") renderQuiz();
+  updateNav();
+  if(keep) $("navNote").hidden=true;
+  try{ history.replaceState(null,"","#"+step) }catch(e){}
+  window.scrollTo(0,0);
+}
+document.querySelectorAll("[data-step]").forEach(b=>b.onclick=()=>show(b.dataset.step));
+document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>show(b.dataset.go));
+$("keepBack").textContent = DEMO ? "← 回到準備流程（原型展示）" : "← 我的預約紀錄（唯讀）";
+$("keepBack").onclick=()=>show(DEMO ? "intro" : (S.submitted ? "booked" : "intro"));
+
+/* ---------- mountain / cable-car figure: few words, big type ---------- */
+function mountain(){
+  const ST=[["找資訊",""],["比收費",""],["排時間",""],["聽說明",""],["個別確認",""],["簽署見證",""],["健保卡","註記"]];
+  const X0=168, W=112, GP=6, G=440;
+  const top=i=>340-i*36;
+  let s=`<svg viewBox="0 0 1000 500" role="img" aria-label="自己爬山要走七階：找資訊、比收費、排時間、聽說明、個別確認、簽署見證、健保卡註記。說好了像纜車，前四階在家線上完成，個別確認與簽署見證依法本人到場，註記由機構與衛福部辦理。">`;
+  s+=`<rect width="1000" height="500" style="fill:var(--sheet)"/>`;
+  s+=`<path d="M0 ${G} L110 370 L330 292 L560 190 L760 108 L890 52 L1000 120 L1000 ${G} Z" style="fill:var(--hill)"/>`;
+  ST.forEach((t,i)=>{
+    const x=X0+i*(W+GP), y=top(i), on=i<4, me=i===4||i===5, fin=i===6;
+    const stroke = on ? "var(--line)" : (fin ? "var(--good)" : "var(--accent)");
+    const fill = on ? "var(--stair)" : (fin ? "var(--good-tint)" : "var(--tint)");
+    s+=`<rect x="${x}" y="${y}" width="${W}" height="${G-y}" rx="12" style="fill:${fill};stroke:${stroke};stroke-width:${on?2:3};${on?"stroke-dasharray:7 6":""}"/>`;
+    s+=`<circle cx="${x+W/2}" cy="${y+30}" r="19" style="fill:${on?"var(--sheet)":stroke};stroke:${stroke};stroke-width:2.5"/>`;
+    s+=`<text x="${x+W/2}" y="${y+38}" text-anchor="middle" style="fill:${on?"var(--muted)":"var(--sheet)"};font-size:22px;font-weight:700">${i+1}</text>`;
+    s+=`<text x="${x+W/2}" y="${y+80}" text-anchor="middle" style="fill:${on?"var(--muted)":(fin?"var(--good)":"var(--accent-ink)")};font-size:${t[0].length>3?22:24}px;font-weight:700">${t[0]}</text>`;
+    if(t[1]) s+=`<text x="${x+W/2}" y="${y+108}" text-anchor="middle" style="fill:var(--good);font-size:24px;font-weight:700">${t[1]}</text>`;
+  });
+  s+=`<line x1="0" y1="${G}" x2="1000" y2="${G}" style="stroke:var(--ink);stroke-width:3"/>`;
+  // brackets under the ground
+  const br=(i0,i1,txt,col)=>{const xa=X0+i0*(W+GP)+4, xb=X0+i1*(W+GP)+W-4, xm=(xa+xb)/2;
+    return `<path d="M${xa} ${G+10} v10 H${xb} v-10" style="fill:none;stroke:${col};stroke-width:3"/><text x="${xm}" y="${G+48}" text-anchor="middle" style="fill:${col};font-size:23px;font-weight:700">${txt}</text>`;};
+  s+=br(0,3,"在家線上完成","var(--accent-ink)")+br(4,5,"本人到場","var(--accent-ink)")+br(6,6,"機構辦理","var(--good)");
+  // flag on the summit step
+  const fx=X0+6*(W+GP)+W/2, fy=top(6);
+  s+=`<line x1="${fx}" y1="${fy}" x2="${fx}" y2="${fy-62}" style="stroke:var(--ink);stroke-width:3"/><path d="M${fx} ${fy-62} L${fx+46} ${fy-50} L${fx} ${fy-38} Z" style="fill:var(--good)"/>`;
+  // cable car: home (bottom left) -> station (above step 5)
+  const hx=74, hy=300, ux=X0+4*(W+GP)+W/2, uy=top(4)-60;
+  s+=`<line x1="${hx}" y1="${hy+52}" x2="${hx}" y2="${G}" style="stroke:var(--accent);stroke-width:6"/>`;
+  s+=`<line x1="${hx}" y1="${hy}" x2="${ux}" y2="${uy}" style="stroke:var(--ink);stroke-width:3.5"/>`;
+  s+=`<rect x="${hx-62}" y="${hy-6}" width="124" height="58" rx="12" style="fill:var(--accent)"/><text x="${hx}" y="${hy+32}" text-anchor="middle" style="fill:var(--on-accent);font-size:26px;font-weight:700">在家</text>`;
+  s+=`<rect x="${ux-78}" y="${uy-50}" width="156" height="58" rx="12" style="fill:var(--accent)"/><text x="${ux}" y="${uy-12}" text-anchor="middle" style="fill:var(--on-accent);font-size:26px;font-weight:700">諮商機構</text>`;
+  const cab=t=>{const x=hx+(ux-hx)*t, y=hy+(uy-hy)*t; return `<line x1="${x}" y1="${y}" x2="${x}" y2="${y+10}" style="stroke:var(--ink);stroke-width:3"/><rect x="${x-50}" y="${y+10}" width="100" height="44" rx="12" style="fill:var(--sun);stroke:var(--ink);stroke-width:2.5"/><text x="${x}" y="${y+40}" text-anchor="middle" style="fill:#3b2a1e;font-size:22px;font-weight:700">說好了</text>`;};
+  s+=cab(0.33)+cab(0.64);
+  s+=`<text x="${hx+(ux-hx)*0.42-150}" y="${hy+(uy-hy)*0.42-38}" style="fill:var(--accent-ink);font-size:28px;font-weight:700">纜車＝說好了平台</text>`;
+  return s+`</svg>`;
+}
+$("mountain").innerHTML = mountain();
+
+/* ---------- quiz ---------- */
+function quizStats(){
+  const right=S.quiz.filter(x=>x.ans===x.q.a), unsure=S.quiz.filter(x=>x.ans===-1), wrong=S.quiz.filter(x=>x.ans!==null && x.ans!==-1 && x.ans!==x.q.a), left=S.quiz.filter(x=>x.ans===null);
+  return {right,unsure,wrong,left};
+}
+function renderQuiz(){
+  const box=$("quizBox"); box.innerHTML="";
+  S.quiz.forEach((it,qi)=>{
+    const d=document.createElement("div"); d.className="q";
+    d.innerHTML=`<p>${qi+1}. ${esc(it.q.t)}</p>`;
+    const ops=document.createElement("div"); ops.className="opts";
+    [...it.order, -1].forEach(oi=>{
+      const b=document.createElement("button"); b.className="opt"+(oi===-1?" unsure":""); b.textContent= oi===-1 ? UNSURE : it.q.o[oi];
+      if(it.ans!==null){
+        b.disabled=true;
+        if(it.ans===-1){ if(oi===-1) b.classList.add("asked"); }
+        else { if(oi===it.q.a) b.classList.add("right"); else if(oi===it.ans) b.classList.add("wrong"); }
+      }
+      b.onclick=()=>{ if(it.ans!==null) return; it.ans=oi; renderQuiz(); updateNav(); };
+      ops.appendChild(b);
+    });
+    d.appendChild(ops);
+    if(it.ans!==null){
+      const w=document.createElement("div"); w.className="why";
+      if(it.ans===-1) w.innerHTML=`<b>已列入「想請團隊說明」。</b>諮商當天團隊將為您說明這一題。`;
+      else if(it.ans===it.q.a) w.innerHTML=`<b>答對了。</b>${esc(it.q.why)}`;
+      else w.innerHTML=`<b>提醒您：</b>正確答案是「${esc(it.q.o[it.q.a])}」。${esc(it.q.why)}（已列入「想請團隊說明」）`;
+      if(it.ans!==-1) w.innerHTML += `<div class="lawbox"><span class="tag">法條依據</span>${esc(it.q.law)}</div>`;
+      d.appendChild(w);
+    }
+    box.appendChild(d);
+  });
+  const st=quizStats(), n=S.quiz.length;
+  $("scoreBox").innerHTML=`<div class="k"><span>已作答</span><strong>${n-st.left.length} / ${n}</strong></div>
+    <div class="k"><span class="pill good">答對</span><strong style="color:var(--good)">${st.right.length}</strong></div>
+    <div class="k"><span class="pill warn">請團隊說明</span><strong style="color:var(--sun-ink)">${st.unsure.length+st.wrong.length}</strong></div>`;
+  const lg=$("quizLog"), uniq=[...new Map(S.quizLog.map(e=>[e.t,e])).values()];
+  lg.innerHTML = uniq.length ? `<div class="policy" style="margin-top:12px"><h4>前面幾組已記錄、會列入摘要的題目（${uniq.length} 題）</h4><ul>${uniq.map(e=>`<li>${esc(e.t)}<span class="why">（第 ${e.round} 組・${e.k}）</span></li>`).join("")}</ul></div>` : "";
+  $("quizNext").disabled = st.left.length>0;
+  $("quizWhy").textContent = st.left.length>0 ? `還有 ${st.left.length} 題未作答，全部作答後即可進入下一步。` : "";
+}
+$("quizNext").onclick=()=>{ if(quizDone()) show("values"); };
+function archiveQuiz(){
+  const st=quizStats();
+  [...st.wrong.map(x=>({t:x.q.t,k:"答錯"})), ...st.unsure.map(x=>({t:x.q.t,k:"不清楚"}))].forEach(e=>S.quizLog.push({...e, round:S.round}));
+  return st;
+}
+$("newSet").onclick=()=>{
+  const st=quizStats(), keep=st.wrong.length+st.unsure.length, answered=S.quiz.length-st.left.length;
+  const go=()=>{ archiveQuiz(); if(typeof T!=="undefined") T.redraw(st); S.round++; S.quiz=drawQuiz(); renderQuiz(); updateNav(); };
+  if(!answered){ go(); return; }
+  confirmBox("重新抽一組題目？", `<p>這一組您已作答 ${answered} 題。</p><p>${keep?`其中 <strong>${keep} 題答錯或不清楚</strong>，會保留在「諮商前摘要」的「想請團隊說明」，諮商當天團隊會說明。`:"這一組沒有答錯或不清楚的題目。"}</p><p>新的一組需要全部作答，才能進入下一步。</p>`, "重新抽題", "不要", go);
+};
+
+/* ---------- values & family ---------- */
+const isAgent = f => /代理人/.test(f.rel);
+const relatives = () => S.family.filter(f=>!isAgent(f));
+const REASONS = ["二親等內親屬均已過世","親屬失蹤或長期失聯","長期分居或關係疏離，無法參與","其他特殊事由"];
+function renderValues(){
+  const box=$("condCards"); box.innerHTML="";
+  CONDS.forEach(c=>{
+    const ok = TREAT.every(t=>S.choices[c.k][t.k]!==0);
+    const d=document.createElement("div"); d.className="ccard"+(ok?" ok":"");
+    d.innerHTML=`<div class="head"><div class="ic5">${c.ic}</div><div><h3>${c.k} ${ok?'<span class="pill good">已選好</span>':''}</h3><p class="expl">${c.d}</p></div></div>`;
+    TREAT.forEach(t=>{
+      const r=document.createElement("div"); r.className="tr";
+      r.innerHTML=`<div class="lbl">${t.t}</div>`;
+      const ch=document.createElement("div"); ch.className="chips"; ch.setAttribute("role","group"); ch.setAttribute("aria-label",`${c.k}：${t.t}`);
+      OPTS.forEach((o,oi)=>{const b=document.createElement("button"); b.className="chip"; b.textContent=o==="交給醫療委任代理人決定"?"交給代理人決定":o; b.setAttribute("aria-pressed", S.choices[c.k][t.k]===oi);
+        b.onclick=()=>{S.choices[c.k][t.k]=oi; renderValues();}; ch.appendChild(b);});
+      r.appendChild(ch); d.appendChild(r);
+    });
+    box.appendChild(d);
+  });
+  renderFamily();
+  const und=CONDS.reduce((n,c)=>n+TREAT.filter(t=>S.choices[c.k][t.k]===0).length,0);
+  $("valHint").textContent = und ? `還有 ${und} 項「尚未決定」，可先進行下一步，諮商時再討論。` : "五種情況均已選擇。";
+}
+function renderFamily(){
+  const fb=$("famBox"); fb.innerHTML="";
+  if(!S.family.length) fb.innerHTML=`<div class="empty">尚未加入家人。請於下方填寫後點選「加入」；若無可參與的二親等親屬，請點選下方按鈕。</div>`;
+  S.family.forEach((p,i)=>{
+    const off = S.noRel && !isAgent(p);
+    const d=document.createElement("div"); d.className="person"+(off?" off":"");
+    d.innerHTML=`<strong>${esc(p.name)}</strong><div class="who">${esc(p.rel)}</div><div style="margin-top:8px" class="row">${off?'<span class="pill">不列入參與</span>':`<span class="pill ${p.mode==="尚未確定"?"warn":"good"}">${esc(p.mode)}</span>`}<button class="btn ghost small">移除</button></div>`;
+    d.querySelector("button").onclick=()=>{S.family.splice(i,1); renderFamily();};
+    fb.appendChild(d);});
+  const nb=$("noRelative");
+  nb.setAttribute("aria-pressed", S.noRel);
+  nb.textContent = S.noRel ? "取消：我有可以參與的二親等親屬" : "我沒有可以參與的二親等親屬";
+  $("noRelHint").textContent = S.noRel ? "已選擇「沒有可參與的二親等親屬」。如選錯，點選左側按鈕即可取消，原先填寫的家人資料會恢復。" : "僅於二親等內親屬已過世、失蹤或有特殊事由時選擇；如選錯，再點一次即可取消。";
+  const B=$("noRelBox"); B.innerHTML="";
+  if(!S.noRel) return;
+  const f=S.noRelDoc;
+  const w=document.createElement("div"); w.className="reasonform";
+  w.innerHTML=`<div class="lab" style="margin-bottom:6px"><span class="k">!</span>填寫特殊事由書面說明<span class="hint">依病主法第9條第2項但書，交由諮商機構審核</span></div>
+    <div class="howto" style="margin:0 0 10px"><div class="ic">?</div><div><p>① 點選最符合的原因　② 於下方簡要說明情形（例如最後一次聯絡的時間）　③ 點選「產生書面說明」。完成後將自動附於諮商前摘要。</p></div></div>
+    <div class="chips" id="rsChips"></div>
+    <div class="field" style="margin-top:10px"><label for="rsText">具體情形</label><textarea id="rsText" placeholder="例如：父母已過世，獨生子女，無兄弟姊妹及子女。">${esc(f.text||"")}</textarea></div>
+    <div class="row" style="margin-top:10px"><button class="btn" id="rsMake">產生書面說明</button><span id="rsMsg" class="why-off"></span></div>
+    ${f.done?`<div class="draft"><strong>特殊事由書面說明（草稿）</strong>
+本人${esc(S.name||"＿＿＿")}因「${esc(f.reason)}」，無二親等內親屬可參與預立醫療照護諮商。
+具體情形：${esc(f.text)}
+本說明將於諮商時交由諮商機構審核。</div><p style="margin:8px 0 0"><span class="pill good">已完成，會附在諮商前摘要</span></p>`:""}`;
+  B.appendChild(w);
+  const rc=$("rsChips");
+  REASONS.forEach(r=>{const b=document.createElement("button"); b.className="chip"; b.textContent=r; b.setAttribute("aria-pressed", f.reason===r);
+    b.onclick=()=>{f.reason=r; f.text=$("rsText").value; f.done=false; renderFamily();}; rc.appendChild(b);});
+  $("rsText").oninput=e=>{f.text=e.target.value; if(f.done){f.done=false;}};
+  $("rsMake").onclick=()=>{
+    f.text=$("rsText").value.trim();
+    if(!f.reason){ $("rsMsg").textContent="請先在 ① 點一個原因。"; return; }
+    if(!f.text){ $("rsMsg").textContent="請在 ② 簡單寫出具體情形。"; $("rsText").focus(); return; }
+    f.done=true; renderFamily();
+  };
+}
+$("famAdd").onclick=()=>{
+  const n=$("famName").value.trim(); if(!n){$("famMsg").textContent="請先填寫家人稱呼"; $("famName").focus(); return;}
+  $("famMsg").textContent="";
+  const p={name:n, rel:$("famRel").value, mode:$("famMode").value};
+  S.family.push(p); $("famName").value="";
+  if(S.noRel && !isAgent(p)){ S.noRel=false; $("famMsg").textContent="已加入親屬，並自動取消「沒有二親等親屬」。"; }
+  renderFamily();
+};
+$("noRelative").onclick=()=>{
+  if(S.noRel){ S.noRel=false; renderFamily(); return; }
+  const rel=relatives();
+  if(rel.length){
+    confirmBox("確定沒有可以參與的二親等親屬嗎？",
+      `<p>您已經加入 <strong>${rel.map(r=>esc(r.name)).join("、")}</strong> 為參與家人。</p><p>改選後，這些家人<strong>不會列入參與名單</strong>（資料仍予保留）；醫療委任代理人不受影響。如需取消，再點一次按鈕即可。</p>`,
+      "確定，改填特殊事由","保留家人", ()=>{S.noRel=true; renderFamily();});
+  } else { S.noRel=true; renderFamily(); }
+};
+
+/* ---------- dialogs ---------- */
+function confirmBox(title, body, okText, cancelText, onOk){
+  const D=$("dlg");
+  D.innerHTML=`<div class="dialog" role="dialog" aria-modal="true" aria-labelledby="cbT"><h3 id="cbT">${title}</h3><div>${body}</div>
+    <div class="row" style="margin-top:12px"><button class="btn" id="cbOk">${okText}</button><button class="btn ghost" id="cbNo">${cancelText}</button></div></div>`;
+  D.hidden=false;
+  $("cbOk").onclick=()=>{D.hidden=true; onOk();};
+  $("cbNo").onclick=()=>{D.hidden=true;};
+  $("cbOk").focus();
+}
+function notifyBox(title, body, btnText, after){
+  const D=$("dlg");
+  D.innerHTML=`<div class="dialog" role="alertdialog" aria-modal="true" aria-labelledby="nbT" style="text-align:center;border-color:var(--good)"><div class="okmark">✓</div><h3 id="nbT" style="color:var(--good)">${title}</h3><div>${body}</div>
+    <div class="row" style="margin-top:14px;justify-content:center"><button class="btn" id="nbOk">${btnText}</button></div></div>`;
+  D.hidden=false;
+  $("nbOk").onclick=()=>{D.hidden=true; if(after) after();};
+  $("nbOk").focus();
+}
+
+/* ---------- booking ---------- */
+const instOf = () => S.county && S.inst ? INST[S.county].find(x=>x.n===S.inst) : null;
+const ALIAS={"臺大":"臺灣大學","榮總":"榮民總醫院","北榮":"臺北榮民","中榮":"臺中榮民","高榮":"高雄榮民","聯醫":"聯合醫院","成大":"成功大學","北醫":"臺北醫學大學","中國附醫":"中國醫藥大學附設"};
+function nameMatch(n,q){ q=q.replace(/台/g,"臺"); if(n.includes(q)) return true; for(const k in ALIAS){ if(q.includes(k) && n.includes(q.replace(k,ALIAS[k]))) return true; } return false; }
+const sameBook = (a,b) => a && b && a.kind===b.kind && a.inst===b.inst && +a.date===+b.date && a.time===b.time;
+function describeBook(b){
+  const when=`${fmtD(b.date)} ${b.time}`;
+  if(b.kind==="solo") return `${b.inst}・個別諮商・${when}`;
+  return `${b.inst}・${b.kind==="new"?"自己開團":"加入團體"}・${when}`;
+}
+function setBooking(nb){
+  if(S.book && !sameBook(S.book,nb)){
+    confirmBox("要更改為這個預約嗎？",
+      `<p>目前的預約：<br><strong>${esc(describeBook(S.book))}</strong></p><p>改為：<br><strong>${esc(describeBook(nb))}</strong></p><p>確定後，原本的預約會取消${S.book.kind==="new"?"（您開的團也會一併取消）":""}。</p>`,
+      "確定更改","維持原預約", ()=>{S.book=nb; S.opening=null; renderBook(); flash("已更改預約。");});
+  } else { S.book=nb; S.opening=null; renderBook(); flash("已預約。"); }
+}
+function cancelBooking(){
+  confirmBox("取消這個預約？", `<p><strong>${esc(describeBook(S.book))}</strong></p><p>取消後可以重新選擇其他場次或時間。</p>`, "確定取消","不要", ()=>{S.book=null; renderBook(); flash("已取消預約。");});
+}
+let flashMsg="";
+function flash(t){ flashMsg=t; const el=$("bookFlash"); if(el) el.textContent=t; }
+function policyHTML(date, time, formed){
+  const dl=addDays(date,-3), rm=addDays(date,-1);
+  return `<div class="policy"><h4>成團與通知方式</h4><ul>
+    <li><strong>成團截止：${fmtD(dl)} 中午 12:00</strong>（諮商前 3 天，讓您和家人有時間請假或改期）。</li>
+    <li>${formed?"這一團已達成團人數，您加入後會立即收到「已成團」通知。":"一達到成團人數，系統會<strong>立即</strong>通知全團。"}</li>
+    <li>截止時如未成團，將通知您選擇改為個別諮商、轉至其他場次，或取消預約（不收取任何費用）。</li>
+    <li><strong>諮商前一天 ${fmtD(rm)} 早上 9:00</strong> 再次提醒時間、地點與應攜帶的物品（健保卡、身分證、陪同家人）。</li>
+    <li>通知方式：簡訊、LINE 或電子郵件（${DEMO?"示意":"體驗版不會實際發送"}）。</li></ul></div>`;
+}
+function hospListFor(){
+  const G=S.gmode==="group", all=INST[S.county];
+  let list = G ? all.filter(x=>x.g!==null) : all.filter(x=>x.s===null);
+  if(G) list=list.slice().sort((a,b)=>(a.g-b.g));
+  return list;
+}
+function renderHospList(){
+  const el=$("hospList"); if(!el) return;
+  const G=S.gmode==="group", list=hospListFor();
+  const q=S.q.trim(); let shown=q?list.filter(x=>nameMatch(x.n,q)):list;
+  const total=shown.length; if(!S.showAll && !q) shown=shown.slice(0,6);
+  el.innerHTML="";
+  const hc=document.createElement("div"); hc.className="hosp";
+  shown.forEach(H=>{const b=document.createElement("button"); b.className="hcard"; b.setAttribute("aria-pressed",S.inst===H.n);
+    let price;
+    if(G) price = H.s==="free" ? `<div class="p">65 歲以上免費</div>` : `<div class="p">揪團每人約 ${money(H.g)} 元</div>`;
+    else price = H.i ? `<div class="p">個人 ${money(H.i)} 元</div>` : `<div class="p" style="font-size:1.05rem">收費未公告，請洽機構</div>`;
+    const meta=[ G&&H.i?`個人 ${money(H.i)} 元`:"", H.t?`${H.t} 分鐘`:"", H.c?`每團上限 ${H.c} 人`:"", H.p].filter(Boolean).join("・");
+    b.innerHTML=`<strong style="font-size:1.08rem">${esc(H.n)}</strong>${price}<div class="m">${esc(meta)}</div>`;
+    b.onclick=()=>{S.inst=H.n; S.opening=null; renderBook();}; hc.appendChild(b);});
+  el.appendChild(hc);
+  if(!S.showAll && !q && total>6){const r=document.createElement("div"); r.className="row"; r.style.marginTop="10px"; const b=document.createElement("button"); b.className="btn ghost small"; b.textContent=`顯示全部 ${total} 家`; b.onclick=()=>{S.showAll=true; renderHospList();}; r.appendChild(b); el.appendChild(r);}
+  if(q && !total) el.insertAdjacentHTML("beforeend",`<div class="empty">找不到名稱含「${esc(q)}」的機構。可嘗試輸入「榮總」「臺大」「衛生所」等關鍵字。</div>`);
+}
+function mkBtn(text, cls, onclick, disabled){ const b=document.createElement("button"); b.className="btn "+(cls||""); b.textContent=text; if(disabled) b.disabled=true; b.onclick=onclick; return b; }
+function renderBook(){
+  document.querySelectorAll("[data-gmode]").forEach(b=>b.setAttribute("aria-pressed", b.dataset.gmode===S.gmode));
+  const box=$("bookBox"); box.innerHTML="";
+  $("bookHint").textContent = S.book ? "" : "尚未預約也可以先看摘要；送出摘要前需要完成預約。";
+  if(!S.gmode){ box.innerHTML=`<div class="empty">請先點選上方「我要揪團」或「不揪團，個別預約」。</div>`; return; }
+  const G = S.gmode==="group";
+  const wrap=document.createElement("div"); wrap.className="stepper";
+  // 1 county
+  const r=document.createElement("div");
+  r.innerHTML=`<div class="lab"><span class="k">1</span>選擇地區<span class="hint">全臺 22 個縣市均有提供諮商的機構，請點選縣市</span></div>`;
+  const rc=document.createElement("div"); rc.className="counties";
+  COUNTIES.forEach(k=>{const b=document.createElement("button"); b.className="chip"; b.textContent=k; b.setAttribute("aria-pressed",S.county===k);
+    b.onclick=()=>{S.county=k; S.inst=null; S.q=""; S.showAll=false; S.opening=null; renderBook();}; rc.appendChild(b);});
+  r.appendChild(rc); wrap.appendChild(r);
+  // 2 institution
+  if(S.county){
+    const list=hospListFor();
+    const h=document.createElement("div");
+    h.innerHTML=`<div class="lab"><span class="k">2</span>選擇醫院<span class="hint">${G?`${S.county}有 ${list.length} 家提供多人優惠，依每人費用由低到高排列`:`${S.county}共 ${list.length} 家，依個人費用由低到高排列`}</span></div>`;
+    if(G && !list.length){
+      h.insertAdjacentHTML("beforeend",`<div class="empty">${S.county}目前沒有機構公告多人優惠方案。建議改用「不揪團，個別預約」，或選擇鄰近縣市。</div>`);
+    } else {
+      if(list.length>6){
+        const f=document.createElement("div"); f.className="field"; f.style.maxWidth="420px"; f.style.marginBottom="10px";
+        f.innerHTML=`<label for="instQ">搜尋機構名稱</label>`;
+        const inp=document.createElement("input"); inp.type="search"; inp.id="instQ"; inp.placeholder="例如：衛生所、榮總、臺大"; inp.value=S.q; inp.autocomplete="off";
+        let composing=false;
+        inp.addEventListener("compositionstart",()=>{composing=true;});
+        inp.addEventListener("compositionend",e=>{composing=false; S.q=e.target.value; renderHospList();});
+        inp.addEventListener("input",e=>{ if(composing || e.isComposing) return; S.q=e.target.value; renderHospList(); });
+        f.appendChild(inp); h.appendChild(f);
+      }
+      const hl=document.createElement("div"); hl.id="hospList"; h.appendChild(hl);
+    }
+    wrap.appendChild(h);
+  }
+  // 3 session / time
+  const H=instOf();
+  if(H){
+    const t=document.createElement("div");
+    const cap=H.c||5, min=Math.min(H.m||3,cap);
+    if(G){
+      t.innerHTML=`<div class="lab"><span class="k">3</span>加入一個團，或自己開一團<span class="hint">每團至少 ${min} 人才成團；未成團不收費。如需變更，可點選「退出」或改選其他場次。</span></div>`;
+      const ss=groupSessions(H);
+      if(!ss.length) t.insertAdjacentHTML("beforeend",`<div class="empty" style="text-align:left">此機構目前尚無團體場次，您可以在下方<strong>開團</strong>，成為第一位團員。</div>`);
+      ss.forEach(x=>{
+        const nb={kind:"join",county:S.county,inst:H.n,date:x.date,time:x.time,joined:x.joined+1,cap:x.cap,min:x.min,price:H.g};
+        const mine=sameBook(S.book,nb);
+        const shown=x.joined+(mine?1:0), need=Math.max(0,x.min-(x.joined+1));
+        const d=document.createElement("div"); d.className="session";
+        d.innerHTML=`<div><strong style="font-size:1.12rem">${fmtD(x.date)} ${x.time}</strong><div class="meta">已報名 ${shown} / ${x.cap} 人${mine?"（含您）":""}</div>
+          <div class="bar" aria-hidden="true"><i style="width:${Math.round(shown/x.cap*100)}%"></i></div>
+          <div class="meta">${x.joined>=x.min?`<span class="pill good">已成團</span> 還有 ${x.cap-shown} 個名額`:(need>0?`${mine?"":"您加入後"}還差 ${need} 人成團`:`${mine?"已成團":"您加入後即成團"}`)}</div></div>
+          <div class="price">${H.i&&H.g<H.i?`<s>${money(H.i)}</s>`:""}${H.s==="free"?"免費":money(H.g)+" 元"}<small>成團後每人費用</small></div>`;
+        const c=document.createElement("div");
+        if(mine){ c.appendChild(mkBtn("✓ 已加入","",null,true)); const o=mkBtn("退出這一團","ghost small",()=>cancelBooking()); o.style.marginTop="6px"; c.appendChild(document.createElement("br")); c.appendChild(o); }
+        else c.appendChild(mkBtn(S.book?"改加入這一團":"加入這一團","ghost",()=>setBooking(nb), shown>=x.cap));
+        d.appendChild(c); t.appendChild(d);
+        if(mine) t.insertAdjacentHTML("beforeend", policyHTML(x.date,x.time, x.joined+1>=x.min));
+      });
+      // open a new group
+      const ng=document.createElement("div"); ng.className="newgrp";
+      const mineNew = S.book && S.book.kind==="new" && S.book.inst===H.n;
+      ng.innerHTML=`<div class="lab" style="margin-bottom:4px">自行開團<span class="hint">① 點選時段 → ② 點選下方「開團」。開團後可將連結分享給親友，同地區的民眾也可加入。</span></div>`;
+      const sc=document.createElement("div"); sc.className="slots";
+      openSlots(H).forEach(sl=>{const b=document.createElement("button"); b.className="chip"; b.textContent=`${fmtD(sl.date)} ${sl.time}`;
+        const sel = (S.opening && +S.opening.date===+sl.date && S.opening.time===sl.time) || (!S.opening && mineNew && +S.book.date===+sl.date && S.book.time===sl.time);
+        b.setAttribute("aria-pressed", !!sel);
+        b.onclick=()=>{S.opening=sl; renderBook();}; sc.appendChild(b);});
+      ng.appendChild(sc);
+      if(S.opening){
+        const nb={kind:"new",county:S.county,inst:H.n,date:S.opening.date,time:S.opening.time,joined:1,cap,min,price:H.g};
+        const row=document.createElement("div"); row.className="row"; row.style.marginTop="12px";
+        if(sameBook(S.book,nb)){ row.innerHTML=`<span class="why">這個時段就是您目前開的團。</span>`; }
+        else {
+          row.appendChild(mkBtn(`${S.book?"改為":""}開團：${fmtD(S.opening.date)} ${S.opening.time}`,"",()=>setBooking(nb)));
+          row.insertAdjacentHTML("beforeend",`<span class="why">${S.book?"您已有預約，按下後會先請您確認是否更改。":`開團後目前 1 / ${cap} 人，還差 ${min-1} 人成團。`}</span>`);
+        }
+        ng.appendChild(row);
+      } else if(!mineNew){
+        ng.insertAdjacentHTML("beforeend",`<p class="why" style="margin:8px 0 0">請先點選時段，下方將出現「開團」按鈕。</p>`);
+      }
+      if(mineNew){
+        const db=document.createElement("div"); db.className="done-box";
+        db.innerHTML=`<strong>您已開團（團主）：</strong>${fmtD(S.book.date)} ${S.book.time}，目前 1 / ${cap} 人，還差 ${min-1} 人成團。`;
+        const row=document.createElement("div"); row.className="row"; row.style.marginTop="8px";
+        const sh=mkBtn("複製邀請連結（示意）","ghost small",()=>{msg.textContent="示意：正式版會產生可分享的邀請連結。";});
+        const cx=mkBtn("取消開團","ghost small",()=>cancelBooking());
+        const msg=document.createElement("span"); msg.className="why";
+        row.append(sh,cx,msg); db.appendChild(row); ng.appendChild(db);
+        ng.insertAdjacentHTML("beforeend", policyHTML(S.book.date,S.book.time,false));
+      }
+      t.appendChild(ng);
+    } else {
+      t.innerHTML=`<div class="lab"><span class="k">3</span>選擇時間<span class="hint">點選時段即完成預約；如需更改，點選其他時段即可</span></div>`;
+      const sc=document.createElement("div"); sc.className="slots";
+      soloSlots(H).forEach(sl=>{const nb={kind:"solo",county:S.county,inst:H.n,date:sl.date,time:sl.time,price:H.i};
+        const b=document.createElement("button"); b.className="chip"; b.textContent=`${fmtD(sl.date)} ${sl.time}`;
+        b.setAttribute("aria-pressed", !!sameBook(S.book,nb));
+        b.onclick=()=>setBooking(nb); sc.appendChild(b);});
+      t.appendChild(sc);
+      t.insertAdjacentHTML("beforeend",`<p class="why">${H.i?`個人費用 ${money(H.i)} 元`:"收費未公告，請洽機構"}${H.t?`（${H.t} 分鐘）`:""}。${H.p?esc(H.p):""}</p>`);
+      if(S.book && S.book.kind==="solo" && S.book.inst===H.n) t.insertAdjacentHTML("beforeend",`<div class="policy"><h4>通知方式</h4><ul><li><strong>諮商前一天 ${fmtD(addDays(S.book.date,-1))} 早上 9:00</strong> 提醒時間、地點與應攜帶的物品。</li><li>通知方式：簡訊、LINE 或電子郵件（${DEMO?"示意":"體驗版不會實際發送"}）。</li></ul></div>`);
+    }
+    wrap.appendChild(t);
+  }
+  box.appendChild(wrap);
+  // current booking, always visible with a cancel button
+  const cur=document.createElement("div"); cur.className="done-box";
+  if(S.book){
+    cur.innerHTML=`<strong>目前的預約${DEMO?"（示意）":"（模擬）"}：</strong>${esc(bookingText())}`;
+    const row=document.createElement("div"); row.className="row"; row.style.marginTop="8px";
+    row.appendChild(mkBtn("取消這個預約","ghost small",()=>cancelBooking()));
+    const f=document.createElement("span"); f.id="bookFlash"; f.className="why"; f.setAttribute("role","status"); f.textContent=flashMsg; row.appendChild(f);
+    cur.appendChild(row);
+  } else {
+    cur.style.borderColor="var(--line)"; cur.style.borderStyle="dashed";
+    cur.innerHTML=`<strong style="color:var(--muted)">目前沒有預約。</strong><span id="bookFlash" class="why" role="status"> ${esc(flashMsg)}</span>`;
+  }
+  box.appendChild(cur);
+  flashMsg="";
+  renderHospList();
+}
+function bookingText(){
+  const b=S.book; if(!b) return "尚未預約";
+  const when=`${fmtD(b.date)} ${b.time}`;
+  if(b.kind==="solo") return `${b.county}・${b.inst}，個別諮商，${when}，${b.price?`個人 ${money(b.price)} 元`:"收費請洽機構"}`;
+  const st = b.joined>=b.min ? "已成團" : `揪團中，還差 ${b.min-b.joined} 人`;
+  return `${b.county}・${b.inst}，團體諮商，${when}，${b.price===0?"65 歲以上免費":`成團後每人約 ${money(b.price)} 元`}（${st}${b.kind==="new"?"，您是團主":""}）`;
+}
+document.querySelectorAll("[data-gmode]").forEach(b=>b.onclick=()=>{ if(S.gmode!==b.dataset.gmode){S.gmode=b.dataset.gmode; S.inst=null; S.opening=null; S.q="";} renderBook();});
+
+/* ---------- summary ---------- */
+function summaryData(){
+  let st=quizStats();
+  if(DEMO && st.left.length){ // demo screenshot: sample quiz result
+    st={right:[1,2,3,4], wrong:[{q:{t:"下列哪一位「不能」擔任見證人？"}}], unsure:[{q:{t:"想撤回或變更，現在要怎麼辦？"}}], left:[]};
+  }
+  const multi = S.round>1 || S.quizLog.length>0;
+  const cur=[...st.wrong.map(x=>({t:x.q.t,k:"答錯"})), ...st.unsure.map(x=>({t:x.q.t,k:"不清楚"}))].map(e=>({...e, k: multi?`第 ${S.round} 組・${e.k}`:e.k}));
+  const ask=[...cur];
+  const seen=new Set(cur.map(e=>e.t)), rightNow=new Set((st.right||[]).filter(x=>x&&x.q).map(x=>x.q.t));
+  S.quizLog.forEach(e=>{ if(seen.has(e.t)) return; seen.add(e.t); ask.push({t:e.t, k:`第 ${e.round} 組・${e.k}${rightNow.has(e.t)?"（重抽後已答對）":""}`}); });
+  const rel = S.noRel ? [] : relatives();
+  const agent = S.family.find(isAgent);
+  const cnt = {site:rel.filter(f=>f.mode==="到場").length, video:rel.filter(f=>f.mode==="視訊").length, tbd:rel.filter(f=>f.mode==="尚未確定").length};
+  const und = CONDS.reduce((n,c)=>n+TREAT.filter(t=>S.choices[c.k][t.k]===0).length,0);
+  return {st, ask, rel, agent, cnt, und};
+}
+function renderDoc(){
+  const {st, ask, rel, agent, cnt} = summaryData();
+  const nm = S.name || "我";
+  const b=S.book;
+  const cell = v => `<div class="dp ${v===0?"rn":"r"+RANK[v]}"><i>${GLYPH[v]}</i>${SHORT[v]}</div>`;
+  const grid = `<div class="dgrid"><div class="hd h0"></div><div class="hd">維持生命治療</div><div class="hd">人工營養</div>`+
+     CONDS.map(c=>`<div class="cn">${c.k}</div>${cell(S.choices[c.k].life)}${cell(S.choices[c.k].nutri)}`).join("")+`</div>`;
+  const famSub = S.noRel ? "無二親等親屬參與" : [cnt.site?`現場 ${cnt.site} 位`:"", cnt.video?`視訊 ${cnt.video} 位`:"", cnt.tbd?`未定 ${cnt.tbd} 位`:""].filter(Boolean).join("・") || "尚未填寫";
+  const doc = S.noRelDoc;
+  const famChips = S.noRel
+     ? `<span class="famchip">無二親等內親屬參與：${esc(doc.reason||"原因未填")}${doc.done?"（已附書面說明）":"（書面說明尚未完成）"}</span>`
+     : (rel.length?rel.map(p=>`<span class="famchip"><b>${esc(p.name)}</b>${esc(p.rel)}・${esc(p.mode)}</span>`).join(""):`<span class="famchip">尚未填寫</span>`);
+  $("docBox").innerHTML=`<div class="sum">
+    <div class="sum-top"><div class="avatar">${esc(nm.slice(0,1))}</div>
+      <div><div class="sum-name">${esc(S.name||"意願人（體驗）")}${DEMO?"・72 歲":""}</div><div class="sum-sub">諮商前摘要・給諮商團隊</div></div>
+      <div class="sum-book">${b?`${fmtD(b.date)} ${b.time}`:"尚未預約"}<span>${b?esc(b.inst)+(b.kind==="solo"?"・個別":"・團體"):"請回到第 4 步預約"}</span></div></div>
+    <div class="tiles">
+      <div class="tile"><div class="g" style="background:var(--good)">✓</div><div><div class="v">${st.right.length}</div><div class="l">題答對<br>（${S.round>1?`第 ${S.round} 組，`:""}共 ${S.quiz.length} 題）</div></div></div>
+      <div class="tile"><div class="g" style="background:var(--sun);color:#3b2a1e">?</div><div><div class="v">${ask.length}</div><div class="l">題想請<br>團隊說明</div></div></div>
+      <div class="tile"><div class="g" style="background:var(--accent)">家</div><div><div class="v">${rel.length}</div><div class="l">位家人參與<br><strong style="color:var(--ink)">${famSub}</strong></div></div></div>
+      <div class="tile"><div class="g" style="background:var(--mid)">代</div><div><div class="v" style="font-size:1.35rem">${agent?esc(agent.name):"未指定"}</div><div class="l">醫療委任代理人${agent?`・${esc(agent.mode)}`:""}</div></div></div>
+    </div>
+    <div class="sum-cols">
+      <div class="panel"><h4>我的初步想法</h4>${grid}
+        <div class="legend" style="margin-top:8px"><span style="--c:var(--bad)">✕ 不接受</span><span style="--c:var(--mid)">試／代</span><span style="--c:var(--good)">✓ 接受</span><span style="--c:var(--muted)">… 尚未決定</span></div></div>
+      <div class="panel"><h4>想請團隊說明</h4>
+        ${ask.length?`<ol class="qlist">${ask.map(x=>`<li><div>${esc(x.t)}<small>${x.k}</small></div></li>`).join("")}</ol>`:`<p style="margin:0" class="pill good">沒有，各項重點均已了解</p>`}
+        <h4 style="margin-top:14px">一起參與的家人</h4>
+        <div class="famchips">${famChips}</div>
+      </div>
+    </div>
+    <div class="sum-note">提醒團隊：個別確認意思能力與自願性時，請家屬暫離。${DEMO?"本人自述無失智診斷；由女兒協助線上操作。":""}${S.noRel&&doc.done?`<br>特殊事由：${esc(doc.reason)}；${esc(doc.text)}`:""}</div>
+  </div>`;
+  // send button state
+  const why = !S.book ? "請先回到第 4 步完成預約後再送出。" : (S.noRel && !doc.done ? "請先回到第 3 步完成「特殊事由書面說明」。" : (!S.noRel && !rel.length ? "請先回到第 3 步加入至少一位參與的二親等親屬，或選擇「沒有可參與的二親等親屬」。" : ""));
+  $("sendBtn").disabled = !!why;
+  $("sendWhy").textContent = why;
+}
+$("sendBtn").onclick=()=>{
+  const {st, ask, rel, agent, cnt, und} = summaryData();
+  confirmBox("確認送出諮商前摘要？",
+    `<p>以下內容會傳給 <strong>${esc(S.book.inst)}</strong> 的諮商團隊：</p>
+     <ul class="ck"><li>預約：${esc(bookingText())}</li>
+     <li>理解測驗：答對 ${st.right.length} 題，想請團隊說明 ${ask.length} 題</li>
+     <li>意願草稿：10 項中 ${10-und} 項已選${und?`，${und} 項尚未決定`:""}</li>
+     <li>參與家人：${S.noRel?"無（附特殊事由書面說明）":`${rel.length} 位（現場 ${cnt.site}、視訊 ${cnt.video}${cnt.tbd?`、未定 ${cnt.tbd}`:""}）`}；醫療委任代理人：${agent?esc(agent.name):"未指定"}</li></ul>
+     <div class="warnline">送出後，第 2 到 4 步的答案與預約就不能在平台上修改；如需更改，請直接聯絡機構。</div>`,
+    "確認送出","再檢查一次",
+    ()=>{
+      S.submitted=true; const d=new Date(); S.submitTime=`${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`;
+      notifyBox("摘要已送出", `<p>${esc(S.book.inst)}的諮商團隊已收到您的摘要${DEMO?"（示意）":"（模擬：實際上沒有傳送任何資料）"}。</p><p>請於預約時間攜帶健保卡、身分證，並與家人一同到場。</p>`, "查看我的預約", ()=>show("booked"));
+    });
+};
+$("copyBtn").onclick=()=>{const t=$("docBox").innerText, m=$("copyMsg");
+  try{navigator.clipboard.writeText(t).then(()=>m.textContent="已複製",()=>m.textContent="請手動選取文字複製");}catch(e){m.textContent="請手動選取文字複製";}};
+
+/* ---------- after submit: booking-only page ---------- */
+function renderBooked(){
+  const b=S.book, box=$("bookedBox");
+  if(!S.submitted || !b){ box.innerHTML=`<div class="empty">尚未送出諮商前摘要。</div>`; $("signBox").innerHTML=""; return; }
+  const {rel, agent, cnt} = summaryData();
+  const formed = b.kind==="solo" || b.joined>=b.min;
+  box.innerHTML=`<div class="booked">
+    <div class="row" style="justify-content:space-between"><span class="pill good">✓ 摘要已送出（${esc(S.submitTime)}）</span><span class="pill ${formed?"good":"warn"}">${b.kind==="solo"?"個別諮商":(formed?"團體已成團":`揪團中，還差 ${b.min-b.joined} 人`)}</span></div>
+    <div><div class="bk-when">${fmtD(b.date)} ${b.time}</div><div style="font-size:1.25rem;font-weight:700">${esc(b.inst)}</div><div class="why" style="margin:0">${esc(b.county)}・${b.kind==="solo"?`個人 ${b.price?money(b.price)+" 元":"收費請洽機構"}`:(b.price===0?"65 歲以上免費":`成團後每人約 ${money(b.price)} 元`)}</div></div>
+    <div class="tiles">
+      <div class="tile"><div class="g" style="background:var(--accent)">家</div><div><div class="v">${rel.length}</div><div class="l">位家人<br>${S.noRel?"已附特殊事由說明":`現場 ${cnt.site}・視訊 ${cnt.video}${cnt.tbd?`・未定 ${cnt.tbd}`:""}`}</div></div></div>
+      <div class="tile"><div class="g" style="background:var(--mid)">代</div><div><div class="v" style="font-size:1.35rem">${agent?esc(agent.name):"未指定"}</div><div class="l">醫療委任代理人</div></div></div>
+    </div>
+    <div class="panel"><h4>接下來會收到的通知</h4><ul style="margin:0;padding-left:1.2em">
+      ${b.kind!=="solo"?`<li>${formed?"已成團，已通知全團。":`成團截止 <strong>${fmtD(addDays(b.date,-3))} 中午 12:00</strong>；一成團立即通知，未成團會通知您改期或改個別諮商（不收費）。`}</li>`:""}
+      <li><strong>${fmtD(addDays(b.date,-1))} 早上 9:00</strong> 提醒時間、地點與應攜帶的物品。</li></ul></div>
+    <div class="panel"><h4>當天請帶</h4><p style="margin:0">健保卡、身分證；${rel.filter(f=>f.mode!=="視訊").length?"到場的家人也請帶身分證；":""}${cnt.video?"視訊參與的家人請先準備好手機或電腦；":""}${S.noRel?"特殊事由書面說明（諮商時簽名）；":""}見證人二位（或改採公證，依機構安排）。</p></div>
+    <p class="why" style="margin:0">如需更改時間或取消，請直接與${esc(b.inst)}聯繫（示意）；為避免資料重複，平台不再開放修改。</p>
+  </div>`;
+  const sb=$("signBox"); sb.innerHTML="";
+  if(!DEMO && !S.signed){
+    sb.innerHTML=`<div class="policy" style="margin-top:16px"><h4>下一步（體驗）</h4><p style="margin:0 0 8px">實際流程中，接下來將於諮商機構完成個別確認、簽署、見證與註記。點選下方按鈕，可模擬「已完成簽署」，進入簽署後的個人頁面。</p><div class="row"><button class="btn" id="simSign">模擬：已完成現場諮商與簽署</button><span id="signMsg" class="why-off" role="status"></span></div></div>`;
+    $("simSign").onclick=()=>{
+      const und=[]; CONDS.forEach(c=>TREAT.forEach(t=>{ if(S.choices[c.k][t.k]===0) und.push(`${c.k}・${t.t}`); }));
+      if(und.length){ $("signMsg").textContent=`還有 ${und.length} 項「尚未決定」。實際流程中將於諮商現場與團隊討論後決定；體驗版請先模擬現場決定。`;
+        confirmBox("模擬現場決定", `<p>您的草稿還有 ${und.length} 項「尚未決定」。實際流程中將於諮商現場討論後決定。</p><p>體驗版會把這些項目暫設為「交給醫療委任代理人決定」${S.family.some(isAgent)?"":"（您尚未指定代理人，正式簽署時須指定）"}，以便繼續體驗。</p>`, "繼續","取消",
+          ()=>{ CONDS.forEach(c=>TREAT.forEach(t=>{ if(S.choices[c.k][t.k]===0) S.choices[c.k][t.k]=3; })); doSign(); });
+        return; }
+      doSign();
+    };
+  } else if(S.signed){
+    sb.innerHTML=`<div class="row" style="margin-top:16px"><button class="btn" id="goKeep">前往「我的預立醫療決定」</button></div>`;
+    $("goKeep").onclick=()=>show("keep");
+  }
+}
+function doSign(){
+  SIGNED=JSON.parse(JSON.stringify(S.choices)); EDIT=JSON.parse(JSON.stringify(SIGNED)); S.signed=true;
+  const b=S.book; S.signPlace = b ? b.inst : "您選擇的機構"; S.signDate = b ? `${b.date.getFullYear()}/${b.date.getMonth()+1}/${b.date.getDate()}` : "—";
+  S.signKind = b ? (b.kind==="solo"?"個別諮商":"團體諮商") : "—";
+  const ag=S.family.find(isAgent); S.agent=ag?ag.name:"";
+  notifyBox("已完成簽署（模擬）", `<p>實際流程中，機構會掃描上傳，再由衛福部註記於健保卡。</p><p>接下來將進入「我的預立醫療決定」個人頁面。</p>`, "前往個人頁面", ()=>show("keep"));
+}
+
+/* ---------- step 6 ---------- */
+function changes(){ const out=[]; if(!SIGNED) return out; CONDS.forEach(c=>TREAT.forEach(t=>{const a=SIGNED[c.k][t.k], b=EDIT[c.k][t.k]; if(a!==b) out.push({c:c.k,t:t.t,a,b});})); return out; }
+function direction(){
+  if(S.act==="withdraw") return "accept";
+  if(S.act==="agent") return S.newAgent ? "agent" : "none";
+  const ch=changes(); if(!ch.length) return "none";
+  if(ch.some(x=>RANK[x.b]<RANK[x.a])) return "refuse"; return "accept";
+}
+function renderMatrix(){
+  const m=$("matrix"); m.innerHTML=`<div class="h h0"></div><div class="h">維持生命治療</div><div class="h">人工營養及流體餵養</div>`;
+  CONDS.forEach(c=>{
+    const lab=document.createElement("div"); lab.className="c"; lab.textContent=c.k;
+    if(S.why==="law" && c.k==="衛福部公告的疾病") lab.insertAdjacentHTML("beforeend",' <span class="pill warn" style="margin-left:6px">本次修正相關</span>');
+    m.appendChild(lab);
+    TREAT.forEach(t=>{
+      const b=document.createElement("button"); b.className="cell"; const v=EDIT[c.k][t.k], was=SIGNED[c.k][t.k];
+      b.dataset.r=RANK[v]; if(v!==was) b.classList.add("changed");
+      b.innerHTML=(v!==was?`<span class="was">${OPTS[was]}</span>`:"")+OPTS[v];
+      b.setAttribute("aria-label",`${c.k}，${t.t}：${OPTS[v]}，點一下修改`);
+      b.onclick=()=>openEdit(c,t);
+      m.appendChild(b);
+    });
+  });
+}
+function openEdit(c,t){
+  const cur=EDIT[c.k][t.k], was=SIGNED[c.k][t.k]; let pick=cur;
+  const D=$("dlg");
+  const draw=()=>{
+    const dir = RANK[pick]>RANK[was] ? ["good","增加接受治療","現行由機構受理；修法後可線上辦理"] : RANK[pick]<RANK[was] ? ["bad","增加拒絕治療","須到院，由團隊當面確認"] : ["warn","與原決定相同",""];
+    D.innerHTML=`<div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlgT">
+      <h3 id="dlgT">修改：${c.k}・${t.t}</h3>
+      <p class="why" style="margin-top:0">${c.d}</p>
+      <p style="margin:6px 0 6px;font-weight:700;color:var(--sun-ink)">① 點選新的選項</p>
+      <div class="chips" id="dlgChips"></div>
+      <p style="margin:14px 0 0;font-weight:700;color:var(--sun-ink)">② 確認修改前後的差別</p>
+      <div class="cmp">
+        <div class="box"><span class="pill">原本的決定</span><div style="font-weight:700;margin:6px 0">${OPTS[was]}</div><div class="why" style="margin:0">${EFFECT[was]}</div></div>
+        <div class="mid">→</div>
+        <div class="box new"><span class="pill">修改後</span><div style="font-weight:700;margin:6px 0">${OPTS[pick]}</div><div style="margin:0">${EFFECT[pick]}</div></div>
+      </div>
+      <p style="margin:6px 0 10px"><span class="pill ${dir[0]}">${dir[1]}</span> ${dir[2]?`<span style="color:var(--muted)">${dir[2]}</span>`:""}</p>
+      <p style="margin:0 0 6px;font-weight:700;color:var(--sun-ink)">③ 確認</p>
+      <div class="row"><button class="btn" id="dlgOk" ${pick===cur?"disabled":""}>確認這項修改</button><button class="btn ghost" id="dlgNo">取消</button><span class="why-off">${pick===cur?"請先在 ① 點選不同的選項":""}</span></div>
+    </div>`;
+    const cc=$("dlgChips"); OPTS.slice(1).forEach((o,i)=>{const oi=i+1; const b=document.createElement("button"); b.className="chip"; b.textContent=o; b.setAttribute("aria-pressed",pick===oi); b.onclick=()=>{pick=oi; draw();}; cc.appendChild(b);});
+    $("dlgOk").onclick=()=>{EDIT[c.k][t.k]=pick; S.sent=false; S.progress=undefined; S.gate={}; S.gateOrder=null; S.mohwClicked=false; D.hidden=true; renderKeep();};
+    $("dlgNo").onclick=()=>{D.hidden=true;};
+  };
+  D.hidden=false; draw();
+}
+document.addEventListener("keydown",e=>{ if(e.key==="Escape" && !$("dlg").hidden) $("dlg").hidden=true; });
+const GATE_Q=[
+  {t:"這次修改送出後，醫師在五種情況下會怎麼做？", o:["依我修改後的決定處理","仍然照原本的決定"], a:0},
+  {t:"這次修改送出後，還能再改嗎？", o:["可以，隨時都能再以書面撤回或變更","不能再改"], a:0},
+  {t:"這次修改是誰的決定？", o:["我自己的決定，沒有受到他人壓力","家人替我決定"], a:0}
+];
+const MOHW_URL = "https://acp-change.mohw.example/apply";
+/* each step: [title, who, description, wait-or-null] */
+function steps(){
+  const d=direction(), fut=S.mode==="future";
+  if(d==="agent") return [
+    ["預填新的委任書","平台","帶入新代理人資料",null],
+    ["新代理人書面同意","新代理人","須親自簽名同意（病主法 §10Ⅰ）","需等待：視新代理人何時簽名"],
+    ["送交醫療機構","您本人","現行須向醫療機構提出","需等待：機構受理約 1–3 個工作天（估計）"],
+    ["更新註記・通知","衛福部・平台","病主法 §13","需等待：健保卡註記天數未公開（估計 1–2 週，待確認）"]];
+  if(fut && d==="accept") return [
+    ["線上說明與理解確認","平台","看完說明，回答上方三題",null],
+    ["前往衛福部系統","平台→衛福部","點上方綠框裡的連結，平台把預填內容帶過去",null],
+    ["健保卡或行動自然人憑證登入","您本人","在衛福部網站完成身分核實",null],
+    ["電子簽署送出","您本人","留存時間戳記與電子簽章紀錄",null],
+    ["衛福部受理、更新健保卡註記","衛福部・健保署","原決定檔保留，不刪除","需等待：本提案建議 3 個工作天內完成"],
+    ["非本人操作的回復期","您本人","期間內發現不是本人操作，可申請回復原決定","需等待：7 天，期滿後正式生效並通知知情名單"]];
+  return [
+    ["線上預填撤回或變更書","平台","依您確認的修改自動帶入，以電子簽章簽署",null],
+    ["身分核實","平台","健保卡卡號加手機驗證，或行動自然人憑證",null],
+    ["轉送您選定的醫療機構","平台","加密傳送；機構須同意以電子文件受理",null],
+    d==="refuse" ? ["到院確認","醫療機構","增加拒絕治療的變更，由團隊當面確認意思能力與自願性","需等待：依機構門診預約，約 1–2 週（估計）"]
+                 : ["機構受理（試辦：視訊確認）","醫療機構","機構與您視訊約 5 分鐘，確認是本人、出於自願","需等待：預約視訊約 1–3 個工作天（估計）"],
+    ["機構掃描上傳","醫療機構","存記於衛福部資料庫（施行細則 §6）","需等待：依機構作業，約 1–3 個工作天（估計）"],
+    ["衛福部更新健保卡註記・通知","衛福部・平台","完成後通知您與您選定的家人","需等待：天數未公開（估計 1–2 週，待向衛福部確認）"]];
+}
+let timer=null;
+function renderKeep(){
+  if(!S.signed){ $("keepLocked").hidden=false; $("keepBody").hidden=true;
+    $("keepLocked").innerHTML=`本頁於完成簽署後開放。請先完成第 1 至第 5 步並送出諮商前摘要，再於「我的預約」頁點選「模擬：已完成現場諮商與簽署」。<div class="row" style="justify-content:center;margin-top:12px"><button class="btn" id="goSum">前往諮商前摘要</button></div>`;
+    $("goSum").onclick=()=>show("summary"); return; }
+  $("keepLocked").hidden=true; $("keepBody").hidden=false;
+  const fut=S.mode==="future", d=direction();
+  const cellS = v => `<div class="dp ${v===0?"rn":"r"+RANK[v]}"><i>${GLYPH[v]}</i>${SHORT[v]}</div>`;
+  $("signedBox").innerHTML=`<h3>我簽署的預立醫療決定</h3>
+    <div class="status" style="margin:0">
+      <div class="stat"><div class="k">目前狀態</div><div class="v"><span class="pill good">${S.updated?"已更新註記":"已註記於健保卡"}${DEMO?"":"（模擬）"}</span></div></div>
+      <div class="stat"><div class="k">簽署日期</div><div class="v">${S.signDate}</div><div class="k">${esc(S.signKind||"")}</div></div>
+      <div class="stat"><div class="k">諮商與核章機構</div><div class="v" style="font-size:1.1rem">${esc(S.signPlace)}</div></div>
+      <div class="stat"><div class="k">醫療委任代理人</div><div class="v">${S.agent?esc(S.agent):"未指定"}</div></div>
+      <div class="stat"><div class="k">見證方式</div><div class="v" style="font-size:1.1rem">二位見證人在場</div></div>
+      <div class="stat"><div class="k">下次回顧</div><div class="v">一年後</div></div>
+    </div>
+    <div class="panel"><h4>簽署時的選擇</h4><div class="dgrid"><div class="hd h0"></div><div class="hd">維持生命治療</div><div class="hd">人工營養及流體餵養</div>${CONDS.map(c=>`<div class="cn">${c.k}</div>${cellS(SIGNED[c.k].life)}${cellS(SIGNED[c.k].nutri)}`).join("")}</div></div>`;
+  document.querySelectorAll("#whyBox .bigchoice").forEach(b=>b.setAttribute("aria-pressed", b.dataset.why===S.why));
+  renderLawBox(); renderFuture();
+  const showChange = S.why==="self" || (S.why==="law" && S.lawDecision==="adjust");
+  $("changeArea").hidden = !showChange;
+  if(!showChange) return;
+  $("matrixWrap").hidden=S.act!=="change"; $("agentWrap").hidden=S.act!=="agent"; $("withdrawWrap").hidden=S.act!=="withdraw";
+  $("agentNow").textContent=`現任：${S.agent||"未指定"}`;
+  if(S.act==="change") renderMatrix();
+  document.querySelectorAll("#actions .choice").forEach(b=>b.setAttribute("aria-pressed", b.dataset.act===S.act));
+  const ft=$("famToggles"); ft.innerHTML="";
+  if(!S.family.length) ft.innerHTML=`<div class="why">尚未加入家人（可在第 3 步加入）。</div>`;
+  S.family.forEach((f,i)=>{ if(S.fam[i]===undefined) S.fam[i]=true; const r=document.createElement("div"); r.className="toggle";
+    r.innerHTML=`<span>${esc(f.name)}（${esc(f.rel)}）</span><button class="sw" aria-pressed="${S.fam[i]}">${S.fam[i]?"會通知":"不通知"}</button>`;
+    r.querySelector("button").onclick=()=>{S.fam[i]=!S.fam[i]; renderKeep();}; ft.appendChild(r); });
+  const V=$("verdict");
+  const vv={accept:["low", S.act==="withdraw"?"這是「撤回」：回到一般醫療方式":"這是「增加接受治療」的變更", fut?"修法後：答對下方三題，就會出現衛福部系統的連結":"現行：書面轉送醫療機構辦理"],
+    refuse:["high","這是「增加拒絕治療」的變更","需要到院，由諮商團隊當面確認"],
+    agent:["none","更換醫療委任代理人","新代理人須親自書面同意"],
+    none:["none", S.act==="agent"?"請先於左側填寫新任代理人":"目前沒有修改", S.act==="agent"?"":"請先點選左側格子進行修改"]}[d];
+  V.className="verdict "+vv[0];
+  V.innerHTML=`<span class="pill ${vv[0]==="low"?"good":vv[0]==="high"?"bad":""}">${vv[0]==="low"?"風險較低":vv[0]==="high"?"風險較高":"說明"}</span><div><strong>${vv[1]}</strong><div style="color:var(--muted)">${vv[2]}</div></div>`;
+  const ch = S.act==="change" ? changes() : [];
+  $("chgWrap").innerHTML = ch.length ? `<div class="lab" style="margin-bottom:8px">已確認的修改（${ch.length} 項）</div><ul class="chg">${ch.map(x=>`<li><strong>${x.c}・${x.t}</strong><div>${OPTS[x.a]} <b style="color:var(--accent)">→</b> ${OPTS[x.b]}</div><div class="why" style="margin:2px 0 0">${EFFECT[x.b]}</div></li>`).join("")}</ul>` : "";
+  // gate (future + accept)
+  const G=$("gateWrap"); G.innerHTML="";
+  const needGate = fut && d==="accept";
+  if(needGate){
+    if(!S.gateOrder) S.gateOrder=GATE_Q.map(q=>shuffle(q.o.map((_,i)=>i)));
+    const g=document.createElement("div"); g.className="gate";
+    g.innerHTML=`<div class="howto" style="margin:10px 0 4px"><div class="ic">?</div><div><p><b>第 1 步：理解確認。</b>請回答下面 3 題，每題點一個答案。三題都答對，就會出現<strong>衛福部系統的連結</strong>和下一步做法。答錯可以再選一次。</p></div></div>`;
+    GATE_Q.forEach((q,qi)=>{const w=document.createElement("div"); w.className="q"; w.innerHTML=`<p>${qi+1}. ${q.t}</p>`;
+      const ops=document.createElement("div"); ops.className="opts";
+      S.gateOrder[qi].forEach(oi=>{const b=document.createElement("button"); b.className="opt"; b.textContent=q.o[oi]; const a=S.gate[qi];
+        if(a!==undefined){ if(a===q.a && oi===q.a) b.classList.add("right"); else if(oi===a) b.classList.add("wrong"); }
+        b.onclick=()=>{S.gate[qi]=oi; renderKeep();}; ops.appendChild(b);});
+      w.appendChild(ops); g.appendChild(w);});
+    G.appendChild(g);
+  }
+  const gateOk = !needGate || GATE_Q.every((q,i)=>S.gate[i]===q.a);
+  // MOHW link card
+  const M=$("mohwWrap"); M.innerHTML="";
+  if(needGate && gateOk){
+    M.innerHTML=`<div class="mohw"><h4>✓ 理解確認通過｜第 2 步：前往衛福部系統完成${S.act==="withdraw"?"撤回":"變更"}</h4>
+      <a class="link" href="${MOHW_URL}" id="mohwLink" target="_blank" rel="noopener">${MOHW_URL}</a> <span class="pill warn">示意網址</span>
+      <p id="mohwMsg" class="why" style="margin:4px 0 0"></p>
+      <ol><li>點上面的連結，開啟衛福部「預立醫療決定線上變更」網頁（新視窗）。平台已把您確認的${S.act==="withdraw"?"撤回":`${ch.length} 項修改`}帶過去。</li>
+      <li>用<strong>健保卡＋讀卡機</strong>，或<strong>行動自然人憑證</strong> App 登入。</li>
+      <li>逐項核對畫面上的內容，和這一頁「已確認的修改」相同，再按「電子簽署送出」。</li>
+      <li>回到這一頁按「我已在衛福部系統送出」。之後的進度會顯示在下方，並以簡訊或 LINE 通知您。</li></ol>
+      <p style="margin:8px 0 0"><span class="wait">需等待：衛福部受理並更新健保卡註記，本提案建議 3 個工作天內；之後另有 7 天回復期</span></p></div>`;
+    $("mohwLink").onclick=e=>{ e.preventDefault(); S.mohwClicked=true; $("mohwMsg").textContent="此為示意網址，不會開啟任何網站。正式上線後，這裡會開啟衛福部系統；現在可以直接按下方「我已在衛福部系統送出」繼續體驗。"; };
+  }
+  // path
+  const P=$("path"); P.innerHTML=""; const st=steps();
+  const base = needGate ? (gateOk?1:0) : 0;
+  const cur = d==="none" ? -1 : (S.sent ? (S.progress ?? st.length) : base);
+  st.forEach((s,i)=>{const li=document.createElement("li"); if(i<cur) li.className="done"; else if(i===cur) li.className="now";
+    li.innerHTML=`<div class="dot">${i<cur?"✓":i+1}</div><div><div class="t">${s[0]}<span class="who">${s[1]}</span></div><div class="d">${s[2]}</div>${s[3]?`<span class="wait">${s[3]}</span>`:""}</div>`; P.appendChild(li);});
+  $("grayWrap").innerHTML = (!fut && d==="accept") ? `<div class="gray"><b>灰色地帶</b>：施行細則第 6 條只規定「向醫療機構為之」，沒有規定須親自到場，也未禁止機構以電子文件受理；但衛福部至今未對此作出解釋。因此試辦時，由機構以視訊確認身分與意願後受理，並建請衛福部以函釋確認。</div>`
+    : (needGate ? `<div class="gray" style="border-color:var(--good)"><b>修法建議</b>：修正施行細則第 6 條，「撤回」及「增加接受治療」的變更可經衛福部系統線上提出；「增加拒絕治療」的變更仍須到院。</div>` : "");
+  const sb=$("submitBtn"), why=$("submitWhy");
+  const done = S.sent && (S.progress===undefined || S.progress>=st.length);
+  sb.disabled = d==="none" || !gateOk || S.sent;
+  sb.textContent = S.sent ? (done?"已完成":"處理中…") : (needGate ? "我已在衛福部系統送出" : (DEMO?"送出（示意）":"送出（模擬，不會實際傳送）"));
+  why.textContent = d==="none" ? (S.act==="agent"?"請先填寫新任代理人。":"請先點選左側格子，完成至少一項修改。") : (!gateOk ? "請先答對上方三題理解確認。" : (S.sent && !DEMO && !done ? "模擬加速中：實際流程中，標示 ⏳ 的步驟需要等待。" : ""));
+}
+document.querySelectorAll("#actions .choice").forEach(b=>b.onclick=()=>{S.act=b.dataset.act; S.sent=false; S.progress=undefined; renderKeep();});
+$("agentNew").oninput=e=>{S.newAgent=e.target.value.trim(); S.sent=false; S.progress=undefined; renderKeep();};
+$("submitBtn").onclick=()=>{
+  const d=direction(), fut=S.mode==="future", needGate = fut && d==="accept";
+  const ch = S.act==="change" ? changes() : [];
+  const what = S.act==="withdraw" ? "<li>全部撤回預立醫療決定</li>" : S.act==="agent" ? `<li>醫療委任代理人：${esc(S.agent||"未指定")} → ${esc(S.newAgent)}</li>` : ch.map(x=>`<li>${x.c}・${x.t}：${OPTS[x.a]} → <strong>${OPTS[x.b]}</strong></li>`).join("");
+  const route = needGate ? "您已在衛福部系統完成電子簽署送出，衛福部受理後會更新健保卡註記。" : (d==="refuse" ? "書面會轉送您選定的醫療機構，並需要<strong>到院</strong>由團隊當面確認。" : "書面會轉送您選定的醫療機構，由機構受理（試辦以視訊確認）後上傳。");
+  confirmBox(needGate ? "確認已在衛福部系統送出？" : "確認送出這次的修改？",
+    `<p>您要辦理：</p><ul class="ck">${what}</ul><p>${route}</p><div class="warnline">送出後，請依下方進度等待；標示 ⏳ 的步驟需要等待機構或衛福部處理。</div>`,
+    "確認送出","再檢查一次",
+    ()=>{
+      notifyBox("已送出", `<p>${needGate?"已記錄您在衛福部系統送出的時間。":"您的書面已轉送醫療機構。"}${DEMO?"（示意）":"（模擬：實際上沒有傳送任何資料）"}</p><p>辦理進度會顯示在本頁，完成後也會通知您${Object.values(S.fam).some(Boolean)?"與您選定的家人":""}。</p>`, "查看辦理進度", ()=>{
+        S.sent=true;
+        if(DEMO){ S.progress=undefined; renderKeep(); return; }
+        const total=steps().length;
+        S.progress = needGate ? 4 : 3; renderKeep();
+        clearInterval(timer); timer=setInterval(()=>{ S.progress++; renderKeep(); if(S.progress>=total){ clearInterval(timer); if(S.act==="change"){ SIGNED=JSON.parse(JSON.stringify(EDIT)); } if(S.act==="agent"&&S.newAgent){ S.agent=S.newAgent; } S.updated=true; setTimeout(()=>notifyBox("辦理完成（模擬）","<p>健保卡註記已更新，上方「我簽署的預立醫療決定」已改為最新內容。</p><p>日後如需再次調整，可從「這次想調整，原因是？」重新開始。</p>","好",()=>{S.sent=false; S.progress=undefined; S.gate={}; S.gateOrder=null; renderKeep();}),900); } }, 1200);
+      });
+    });
+};
+$("resetBtn").onclick=()=>{clearInterval(timer); EDIT=JSON.parse(JSON.stringify(SIGNED)); S.sent=false; S.progress=undefined; S.gate={}; S.gateOrder=null; S.act="change"; S.newAgent=""; $("agentNew").value=""; renderKeep();};
+function resetEdits(){ clearInterval(timer); EDIT=JSON.parse(JSON.stringify(SIGNED)); S.sent=false; S.progress=undefined; S.gate={}; S.gateOrder=null; S.act="change"; S.newAgent=""; $("agentNew").value=""; }
+document.querySelectorAll("#whyBox .bigchoice").forEach(b=>b.onclick=()=>{
+  if(S.why!==b.dataset.why){ S.why=b.dataset.why; S.lawDecision=null; resetEdits(); if(typeof T!=="undefined") T.ev("why:"+S.why); }
+  renderKeep();
+});
+function renderLawBox(){
+  const B=$("lawBox");
+  if(S.why!=="law"){ B.hidden=true; B.innerHTML=""; return; }
+  B.hidden=false;
+  const c=SIGNED["衛福部公告的疾病"];
+  B.innerHTML=`<div class="lawchg"><span class="pill warn">法規異動通知（示意）</span>
+    <h3 style="margin-top:8px">衛福部修正第 5 款公告的疾病</h3>
+    <p class="why" style="margin:2px 0 0">病人自主權利法第 14 條第 1 項第 5 款：由衛福部公告適用的疾病。</p>
+    <div class="lcmp">
+      <div class="box"><span class="pill">修正前（現行）</span><div style="font-weight:700;font-size:1.15rem;margin:6px 0">公告 12 種疾病</div><div class="why" style="margin:0">衛部醫字第 1101661853 號公告</div></div>
+      <div class="mid">→</div>
+      <div class="box new"><span class="pill">修正後（示意）</span><div style="font-weight:700;font-size:1.15rem;margin:6px 0">公告疾病增加 1 種</div><div class="why" style="margin:0">示意情境，並非實際公告</div></div>
+    </div>
+    <div class="impact"><strong>對您的影響：</strong>您對「衛福部公告的疾病」的選擇──維持生命治療「${OPTS[c.life]}」、人工營養及流體餵養「${OPTS[c.nutri]}」──<strong>會同樣適用於新增的疾病</strong>。其他四種情況不受影響。</div>
+    <p style="margin:8px 0 12px">是否調整由您決定，平台不提供建議；如有疑問，可先與醫師或醫療委任代理人討論。</p>
+    <div class="row"><button class="btn ${S.lawDecision==="keep"?"":"ghost"}" id="lawKeep">維持原決定</button><button class="btn ${S.lawDecision==="adjust"?"":"ghost"}" id="lawAdj">我要調整決定</button><button class="btn ghost small" id="lawLearn">重看第 1 步說明</button></div>
+    ${S.lawDecision==="keep"?`<div class="done-box"><strong>已記錄：維持原決定。</strong>無須辦理任何手續，健保卡註記維持不變；下次回顧提醒將於一年後寄送。</div>`:""}
+  </div>`;
+  $("lawKeep").onclick=()=>{ S.lawDecision="keep"; resetEdits(); if(typeof T!=="undefined") T.ev("law:keep"); renderKeep(); };
+  $("lawAdj").onclick=()=>{ S.lawDecision="adjust"; S.act="change"; if(typeof T!=="undefined") T.ev("law:adjust"); renderKeep(); };
+  $("lawLearn").onclick=()=>show("learn");
+}
+function renderFuture(){
+  const F=$("futureBox"); F.hidden=!DEMO; if(!DEMO || F.dataset.done) return; F.dataset.done="1";
+  const fs=[["線上說明與理解確認","平台","回答 3 題，確認了解修改後的效果、隨時可再改、出於自願",null],
+    ["前往衛福部系統","平台→衛福部","以加密、具時效的連結帶入預填內容",null],
+    ["健保卡或行動自然人憑證登入","您本人","在衛福部網站完成身分核實",null],
+    ["電子簽署送出","您本人","留存時間戳記與電子簽章紀錄",null],
+    ["衛福部受理、更新健保卡註記","衛福部・健保署","原決定檔保留，不刪除","需等待：本提案建議 3 個工作天內完成"],
+    ["非本人操作的回復期","您本人","期間內發現不是本人操作，可申請回復原決定","需等待：7 天，期滿後正式生效並通知知情名單"]];
+  F.innerHTML=`<summary>提案構想（尚未施行）：修正施行細則第 6 條後，可在衛福部系統線上辦理</summary>
+    <p style="margin:10px 0">以下是本提案的修法建議，<strong>不是目前可以辦理的方式</strong>。修正後，「撤回」與「增加接受治療」的變更可在衛福部系統線上辦理；「增加拒絕治療」的變更仍須到院由團隊當面確認，與施行細則第 8 條「接受治療立即依從、拒絕治療待程序完成」的邏輯一致。</p>
+    <div class="mohw"><h4>通過理解確認後，才出現衛福部系統的連結</h4>
+      <span class="link" style="display:inline-block;font-weight:700;color:var(--accent-ink);border:2px solid var(--accent);border-radius:12px;padding:8px 14px;word-break:break-all">${MOHW_URL}</span> <span class="pill warn">示意網址</span>
+      <ol><li>用健保卡＋讀卡機，或行動自然人憑證 App 登入。</li><li>核對平台帶入的修改內容，按「電子簽署送出」。</li><li>進度顯示在本頁，並以簡訊或 LINE 通知。</li></ol></div>
+    <ol class="path">${fs.map((x,i)=>`<li><div class="dot">${i+1}</div><div><div class="t">${x[0]}<span class="who">${x[1]}</span></div><div class="d">${x[2]}</div>${x[3]?`<span class="wait">${x[3]}</span>`:""}</div></li>`).join("")}</ol>`;
+}
+
+
+/* ---------- usability test harness (MODE = "test") ---------- */
+/* No on-screen task list: milestones are timed silently; the questionnaire opens after the whole flow. */
+const TEST = MODE === "test";
+const T = (()=>{
+  const now=()=>Date.now();
+  const D={v:2, id:Math.random().toString(36).slice(2,7).toUpperCase(), bg:{}, pre:null, post:null, q1:null, ev:{}, ux:[null,null], hard:null, h:Array(7).fill(null), help:null, open:["",""], ms:{}};
+  let t0=0, started=false, ended=false, timerId=null;
+  const MS=[["quiz",()=>quizDone()],["values",()=>relatives().length>0 || (S.noRel && S.noRelDoc.done)],["book",()=>!!S.book],["send",()=>S.submitted],["sign",()=>S.signed],["keep",()=>S.signed && (S.sent || S.lawDecision==="keep")]];
+  const STAGES=["還沒想過要做預立醫療決定","有在考慮，但還沒打算行動","打算在半年內去諮商","打算在一個月內預約，或已經預約","已經簽署完成"];
+  const STEPN=["第 1 步　認識決定書","第 2 步　理解測驗","第 3 步　想法與家人","第 4 步　預約諮商","第 5 步　諮商前摘要","第 6 步　簽署之後","每一步都不難"];
+  const UX=["這個平台的功能符合我的需要。","這個平台很容易使用。"];
+  const HQ=["看完第 1 步，我知道預立醫療決定在什麼情況下才會用到。","比起直接到醫院聽說明，我比較想先在家用這個平台準備。","有了諮商前摘要，我覺得到現場可以更快進入重點。","如果揪團能讓每人費用降低，我願意和其他人一起參加團體諮商。","在線上先準備，讓我更容易和家人討論這件事。","簽署後能在平台上看到辦理步驟和進度，讓我比較安心。","我會推薦家人或朋友使用這個平台做準備。"];
+  const AG=["非常不同意","不同意","普通","同意","非常同意"];
+  const likert=(name,val,n,labels)=>`<div class="likert ${n===7?"l7":""}" data-name="${name}">${Array.from({length:n},(_,i)=>`<button type="button" data-v="${i+1}" aria-pressed="${val===i+1}">${i+1}${labels&&labels[i]?`<small>${labels[i]}</small>`:""}</button>`).join("")}</div>`;
+  const radio=(name,opts,val)=>`<div class="chips" data-name="${name}">${opts.map((o,i)=>`<button type="button" class="chip" data-v="${i}" aria-pressed="${val===i}">${o}</button>`).join("")}</div>`;
+  function bindChoice(root, onPick){ root.querySelectorAll("[data-name]").forEach(g=>g.querySelectorAll("button").forEach(b=>b.onclick=()=>{ g.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed","false")); b.setAttribute("aria-pressed","true"); onPick(g.dataset.name, +b.dataset.v); })); }
+  function ev(name){ D.ev[name]=(D.ev[name]||0)+1; }
+  function redraw(st){ if(!D.q1 && S.round===1) D.q1={r:st.right.length,w:st.wrong.length,u:st.unsure.length,n:S.quiz.length,full:st.left.length===0}; ev("redraw"); }
+  function tick(){
+    if(!started || ended) return;
+    MS.forEach(([k,f])=>{ if(D.ms[k]===undefined && f()){ D.ms[k]=Math.round((now()-t0)/1000);
+      if(k==="quiz" && !D.q1){ const st=quizStats(); D.q1={r:st.right.length,w:st.wrong.length,u:st.unsure.length,n:S.quiz.length,full:true}; }
+      if(k==="book") D.bookKind=S.book.kind; } });
+    const done = D.ms.keep!==undefined;
+    const box=$("tDoneBox");
+    if(box) box.hidden=!done;
+  }
+  /* ---- start page ---- */
+  function mountStart(){
+    const sec=document.createElement("section"); sec.className="sheet"; sec.id="tstart";
+    const BG=[["age","1. 您的年齡",["34 歲以下","35–49 歲","50–64 歲","65–74 歲","75 歲以上"]],
+      ["tech","2. 您平常使用手機或電腦上網的頻率",["幾乎每天","每週幾次","很少或不使用"]],
+      ["heard","3. 您是否聽過「預立醫療決定」？",["聽過，也大致了解","聽過，但不太清楚","沒有聽過"]],
+      ["who","4. 今天的操作方式",["由本人操作","由他人在旁協助或代為操作"]],
+      ["dev","5. 使用的裝置",["手機","平板","電腦"]]];
+    sec.innerHTML=`<span class="law">使用者測試・約 30 分鐘</span><h2>感謝您協助試用「說好了」</h2>
+      <div class="howto"><div class="ic">i</div><div><ol>
+        <li>本網站為<strong>示意版本</strong>，不會連線至任何醫療機構或衛福部，也不會實際預約或簽署。</li>
+        <li>本次測試評估的是<strong>網站是否容易使用</strong>，並非評量您。若有看不懂的地方，正是我們需要改進之處。</li>
+        <li>您在網站中填寫的醫療意願與家人稱呼<strong>不會被記錄</strong>。結束時會產生一組不含個人資料的「結果碼」，是否提供給研究者由您決定。</li>
+        <li>您可以隨時停止，不需說明理由。</li></ol></div></div>
+      <div class="policy" style="margin:0 0 6px"><h4>體驗方式</h4><ol style="margin:0;padding-left:1.3em">
+        <li>從「簡介」開始，依序完成第 1 步到第 5 步，並送出諮商前摘要。</li>
+        <li>在「我的預約」頁，點選「模擬：已完成現場諮商與簽署」。</li>
+        <li>在「簽署之後」頁，依您的想法辦理一次調整（或選擇維持原決定）。</li>
+        <li>完成後頁面會出現問卷，約需 3 分鐘。</li></ol></div>
+      <h3 style="font-size:1.25rem;margin-top:18px">開始前，請先回答幾個問題</h3>
+      ${BG.map(([k,q,o])=>`<div class="sq"><p>${q}</p>${radio(k,o,D.bg[k])}</div>`).join("")}
+      <div class="sq"><p>6. 目前您對「預立醫療決定」的想法，最接近下列哪一項？</p>${radio("pre",STAGES,D.pre)}</div>
+      <div class="row" style="margin-top:12px"><label style="display:flex;gap:10px;align-items:center;font-weight:700"><input type="checkbox" id="tAgree" style="width:26px;height:26px"> 我已了解以上說明，同意參加本次測試</label></div>
+      <div class="row" style="margin-top:14px"><button class="btn" id="tGo">開始體驗</button><span class="why-off" id="tGoWhy"></span></div>`;
+    document.querySelector(".wrap").appendChild(sec);
+    bindChoice(sec,(n,v)=>{ if(n==="pre") D.pre=v; else D.bg[n]=v; });
+    $("tGo").onclick=()=>{
+      const miss=BG.filter(([k])=>D.bg[k]===undefined).length + (D.pre===null?1:0);
+      if(miss){ $("tGoWhy").textContent=`尚有 ${miss} 題未作答，請點選後再開始。`; return; }
+      if(!$("tAgree").checked){ $("tGoWhy").textContent="請先勾選同意參加。"; return; }
+      t0=now(); started=true; const _d=new Date(); D.start=`${_d.getFullYear()}-${String(_d.getMonth()+1).padStart(2,"0")}-${String(_d.getDate()).padStart(2,"0")}`;
+      window.addEventListener("beforeunload", e=>{ if(!document.getElementById("tCode")){ e.preventDefault(); e.returnValue=""; } });
+      timerId=setInterval(tick,700);
+      $("tExit").hidden=false;
+      show("intro");
+    };
+  }
+  /* ---- end-of-flow entry points: a box on the keep page, and a quiet text link at the page bottom ---- */
+  function mountEntries(){
+    const box=document.createElement("div"); box.id="tDoneBox"; box.className="done-box"; box.hidden=true; box.style.marginTop="18px";
+    box.innerHTML=`<strong>感謝您完成整個流程。</strong><p style="margin:6px 0 10px">最後請花約 3 分鐘填寫問卷，協助我們改進。</p><button class="btn" id="tToQ">填寫問卷</button>`;
+    $("keepBody").appendChild(box);
+    $("tToQ").onclick=showEnd;
+    const ex=document.createElement("p"); ex.id="tExit"; ex.hidden=true; ex.className="why"; ex.style.cssText="text-align:center;margin-top:18px";
+    ex.innerHTML=`若您想提前結束體驗，<button class="btn ghost small" id="tExitBtn">直接填寫問卷</button>`;
+    document.querySelector(".wrap").appendChild(ex);
+    $("tExitBtn").onclick=()=>confirmBox("要結束體驗、開始填寫問卷嗎？","<p>尚未完成的步驟會記錄為未完成；這對我們同樣是有用的資訊。</p>","開始填寫問卷","繼續體驗",showEnd);
+  }
+  /* ---- questionnaire ---- */
+  function showEnd(){
+    tick(); ended=true; clearInterval(timerId); D.total=Math.round((now()-t0)/1000);
+    let sec=$("tend"); if(!sec){ sec=document.createElement("section"); sec.className="sheet"; sec.id="tend"; document.querySelector(".wrap").insertBefore(sec,$("tExit")); }
+    document.querySelector("nav").hidden=true; $("keepBar").hidden=true; $("navNote").hidden=true; $("tExit").hidden=true;
+    document.querySelectorAll("section.sheet").forEach(x=>x.hidden = x.id!=="tend");
+    sec.innerHTML=`<span class="law">問卷・約 3 分鐘</span><h2>請告訴我們您的使用感受</h2>
+      <p class="lead">每一題請點選最接近您感受的選項，沒有標準答案。</p>
+      <h3 style="font-size:1.3rem;margin-top:10px">一、使用感受</h3>
+      <p class="why" style="margin:0">第 1、2 題：1 = 非常不同意，7 = 非常同意。</p>
+      ${UX.map((q,i)=>`<div class="sq"><p>${i+1}. ${q}</p>${likert("u"+i,D.ux[i],7,["非常不同意","","","普通","","","非常同意"])}</div>`).join("")}
+      <div class="sq"><p>3. 您覺得哪一個步驟最不容易完成？</p>${radio("hard",STEPN,D.hard)}</div>
+      <h3 style="font-size:1.3rem;margin-top:18px">二、對這個構想的看法</h3>
+      <p class="why" style="margin:0">1 = 非常不同意，5 = 非常同意。</p>
+      ${HQ.map((q,i)=>`<div class="sq"><p>${i+4}. ${q}</p>${likert("h"+i,D.h[i],5,AG)}</div>`).join("")}
+      <h3 style="font-size:1.3rem;margin-top:18px">三、目前的想法</h3>
+      <div class="sq"><p>11. 使用這個平台後，您對「預立醫療決定」的想法，最接近下列哪一項？</p>${radio("post",STAGES,D.post)}</div>
+      <div class="sq"><p>12. 體驗過程中，您請他人協助了幾次？</p>${radio("help",["沒有","1–2 次","3 次以上"],D.help)}</div>
+      <h3 style="font-size:1.3rem;margin-top:18px">四、您的建議（可不填）</h3>
+      ${["13. 哪一個地方最不容易理解或操作？","14. 其他建議"].map((q,i)=>`<div class="sq"><p>${q}</p><textarea data-open="${i}" style="font:inherit;width:100%;min-height:80px;padding:10px;border:2px solid var(--line);border-radius:12px;background:var(--sheet);color:var(--ink)">${esc(D.open[i])}</textarea></div>`).join("")}
+      <div class="row" style="margin-top:14px"><button class="btn" id="tFin">完成問卷</button><span class="why-off" id="tFinWhy"></span></div>
+      <div id="tOut"></div>`;
+    bindChoice(sec,(n,v)=>{ if(/^u\d$/.test(n)) D.ux[+n.slice(1)]=v; else if(/^h\d$/.test(n)) D.h[+n.slice(1)]=v; else D[n]=v; });
+    sec.querySelectorAll("[data-open]").forEach(t=>t.oninput=()=>{ D.open[+t.dataset.open]=t.value.slice(0,300); });
+    $("tFin").onclick=finish;
+    window.scrollTo(0,0);
+  }
+  /* UMUX-LITE (Lewis, Utesch & Maher, 2013): raw 0–100 and SUS-equivalent regression */
+  const uxRaw=a=>(a[0]+a[1]-2)*100/12, uxSus=a=>Math.round((0.65*uxRaw(a)+22.9)*10)/10;
+  function encode(o){ const j=JSON.stringify(o); const b=btoa(unescape(encodeURIComponent(j))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,""); return "SHL2."+b; }
+  function finish(){
+    const miss=D.ux.filter(v=>v===null).length+D.h.filter(v=>v===null).length+(D.hard===null?1:0)+(D.post===null?1:0)+(D.help===null?1:0);
+    if(miss){ $("tFinWhy").textContent=`尚有 ${miss} 題未作答（第 1 至 12 題為必答）。`; return; }
+    $("tFinWhy").textContent="";
+    const out={v:2,id:D.id,d:D.start,bg:D.bg,pre:D.pre,post:D.post,help:D.help,ms:D.ms,total:D.total,q1:D.q1,redraw:S.round-1,book:D.bookKind||null,ev:D.ev,ux:D.ux,uxSus:uxSus(D.ux),hard:D.hard,h:D.h,open:D.open.map(x=>x.trim())};
+    const code=encode(out);
+    const msg="說好了使用者測試結果碼：\n"+code;
+    $("tOut").innerHTML=`<div class="done-box"><strong>問卷已完成，衷心感謝您的協助。</strong><p style="margin:6px 0">請將下方「結果碼」提供給邀請您測試的研究者。結果碼不含姓名，也不含您在網站中填寫的醫療意願。</p>
+      <div class="code" id="tCode">${code}</div>
+      <div class="row" style="margin-top:10px"><button class="btn" id="tCopy">複製結果碼</button><a class="btn ghost" style="text-decoration:none;display:inline-flex;align-items:center" href="https://line.me/R/share?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener">以 LINE 傳送</a><span id="tCopyMsg" role="status"></span></div></div>`;
+    $("tCopy").onclick=()=>{ const m=$("tCopyMsg"); try{ navigator.clipboard.writeText(code).then(()=>m.textContent="已複製",()=>m.textContent="請長按上方結果碼，手動複製"); }catch(e){ m.textContent="請長按上方結果碼，手動複製"; } };
+  }
+  return {ev, redraw, mountStart, mountEntries, D};
+})();
+/* ---------- boot ---------- */
+$("badge").textContent = DEMO ? "示意資料：王阿姨，72 歲" : (TEST ? "易用性測試版・匿名" : "體驗版・不會傳送任何資料");
+$("trialNote").hidden = DEMO;
+if(DEMO) EDIT["不可逆轉的昏迷"].nutri = 2;
+renderQuiz(); renderValues(); updateNav();
+if(TEST){
+  $("trialNote").querySelector("strong").textContent="測試版：";
+  T.mountStart(); T.mountEntries();
+  document.querySelector("nav").hidden=true;
+  document.querySelectorAll("section.sheet").forEach(x=>x.hidden = x.id!=="tstart");
+  const _show=show; show=function(step){ _show(step); if($("tstart")) $("tstart").hidden=true; };
+} else {
+const start=(location.hash||"#intro").slice(1);
+show(STEPS.includes(start)?start:"intro");
+}
+window.addEventListener("hashchange",()=>{const h=location.hash.slice(1); if(STEPS.includes(h)) show(h);});
+</script>
+</body></html>

@@ -1,0 +1,294 @@
+<!doctype html><html lang='zh-Hant'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1,viewport-fit=cover'></head><body><title>說好了・測試結果統計</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: one working column — paste box, verdict list, then evidence (SUS, tasks, attitudes, comments). Same warm palette as the 說好了 prototype. */
+:root{
+  --bg:#fcf9f3; --sheet:#ffffff; --ink:#3b2a1e; --muted:#6e5646; --line:#eadccb;
+  --accent:#b8521c; --accent-ink:#9a4214; --tint:#fdf6ef; --sun:#d99a22; --sun-ink:#8a5a00;
+  --good:#2e7a46; --good-tint:#f2f8f1; --bad:#b03a2e; --bad-tint:#fcf3f1; --on-accent:#ffffff;
+  --display:"LXGW WenKai TC","Noto Serif TC",serif;
+  --body:"Noto Sans TC","Noto Sans CJK TC","PingFang TC","Microsoft JhengHei",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1d1813; --sheet:#25201a; --ink:#f6ece0; --muted:#cbb6a2; --line:#4a3d31; --accent:#f0945a; --accent-ink:#f6ad7d; --tint:#2e251d;
+  --sun:#f0bf5a; --sun-ink:#f3cf83; --good:#8acf96; --good-tint:#1f2c21; --bad:#f08a80; --bad-tint:#33201d; --on-accent:#1d1813; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1d1813; --sheet:#25201a; --ink:#f6ece0; --muted:#cbb6a2; --line:#4a3d31; --accent:#f0945a; --accent-ink:#f6ad7d; --tint:#2e251d;
+  --sun:#f0bf5a; --sun-ink:#f3cf83; --good:#8acf96; --good-tint:#1f2c21; --bad:#f08a80; --bad-tint:#33201d; --on-accent:#1d1813; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.65;margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding-block:20px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1{font-family:var(--display);font-size:2.1rem;color:var(--accent);margin:0;line-height:1.2}
+h2{font-family:var(--display);font-size:1.5rem;margin:0 0 10px;text-wrap:balance}
+.sub{color:var(--muted);margin:4px 0 16px;max-width:70ch}
+.sheet{background:var(--sheet);border:1px solid var(--line);border-radius:18px;padding:20px clamp(14px,3vw,30px);margin-top:14px}
+textarea{font:inherit;font-size:.9rem;width:100%;min-height:120px;padding:10px 12px;border:2px solid var(--line);border-radius:12px;background:var(--sheet);color:var(--ink);font-family:ui-monospace,Menlo,Consolas,monospace}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{font:inherit;font-weight:700;border:2px solid var(--accent);background:var(--accent);color:var(--on-accent);padding:8px 18px;border-radius:12px;cursor:pointer;min-height:44px}
+.btn.ghost{background:var(--sheet);color:var(--accent)}
+button:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.note{color:var(--muted);font-size:.95rem}
+.pill{display:inline-block;font-size:.9rem;font-weight:700;padding:1px 10px;border-radius:999px;border:1.5px solid currentColor}
+.ok{color:var(--good)} .no{color:var(--bad)} .na{color:var(--muted)}
+.hyp{display:grid;gap:10px}
+.h{display:grid;grid-template-columns:7.2em minmax(0,1fr) auto;gap:12px;align-items:center;border:2px solid var(--line);border-left-width:8px;border-radius:14px;padding:10px 14px}
+.h.ok{border-left-color:var(--good)} .h.no{border-left-color:var(--bad)} .h.na{border-left-color:var(--line)}
+.h .k{font-family:var(--display);font-weight:700;font-size:1.1rem;color:var(--ink)}
+.h .d{color:var(--ink);min-width:0}
+.h .d small{display:block;color:var(--muted)}
+.h .v{font-variant-numeric:tabular-nums;font-weight:700;text-align:right;white-space:nowrap}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:12px}
+.kpi{border:2px solid var(--line);border-radius:14px;padding:10px 14px}
+.kpi b{display:block;font-family:var(--display);font-size:1.9rem;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--accent-ink)}
+.kpi span{color:var(--muted);font-size:.92rem}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+th{color:var(--muted);font-weight:500;font-size:.92rem}
+td.n{text-align:right}
+svg text{font-family:var(--body)}
+.cm{border-left:4px solid var(--sun);padding:4px 10px;margin:6px 0}
+.cm small{color:var(--muted)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.grid2 label{display:flex;flex-direction:column;font-size:.92rem;color:var(--muted);gap:2px}
+select,input[type=number]{font:inherit;font-size:.95rem;padding:6px 8px;border:2px solid var(--line);border-radius:10px;background:var(--sheet);color:var(--ink);min-height:40px;width:100%}
+details summary{cursor:pointer;font-weight:700;color:var(--accent-ink)}
+.ex{border:2px dashed var(--sun);border-radius:12px;padding:8px 12px;color:var(--sun-ink);font-weight:500;margin:0 0 10px}
+@media (max-width:560px){.h{grid-template-columns:minmax(0,1fr)} .h .v{text-align:left}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <h1>說好了・測試結果統計</h1>
+  <p class="sub">請將受測者傳回的「結果碼」貼在下方（一行一組，可一次貼上多組），本頁會自動計算易用性分數，並逐項對照提案的假設。資料僅在本瀏覽器中計算，不會上傳。</p>
+
+  <section class="sheet">
+    <h2>貼上結果碼</h2>
+    <div class="ex" id="exNote" hidden>目前顯示的是 <strong>6 筆範例資料</strong>，僅用於示範版面，並非真實測試結果。貼上真實結果碼前，請先點選「清除」。</div>
+    <textarea id="codes" placeholder="SHL2.eyJ2IjoyLC..."></textarea>
+    <div class="row" style="margin-top:10px">
+      <button class="btn" id="calc">計算</button>
+      <button class="btn ghost" id="clear">清除</button>
+      <button class="btn ghost" id="sample">載入範例</button>
+      <span class="note" id="parseMsg" role="status"></span>
+    </div>
+    <details style="margin-top:14px" id="paper">
+      <summary>紙本問卷輸入（現場測試用）</summary>
+      <p class="note">依紙本問卷逐題輸入，點選「加入」後會產生一組結果碼，並自動加入上方清單。</p>
+      <div id="paperForm"></div>
+    </details>
+  </section>
+
+  <section class="sheet">
+    <h2>假設檢驗</h2>
+    <p class="note" style="margin-top:-4px">判定標準：易用性以 SUS 等值分數 68 分為平均水準（Sauro, 2011）；其餘門檻為本提案自行設定，列於各項下方。受測者少於 5 人時，一律標示「樣本不足」。</p>
+    <div class="hyp" id="hyp"></div>
+  </section>
+
+  <section class="sheet">
+    <h2>易用性（UMUX-LITE）</h2>
+    <div class="kpis" id="susK"></div>
+    <div class="scroll" id="susChart"></div>
+    <p class="note">UMUX-LITE 共 2 題（功能符合需要、容易使用），採 7 點量表；原始分數＝（兩題得分和 − 2）× 100 ÷ 12，再以 0.65 × 原始分數 ＋ 22.9 換算為 SUS 等值分數（Lewis, Utesch, & Maher, 2013）。</p>
+  </section>
+
+  <section class="sheet">
+    <h2>流程完成情形</h2>
+    <div class="scroll" id="tasks"></div>
+    <p class="note">時間由測試版在背景自動記錄，受測者畫面上不顯示；每一步的時間為「完成上一步到完成這一步」的中位數。</p>
+  </section>
+
+  <section class="sheet">
+    <h2>對構想的看法（第 4–10 題）</h2>
+    <div class="scroll" id="att"></div>
+  </section>
+
+  <section class="sheet">
+    <h2>準備階段變化與受測者背景</h2>
+    <div class="scroll" id="stage"></div>
+  </section>
+
+  <section class="sheet">
+    <h2>受測者的意見</h2>
+    <div id="open"></div>
+  </section>
+
+  <section class="sheet">
+    <h2>匯出</h2>
+    <div class="row">
+      <button class="btn" id="cpSum">複製結果摘要（可貼入提案書）</button>
+      <button class="btn ghost" id="cpCsv">複製 CSV（可貼入 Excel）</button>
+      <span class="note" id="cpMsg" role="status"></span>
+    </div>
+    <textarea id="cpBox" readonly hidden style="margin-top:10px;min-height:160px"></textarea>
+  </section>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const AGE=["34 歲以下","35–49 歲","50–64 歲","65–74 歲","75 歲以上"];
+const STAGES=["還沒想過","考慮中","半年內諮商","一個月內／已預約","已簽署"];
+const MS=[["quiz","第 1–2 步　認識決定書與理解測驗"],["values","第 3 步　想法與家人"],["book","第 4 步　預約諮商"],["send","第 5 步　送出諮商前摘要"],["sign","模擬簽署"],["keep","第 6 步　簽署之後的調整"]];
+const STEPN=["第 1 步","第 2 步","第 3 步","第 4 步","第 5 步","第 6 步","都不難"];
+const HQ=["4 看完第 1 步，知道何時會用到","5 比較想先在家用平台準備","6 有摘要，到現場更快進入重點","7 揪團費用低，願意參加團體諮商","8 線上準備，較容易和家人討論","9 看得到辦理進度，比較安心","10 會推薦家人朋友使用"];
+const uxRaw=a=>(a[0]+a[1]-2)*100/12, uxSus=a=>Math.round((0.65*uxRaw(a)+22.9)*10)/10;
+function decode(line){
+  const m=line.trim().match(/SHL2\.([A-Za-z0-9_-]+)/); if(!m) return null;
+  let b=m[1].replace(/-/g,"+").replace(/_/g,"/"); while(b.length%4) b+="=";
+  try{ return JSON.parse(decodeURIComponent(escape(atob(b)))); }catch(e){ return null; }
+}
+function encode(o){ return "SHL2."+btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,""); }
+const mean=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:NaN;
+const sd=a=>{ if(a.length<2) return NaN; const m=mean(a); return Math.sqrt(a.reduce((s,x)=>s+(x-m)**2,0)/(a.length-1)); };
+const median=a=>{ if(!a.length) return NaN; const s=a.slice().sort((x,y)=>x-y), k=s.length>>1; return s.length%2?s[k]:(s[k-1]+s[k])/2; };
+const T95=[NaN,12.71,4.30,3.18,2.78,2.57,2.45,2.36,2.31,2.26,2.23,2.20,2.18,2.16,2.14,2.13,2.12,2.11,2.10,2.09,2.09,2.08,2.07,2.07,2.06,2.06,2.06,2.05,2.05,2.05];
+const tcrit=df=>df<T95.length?T95[df]:1.96;
+const f1=x=>isNaN(x)?"—":x.toFixed(1), pct=x=>isNaN(x)?"—":Math.round(x*100)+"%";
+const agree=v=>v>=4;
+let R=[];
+function compute(){
+  const n=R.length;
+  const ux=R.map(r=>uxSus(r.ux));
+  const older=R.filter(r=>r.bg&&r.bg.age>=3).map(r=>uxSus(r.ux));
+  const q1=R.filter(r=>r.q1&&r.q1.n).map(r=>r.q1.r/r.q1.n);
+  const ms=MS.map(([k],i)=>{ const reached=R.filter(r=>r.ms&&r.ms[k]!=null);
+    const dur=reached.map(r=>{ const prev=i?r.ms[MS[i-1][0]]:0; return prev!=null?(r.ms[k]-prev)/60:null; }).filter(x=>x!=null&&x>=0);
+    return {k, n:reached.length, dur}; });
+  const prep=R.filter(r=>r.ms&&r.ms.send!=null).map(r=>r.ms.send/60);
+  const signed=R.filter(r=>r.ms&&r.ms.sign!=null), kept=signed.filter(r=>r.ms.keep!=null);
+  const hAgree=HQ.map((_,i)=>{ const v=R.map(r=>r.h&&r.h[i]).filter(x=>x); return {n:v.length, a:v.filter(agree).length/(v.length||1), dist:[1,2,3,4,5].map(k=>v.filter(x=>x===k).length)}; });
+  const hard=STEPN.map((_,i)=>R.filter(r=>r.hard===i).length);
+  return {n, ux, older, q1, ms, prep, signed, kept, hAgree, hard};
+}
+function verdicts(C){
+  const small=C.n<5, ok=b=>small?"na":(b?"ok":"no");
+  const finish=C.n?C.ms[5].n/C.n:NaN, keepRate=C.signed.length?C.kept.length/C.signed.length:NaN;
+  const mq=mean(C.q1), mu=mean(C.ux), mp=median(C.prep);
+  return [
+    ["看得懂","線上說明可以取代逐一電話衛教","第一組測驗平均正確率 ≥ 80%，且第 4 題同意比例 ≥ 80%",`正確率 ${pct(mq)}・同意 ${pct(C.hAgree[0].a)}`, ok(mq>=.8 && C.hAgree[0].a>=.8)],
+    ["用得來","長者與家人可以自行操作","SUS 等值分數平均 ≥ 68（Sauro, 2011），且完成全部流程者 ≥ 80%",`${f1(mu)} 分・完成 ${pct(finish)}`, ok(mu>=68 && finish>=.8)],
+    ["省時間","在家準備約 30 分鐘內完成","開始到送出諮商前摘要的時間中位數 ≤ 30 分鐘",`中位數 ${f1(mp)} 分`, ok(mp<=30)],
+    ["現場更有效率","事前準備讓現場直接進入確認","第 5、6 題同意比例皆 ≥ 70%",`${pct(C.hAgree[1].a)}・${pct(C.hAgree[2].a)}`, ok(C.hAgree[1].a>=.7 && C.hAgree[2].a>=.7)],
+    ["揪團有吸引力","費用降低能提高參加團體諮商的意願","第 7 題同意比例 ≥ 60%",`同意 ${pct(C.hAgree[3].a)}`, ok(C.hAgree[3].a>=.6)],
+    ["家人參與","線上準備讓家庭討論更容易","第 8 題同意比例 ≥ 70%",`同意 ${pct(C.hAgree[4].a)}`, ok(C.hAgree[4].a>=.7)],
+    ["簽署後維護","簽署後能自行完成調整或維持","完成模擬簽署者中，完成第 6 步 ≥ 80%，且第 9 題同意比例 ≥ 70%",`${pct(keepRate)}・同意 ${pct(C.hAgree[5].a)}`, ok(keepRate>=.8 && C.hAgree[5].a>=.7)]
+  ];
+}
+function render(){
+  const C=compute(), n=C.n;
+  $("parseMsg").textContent = n?`已讀入 ${n} 筆。`:"尚未讀入資料。";
+  const V=verdicts(C), lab={ok:"支持",no:"未達標準",na:"樣本不足"};
+  $("hyp").innerHTML = n? V.map(v=>`<div class="h ${v[4]}"><div class="k">${v[0]}</div><div class="d">${v[1]}<small>標準：${v[2]}</small></div><div class="v"><span class="pill ${v[4]}">${lab[v[4]]}</span><br>${v[3]}</div></div>`).join("") : `<p class="note">貼上結果碼並點選「計算」後，此處會列出每一項假設的結果。</p>`;
+  const s=C.ux, m=mean(s), e=tcrit(s.length-1)*sd(s)/Math.sqrt(s.length);
+  $("susK").innerHTML=`<div class="kpi"><b>${n}</b><span>受測人數</span></div><div class="kpi"><b>${f1(m)}</b><span>SUS 等值平均（標準差 ${f1(sd(s))}）</span></div><div class="kpi"><b>${isNaN(e)?"—":f1(m-e)+"–"+f1(m+e)}</b><span>平均數 95% 信賴區間</span></div><div class="kpi"><b>${f1(mean(C.older))}</b><span>65 歲以上平均（${C.older.length} 人）</span></div>`;
+  $("susChart").innerHTML = n? susSVG(s) : "";
+  $("tasks").innerHTML = n? `<table><thead><tr><th>步驟</th><th>完成人數</th><th>所需時間中位數</th></tr></thead><tbody>${MS.map(([k,t],i)=>{const x=C.ms[i]; return `<tr><td>${t}</td><td class="n">${x.n}/${n}（${pct(x.n/n)}）</td><td class="n">${f1(median(x.dur))} 分</td></tr>`;}).join("")}
+    <tr><td><strong>在家準備合計（開始到送出摘要）</strong></td><td></td><td class="n"><strong>${f1(median(C.prep))} 分</strong></td></tr>
+    <tr><td>理解測驗第一組正確率</td><td class="n">${pct(mean(C.q1))}</td><td></td></tr>
+    <tr><td>受測者認為最不容易的步驟</td><td colspan="2">${STEPN.map((t,i)=>`${t} ${C.hard[i]} 人`).join("・")}</td></tr></tbody></table>` : "";
+  $("att").innerHTML = n? attSVG(C.hAgree) : "";
+  const mv=R.filter(r=>r.pre!=null&&r.post!=null), up=mv.filter(r=>r.post>r.pre).length, same=mv.filter(r=>r.post===r.pre).length, down=mv.filter(r=>r.post<r.pre).length;
+  const ages=AGE.map((a,i)=>R.filter(r=>r.bg&&r.bg.age===i).length);
+  const grp=R.filter(r=>r.book).length, grpN=R.filter(r=>r.book==="join"||r.book==="new").length;
+  const law=R.filter(r=>r.ev&&r.ev["why:law"]).length, self=R.filter(r=>r.ev&&r.ev["why:self"]).length;
+  $("stage").innerHTML = n? `<table><tbody>
+    <tr><th>準備階段（前測 → 後測）</th><td>前進 ${up} 人・不變 ${same} 人・後退 ${down} 人（共 ${mv.length} 人）</td></tr>
+    <tr><th>年齡</th><td>${AGE.map((a,i)=>`${a} ${ages[i]} 人`).join("・")}</td></tr>
+    <tr><th>預約方式選擇揪團</th><td>${grpN} / ${grp} 人</td></tr>
+    <tr><th>簽署後選擇的原因</th><td>法規修正 ${law} 人・自己想改 ${self} 人</td></tr>
+    <tr><th>有他人在旁協助</th><td>${R.filter(r=>r.bg&&r.bg.who===1).length} 人；自述請他人協助 1 次以上 ${R.filter(r=>r.help>=1).length} 人</td></tr>
+    <tr><th>重抽理解測驗</th><td>${R.filter(r=>r.redraw>0).length} 人</td></tr></tbody></table>` : "";
+  const ops=R.flatMap(r=>(r.open||[]).map((t,i)=>t?{t,i,id:r.id}:null).filter(Boolean));
+  const L=["最不容易理解或操作之處","其他建議"];
+  $("open").innerHTML = ops.length? [0,1].map(i=>{const a=ops.filter(o=>o.i===i); return a.length?`<h3 style="font-size:1.1rem;margin:10px 0 4px">${L[i]}</h3>${a.map(o=>`<div class="cm">${esc(o.t)} <small>（${esc(o.id)}）</small></div>`).join("")}`:"";}).join("") : `<p class="note">目前沒有文字意見。</p>`;
+  window.__C=C; window.__V=V;
+}
+function susSVG(s){
+  const W=Math.max(360,140+s.length*46), H=230, x0=44, y=v=>20+(100-v)*1.7;
+  let g=`<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="每位受測者的 SUS 等值分數">`;
+  [0,25,50,75,100].forEach(v=>g+=`<line x1="${x0}" x2="${W-10}" y1="${y(v)}" y2="${y(v)}" style="stroke:var(--line)"/><text x="${x0-8}" y="${y(v)+5}" text-anchor="end" style="fill:var(--muted);font-size:12px">${v}</text>`);
+  s.forEach((v,i)=>{const x=x0+16+i*46; g+=`<rect x="${x}" y="${y(v)}" width="28" height="${y(0)-y(v)}" rx="4" style="fill:${v>=68?"var(--good)":"var(--sun)"}"/><text x="${x+14}" y="${y(v)-6}" text-anchor="middle" style="fill:var(--ink);font-size:12px;font-weight:700">${v}</text><text x="${x+14}" y="${H-6}" text-anchor="middle" style="fill:var(--muted);font-size:11px">${esc(R[i].id||i+1)}</text>`;});
+  g+=`<line x1="${x0}" x2="${W-10}" y1="${y(68)}" y2="${y(68)}" style="stroke:var(--accent);stroke-width:2;stroke-dasharray:6 5"/><text x="${W-12}" y="${y(68)-6}" text-anchor="end" style="fill:var(--accent-ink);font-size:12px;font-weight:700">平均水準 68</text>`;
+  return g+`</svg>`;
+}
+function attSVG(A){
+  const W=720, rowH=34, H=40+A.length*rowH, x0=290, bw=W-x0-60;
+  const cols=["var(--bad)","var(--bad-tint)","var(--line)","var(--good-tint)","var(--good)"];
+  let g=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="min-width:600px" role="img" aria-label="第 4 到 10 題的回答分布">`;
+  ["非常不同意","不同意","普通","同意","非常同意"].forEach((t,i)=>{ g+=`<rect x="${x0+i*90}" y="6" width="12" height="12" style="fill:${cols[i]};stroke:var(--muted)"/><text x="${x0+i*90+16}" y="17" style="fill:var(--muted);font-size:12px">${t}</text>`; });
+  A.forEach((a,i)=>{ const y=34+i*rowH; let x=x0; g+=`<text x="${x0-10}" y="${y+17}" text-anchor="end" style="fill:var(--ink);font-size:13px">${HQ[i]}</text>`;
+    a.dist.forEach((c,k)=>{ const w=a.n?bw*c/a.n:0; if(w>0) g+=`<rect x="${x}" y="${y+2}" width="${w}" height="22" style="fill:${cols[k]};stroke:var(--sheet)"/>`; x+=w; });
+    g+=`<text x="${x0+bw+8}" y="${y+18}" style="fill:var(--ink);font-size:13px;font-weight:700">${pct(a.a)}</text>`; });
+  return g+`</svg><p class="note">右側數字為「同意＋非常同意」的比例。</p>`;
+}
+function load(text){
+  const lines=text.split(/\s+/).filter(x=>x.includes("SHL2."));
+  const seen=new Set(); R=[]; let bad=0;
+  lines.forEach(l=>{ const o=decode(l); if(!o||!Array.isArray(o.ux)){bad++;return;} const key=l.trim(); if(seen.has(key)) return; seen.add(key); R.push(o); });
+  render(); if(bad) $("parseMsg").textContent+=` 有 ${bad} 組無法讀取，請確認是否完整複製。`;
+}
+/* sample data: clearly marked examples */
+function sampleCodes(){
+  const mk=(id,age,pre,post,mins,ux,q1r,hard,h,book,why,open)=>{ const ms={}; let t=0; MS.forEach(([k],i)=>{ if(mins[i]!=null){ t+=mins[i]*60; ms[k]=t; } });
+    return encode({v:2,id,d:"範例",bg:{age,tech:age>=3?1:0,heard:1,who:age>=4?1:0,dev:0},pre,post,help:age>=4?1:0,ms,total:t,q1:{r:q1r,w:6-q1r,u:0,n:6,full:true},redraw:q1r<4?1:0,book,ev:why?{["why:"+why]:1}:{},ux,uxSus:uxSus(ux),hard,h,open}); };
+  return [
+    mk("範例A",0,1,2,[9,4,5,1.5,1,3],[6,6],6,3,[5,4,4,4,4,4,5],"join","self",["",""]),
+    mk("範例B",2,0,1,[12,5,7,2,1,4],[5,6],5,3,[4,4,5,3,4,4,4],"solo","law",["預約時不容易找到想去的醫院",""]),
+    mk("範例C",3,1,2,[15,6,9,2.5,1,null],[5,5],5,5,[5,4,4,4,5,3,4],"join",null,["","希望說明可以再短一點"]),
+    mk("範例D",4,0,1,[18,8,12,3,2,6],[4,4],4,3,[4,3,4,4,4,3,3],"solo","self",["揪團的選項太多","希望有語音說明"]),
+    mk("範例E",3,2,3,[10,5,6,2,1,3],[6,7],6,6,[5,5,5,5,4,5,5],"new","law",["",""]),
+    mk("範例F",1,1,1,[7,3,4,1,1,2],[6,6],6,6,[5,4,5,4,4,5,4],"join","self",["",""])
+  ];
+}
+function paperForm(){
+  const sel=(id,opts,first)=>`<select id="${id}">${first?`<option value="">${first}</option>`:""}${opts.map((o,i)=>`<option value="${i}">${o}</option>`).join("")}</select>`;
+  const n5=[1,2,3,4,5].map(String), n7=[1,2,3,4,5,6,7].map(String);
+  let h=`<div class="grid2"><label>受測者代號<input id="p_id" type="text" style="font:inherit;padding:6px 8px;border:2px solid var(--line);border-radius:10px;min-height:40px;background:var(--sheet);color:var(--ink)"></label><label>年齡${sel("p_age",AGE,"請選擇")}</label><label>前測準備階段${sel("p_pre",STAGES,"請選擇")}</label><label>後測準備階段（第 11 題）${sel("p_post",STAGES,"請選擇")}</label><label>第一組測驗答對題數（0–6）<input id="p_q1" type="number" min="0" max="6"></label><label>開始到送出摘要（分鐘）<input id="p_min" type="number" min="0"></label><label>是否完成第 6 步${sel("p_keep",["未完成","完成"],"請選擇")}</label><label>請他人協助（第 12 題）${sel("p_help",["沒有","1–2 次","3 次以上"],"請選擇")}</label></div>`;
+  h+=`<h3 style="font-size:1rem;margin:12px 0 6px">第 1–3 題</h3><div class="grid2"><label>1. 功能符合需要（1–7）${sel("p_u0",n7,"—")}</label><label>2. 容易使用（1–7）${sel("p_u1",n7,"—")}</label><label>3. 最不容易的步驟${sel("p_hard",STEPN,"—")}</label></div>`;
+  h+=`<h3 style="font-size:1rem;margin:12px 0 6px">第 4–10 題（1–5）</h3><div class="grid2">${HQ.map((q,i)=>`<label>${q}${sel("p_h"+i,n5,"—")}</label>`).join("")}</div>`;
+  h+=`<div class="row" style="margin-top:12px"><button class="btn" id="p_add">加入</button><span class="note" id="p_msg" role="status"></span></div>`;
+  $("paperForm").innerHTML=h;
+  $("p_add").onclick=()=>{
+    const g=id=>$(id).value, num=id=>g(id)===""?null:+g(id);
+    const ux=[0,1].map(i=>num("p_u"+i)!=null?num("p_u"+i)+1:null), hh=HQ.map((_,i)=>num("p_h"+i)!=null?num("p_h"+i)+1:null);
+    if(ux.includes(null)||hh.includes(null)||num("p_age")==null){ $("p_msg").textContent="年齡、第 1–2 題與第 4–10 題均為必填。"; return; }
+    const ms={}; if(num("p_min")!=null) ms.send=Math.round(num("p_min")*60); if(num("p_keep")===1){ ms.sign=(ms.send||0)+60; ms.keep=(ms.send||0)+120; }
+    const o={v:2,id:g("p_id")||("紙本"+(R.length+1)),d:"紙本",bg:{age:num("p_age")},pre:num("p_pre"),post:num("p_post"),help:num("p_help"),ms,q1:num("p_q1")!=null?{r:num("p_q1"),n:6}:null,redraw:0,book:null,ev:{},ux,uxSus:uxSus(ux),hard:num("p_hard"),h:hh,open:["",""]};
+    const ta=$("codes"); if(isSample()) ta.value=""; ta.value=(ta.value.trim()+"\n"+encode(o)).trim(); $("exNote").hidden=!isSample();
+    load(ta.value); $("p_msg").textContent=`已加入 ${o.id}。`;
+  };
+}
+function summaryText(){
+  const C=window.__C, V=window.__V; if(!C||!C.n) return "尚無資料。";
+  const d=new Date(), ds=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+  const lines=[`使用者測試結果（${C.n} 人；${ds} 統計）`,
+    `易用性（UMUX-LITE，換算 SUS 等值分數）平均 ${f1(mean(C.ux))} 分（標準差 ${f1(sd(C.ux))}），65 歲以上 ${C.older.length} 人平均 ${f1(mean(C.older))} 分；以 68 分為平均水準。`,
+    `開始到送出諮商前摘要的時間中位數 ${f1(median(C.prep))} 分鐘；理解測驗第一組平均正確率 ${pct(mean(C.q1))}。`];
+  V.forEach(v=>lines.push(`${v[0]}：${v[3]}（標準：${v[2]}）→ ${({ok:"支持",no:"未達標準",na:"樣本不足"})[v[4]]}`));
+  return lines.join("\n");
+}
+function csv(){
+  const head=["代號","日期","年齡","前測","後測","協助","UMUX1","UMUX2","SUS等值","最不容易步驟",...HQ.map((_,i)=>"Q"+(i+4)),...MS.map(([k])=>k+"_秒"),"測驗第一組答對","重抽","預約方式","意見1","意見2"];
+  const rows=R.map(r=>[r.id,r.d,r.bg?AGE[r.bg.age]:"",STAGES[r.pre]??"",STAGES[r.post]??"",r.help,r.ux[0],r.ux[1],uxSus(r.ux),STEPN[r.hard]??"",...(r.h||[]),...MS.map(([k])=>r.ms?r.ms[k]??"":""),r.q1?r.q1.r:"",r.redraw,r.book||"",...(r.open||["",""])]);
+  return [head,...rows].map(r=>r.map(x=>{x=String(x??""); return /[",\n]/.test(x)?`"${x.replace(/"/g,'""')}"`:x;}).join(",")).join("\n");
+}
+function copy(text){
+  const m=$("cpMsg"), box=$("cpBox"); box.hidden=false; box.value=text;
+  try{ navigator.clipboard.writeText(text).then(()=>m.textContent="已複製",()=>{m.textContent="請於下方框內全選後複製"; box.select();}); }catch(e){ m.textContent="請於下方框內全選後複製"; box.select(); }
+}
+const SAMPLE=sampleCodes().join("\n");
+const isSample=()=>$("codes").value.trim()===SAMPLE;
+$("calc").onclick=()=>{ $("exNote").hidden=!isSample(); load($("codes").value); try{localStorage.setItem("shl2-codes",$("codes").value);}catch(e){} };
+$("clear").onclick=()=>{ $("codes").value=""; $("exNote").hidden=true; R=[]; render(); try{localStorage.removeItem("shl2-codes");}catch(e){} };
+$("sample").onclick=()=>{ $("codes").value=SAMPLE; $("exNote").hidden=false; load(SAMPLE); };
+$("cpSum").onclick=()=>copy(summaryText());
+$("cpCsv").onclick=()=>copy(csv());
+paperForm();
+let saved=""; try{ saved=localStorage.getItem("shl2-codes")||""; }catch(e){}
+if(saved){ $("codes").value=saved; $("exNote").hidden=!isSample(); load(saved); }
+else { $("codes").value=SAMPLE; $("exNote").hidden=false; load(SAMPLE); }
+</script>
+</body></html>
