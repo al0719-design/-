@@ -25,7 +25,7 @@
   --on-accent:#1d1813; --hill:#2e261e; --stair:#25201a; color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.7;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:1.125rem;line-height:1.7;margin:0}
 .wrap{max-width:1080px;margin:0 auto;padding-block:20px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;margin-bottom:12px}
 h1{font-family:var(--display);font-size:2.3rem;margin:0;letter-spacing:.06em;line-height:1.15;color:var(--accent)}
@@ -307,6 +307,21 @@ details.future summary{cursor:pointer;font-weight:700;font-size:1.1rem;color:var
 .dialog ul.ck{margin:8px 0 12px;padding-left:1.2em}
 .dialog ul.ck li{margin-bottom:4px}
 .warnline{border:2px solid var(--bad);border-radius:12px;padding:8px 12px;color:var(--bad);font-weight:500;margin:6px 0 12px}
+.fs{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
+.fs span{color:var(--muted);font-size:.95rem}
+.fs button{font:inherit;border:2px solid var(--line);background:var(--sheet);color:var(--ink);border-radius:10px;min-width:46px;min-height:44px;cursor:pointer;font-weight:700;padding:0 8px}
+.fs button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent-ink);box-shadow:inset 0 0 0 1px var(--accent)}
+.story{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px 18px;align-items:start;border:3px solid var(--sun);border-radius:20px;padding:16px 20px;margin:4px 0 18px;background:var(--sheet)}
+.story .face{width:64px;height:64px;border-radius:50%;background:var(--sun);color:#3b2a1e;display:grid;place-items:center;font-family:var(--display);font-size:1.6rem;font-weight:700}
+.story h3{font-family:var(--display);font-size:1.35rem;margin:0 0 4px;color:var(--accent-ink)}
+.story p{margin:0 0 6px}
+.story .q{font-weight:700}
+.story small{color:var(--muted)}
+.vids{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 4px}
+.vids a{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);border:2px solid var(--accent);border-radius:14px;padding:8px 14px;background:var(--sheet);font-weight:700;min-height:50px}
+.vids a .pl{width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-size:.85rem;flex:none}
+.vids a small{display:block;font-weight:400;color:var(--muted);font-size:.9rem}
+@media (max-width:560px){.story{grid-template-columns:minmax(0,1fr);padding:14px 16px}.story .face{width:48px;height:48px;font-size:1.3rem}}
 @media (max-width:980px){nav{grid-template-columns:repeat(4,minmax(0,1fr))} .cols,.sum-cols{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:720px){.vs{grid-template-columns:minmax(0,1fr)} .vsarrow{justify-self:center;transform:rotate(90deg)} .lcmp{grid-template-columns:minmax(0,1fr)} .lcmp .mid{justify-self:center;transform:rotate(90deg)} .optrow{grid-template-columns:minmax(0,1fr)} .likert.l7 button small{display:none}}
 @media (max-width:560px){nav{grid-template-columns:repeat(2,minmax(0,1fr))} .session{grid-template-columns:minmax(0,1fr)} h1{font-size:1.9rem} h2{font-size:1.5rem} .matrix{grid-template-columns:minmax(0,1fr) minmax(0,1fr)} .matrix .c{grid-column:1 / -1} .matrix .h0{display:none} .ccard .tr{grid-template-columns:minmax(0,1fr)} .cmp{grid-template-columns:minmax(0,1fr)} .cmp .mid{justify-self:center;transform:rotate(90deg)} .sum-book{margin-left:0} .dgrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)} .dgrid .cn{grid-column:1 / -1} .dgrid .h0{display:none}}
@@ -319,9 +334,12 @@ details.future summary{cursor:pointer;font-weight:700;font-size:1.1rem;color:var
       <h1>說好了</h1>
       <div class="sub">預立醫療照護諮商（ACP）事前準備與決定維護平台・提案原型</div>
     </div>
-    <span class="badge" id="badge"></span>
+    <div class="row" style="gap:10px">
+      <div class="fs" role="group" aria-label="字體大小"><span>字體</span><button data-fs="100">小</button><button data-fs="112.5">中</button><button data-fs="128">大</button></div>
+      <span class="badge" id="badge"></span>
+    </div>
   </header>
-  <div class="trial" id="trialNote" hidden><strong>體驗版：</strong>您輸入的內容僅保留在本瀏覽器分頁，不會傳送至任何醫療機構或衛福部；重新整理頁面後即會清除。醫療機構名稱與收費取自衛福部公開名單，場次、時間與網址均為示意。</div>
+  <div class="trial" id="trialNote" hidden><strong>體驗版：</strong>這是示意網站，不會連到醫院或衛福部；重新整理頁面，填過的內容就會清除。醫院名稱與價格取自衛福部公開資料，時間與場次是假的。</div>
 
   <nav aria-label="使用步驟">
     <button data-step="intro"><span class="n">★</span>簡介</button>
@@ -336,38 +354,53 @@ details.future summary{cursor:pointer;font-weight:700;font-size:1.1rem;color:var
 
   <!-- INTRO -->
   <section class="sheet" id="intro" hidden>
-    <span class="law">病人自主權利法・預立醫療照護諮商</span>
-    <h2>把每個人都一樣的準備，留在家裡完成</h2>
-    <p class="lead">完成預立醫療決定，目前就像一階一階地爬山。「說好了」如同一條纜車：<strong>前四階可在家中線上完成</strong>；依法須由本人到場的部分，則由諮商團隊在現場陪同您完成。</p>
+    <div class="story">
+      <div class="face" aria-hidden="true">林</div>
+      <div>
+        <h3>林阿姨的故事</h3>
+        <p>68 歲的林阿姨照顧過插鼻胃管、臥床多年的母親。她說：<span class="q">「如果哪天輪到我，我不要這樣。」</span></p>
+        <p>她想簽「預立醫療決定書」，才發現要先預約醫院諮商、自費三千多元、只有平日白天，還要帶一位家人一起去。兒子在外地上班請不了假，她也不會網路掛號，最後就說：「以後再說吧。」</p>
+        <p><strong>這個網站想幫像林阿姨這樣的人，把準備工作先在家完成。</strong></p>
+        <small>故事綜合網路公開分享改寫，人物為虛構。</small>
+      </div>
+    </div>
+    <h2>準備工作，在家就能完成</h2>
+    <p class="lead">現在要簽預立醫療決定，就像一階一階爬山。這個平台像<strong>纜車</strong>：前 4 階在家用網路完成，最後幾階再到醫院由本人完成。</p>
     <div class="figwrap cable" id="mountain"></div>
     <div class="vs" id="vsBox">
       <div class="vscol climb">
         <div class="vshead"><span class="vstag">現在</span>自己爬山</div>
-        <div class="vsrow"><span class="vk">準備</span><div><b>自行查詢、逐家電洽</b><small>411 家機構收費各自公告</small></div></div>
-        <div class="vsrow"><span class="vk">費用</span><div><b>約 2,800 元</b><small>個人諮商平均（1,000–3,700 元）</small></div></div>
-        <div class="vsrow"><span class="vk">時間</span><div><b>半天以上</b><small>諮商 60–90 分鐘＋交通、等候（估計）</small></div></div>
-        <div class="vsrow"><span class="vk">家人</span><div><b>家人需請假陪同</b><small>至少 1 位二親等內親屬參與</small></div></div>
+        <div class="vsrow"><span class="vk">準備</span><div><b>自己查、自己打電話問</b><small>全國 411 家機構，價格各不同</small></div></div>
+        <div class="vsrow"><span class="vk">費用</span><div><b>約 2,800 元</b><small>一個人去的平均價格</small></div></div>
+        <div class="vsrow"><span class="vk">時間</span><div><b>半天以上</b><small>諮商 1 小時多，加上交通、等候</small></div></div>
+        <div class="vsrow"><span class="vk">家人</span><div><b>家人要請假陪同</b><small>至少 1 位家人參加</small></div></div>
       </div>
       <div class="vsarrow" aria-hidden="true">→</div>
       <div class="vscol ride">
-        <div class="vshead"><span class="vstag">說好了</span>搭纜車</div>
-        <div class="vsrow"><span class="vk">準備</span><div><b>在家 20–30 分鐘</b><small>看說明、做測驗、填草稿（估計）</small></div></div>
-        <div class="vsrow"><span class="vk">費用</span><div><b>每人約 1,593 元</b><small>3 人同行全國平均；團體場最低 500 元</small></div></div>
-        <div class="vsrow"><span class="vk">時間</span><div><b>現場直接確認</b><small>說明可先在家閱讀，現場時間用於回答疑問與確認</small></div></div>
-        <div class="vsrow"><span class="vk">家人</span><div><b>家人可視訊參與</b><small>依各機構規定</small></div></div>
+        <div class="vshead"><span class="vstag">線上準備</span>搭纜車</div>
+        <div class="vsrow"><span class="vk">準備</span><div><b>在家約 30 分鐘</b><small>看說明、做小測驗、寫下想法</small></div></div>
+        <div class="vsrow"><span class="vk">費用</span><div><b>每人約 1,600 元</b><small>3 人一起去的平均價格，最低 500 元</small></div></div>
+        <div class="vsrow"><span class="vk">時間</span><div><b>到現場直接確認</b><small>不懂的地方，醫療團隊當場說明</small></div></div>
+        <div class="vsrow"><span class="vk">家人</span><div><b>家人可視訊參加</b><small>依醫院規定</small></div></div>
       </div>
     </div>
-    <p class="walk"><b>最後一段，依法須由本人親自完成：</b>個別確認意思能力與自願性、簽署、見證或公證（病主法 §9）。</p>
+    <p class="walk"><b>依法一定要本人到場：</b>醫療團隊確認是您本人的意思、簽名、見證（病主法 §9）。</p>
+    <h3 style="font-size:1.25rem;margin:14px 0 4px">先看影片，3 分鐘了解</h3>
+    <div class="vids">
+        <a href="https://youtu.be/SJvOXEw_htg" target="_blank" rel="noopener"><span class="pl">▶</span><span>3 分鐘認識病主法<small>病人自主研究中心・中文</small></span></a>
+        <a href="https://www.youtube.com/watch?v=hTlxAT6rCPY" target="_blank" rel="noopener"><span class="pl">▶</span><span>認識病主法（台語）<small>病人自主研究中心・中文字幕</small></span></a>
+        <a href="https://www.youtube.com/watch?v=3-yMPPTM4aU" target="_blank" rel="noopener"><span class="pl">▶</span><span>諮商現場模擬<small>康健雜誌・病人自主研究中心轉載</small></span></a>
+      </div>
     <h3 style="font-size:1.35rem;margin:6px 0 10px">使用流程</h3>
     <div class="overview">
-      <div class="ov"><div class="n">1</div><strong>認識決定書</strong><div class="t">6 張重點卡片，約 10 分鐘</div></div>
-      <div class="ov"><div class="n">2</div><strong>理解測驗</strong><div class="t">隨機 6 題；不確定的題目可請團隊說明</div></div>
-      <div class="ov"><div class="n">3</div><strong>想法與家人</strong><div class="t">先寫草稿，邀請家人參與（可視訊）</div></div>
-      <div class="ov"><div class="n">4</div><strong>預約諮商</strong><div class="t">揪團享多人優惠，或個別預約；涵蓋全臺 22 縣市</div></div>
-      <div class="ov"><div class="n">5</div><strong>諮商前摘要</strong><div class="t">事先提供諮商團隊，現場直接確認</div></div>
-      <div class="ov"><div class="n">6</div><strong>簽署之後</strong><div class="t">定期回顧；變更或撤回的書面一次備妥</div></div>
+      <div class="ov"><div class="n">1</div><strong>認識決定書</strong><div class="t">看 6 張重點卡片</div></div>
+      <div class="ov"><div class="n">2</div><strong>理解測驗</strong><div class="t">6 題小測驗，不會可以選「不清楚」</div></div>
+      <div class="ov"><div class="n">3</div><strong>想法與家人</strong><div class="t">寫下想法，邀請家人</div></div>
+      <div class="ov"><div class="n">4</div><strong>預約諮商</strong><div class="t">揪團比較便宜，也可以自己去</div></div>
+      <div class="ov"><div class="n">5</div><strong>諮商前摘要</strong><div class="t">先交給醫療團隊</div></div>
+      <div class="ov"><div class="n">6</div><strong>簽署之後</strong><div class="t">想改的時候，這裡幫您準備</div></div>
     </div>
-    <p class="foot">本平台不取代預立醫療照護諮商。意思能力與自願性的判斷、簽署、核章、見證或公證、健保卡註記，依法仍由醫療機構辦理。圖中的時間與費用依公開資料整理，標示「估計」者為提案推估。</p>
+    <p class="foot">本平台只協助事前準備，不取代醫院的諮商。費用取自衛福部公開資料，時間為估計。</p>
     <div class="row" style="margin-top:16px"><button class="btn" data-go="learn">開始第一步</button></div>
   </section>
 
@@ -375,7 +408,7 @@ details.future summary{cursor:pointer;font-weight:700;font-size:1.1rem;color:var
   <section class="sheet" id="learn" hidden>
     <span class="law">病人自主權利法・管理辦法 §5</span>
     <h2>預立醫療決定：6 個重點</h2>
-    <p class="lead">以下 6 項重點涵蓋下一步理解測驗的所有內容。每張卡片下方均標示法令依據，正式內容以法律及衛福部公告格式為準。</p>
+    <p class="lead">看完這 6 張卡片，就能回答下一步的小測驗。</p>
     <div class="keys">
       <div class="key">
         <div class="kh"><span class="kn">1</span><h3>在什麼情況下適用？</h3></div>
@@ -430,7 +463,12 @@ details.future summary{cursor:pointer;font-weight:700;font-size:1.1rem;color:var
       </div>
     </div>
     <div class="offl">
-      <h3>官方資料</h3>
+      <h3>想多了解？看影片或官方資料</h3>
+      <div class="vids">
+        <a href="https://youtu.be/SJvOXEw_htg" target="_blank" rel="noopener"><span class="pl">▶</span><span>3 分鐘認識病主法<small>病人自主研究中心・中文</small></span></a>
+        <a href="https://www.youtube.com/watch?v=hTlxAT6rCPY" target="_blank" rel="noopener"><span class="pl">▶</span><span>認識病主法（台語）<small>病人自主研究中心・中文字幕</small></span></a>
+        <a href="https://www.youtube.com/watch?v=3-yMPPTM4aU" target="_blank" rel="noopener"><span class="pl">▶</span><span>諮商現場模擬<small>康健雜誌・病人自主研究中心轉載</small></span></a>
+      </div>
       <div class="links">
         <a href="https://www.mohw.gov.tw/dl-48462-0fdd14a0-1e16-4c6b-bac8-73209c3cf825.html" target="_blank" rel="noopener">預立醫療決定書<small>衛福部公告格式（PDF）</small></a>
         <a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=L0020189" target="_blank" rel="noopener">病人自主權利法全文<small>全國法規資料庫</small></a>
@@ -764,7 +802,7 @@ function mountain(){
   const ST=[["找資訊",""],["比收費",""],["排時間",""],["聽說明",""],["個別確認",""],["簽署見證",""],["健保卡","註記"]];
   const X0=168, W=112, GP=6, G=440;
   const top=i=>340-i*36;
-  let s=`<svg viewBox="0 0 1000 500" role="img" aria-label="自己爬山要走七階：找資訊、比收費、排時間、聽說明、個別確認、簽署見證、健保卡註記。說好了像纜車，前四階在家線上完成，個別確認與簽署見證依法本人到場，註記由機構與衛福部辦理。">`;
+  let s=`<svg viewBox="0 0 1000 500" role="img" aria-label="自己爬山要走七階：找資訊、比收費、排時間、聽說明、個別確認、簽署見證、健保卡註記。線上準備平台像纜車，前四階在家線上完成，個別確認與簽署見證依法本人到場，註記由機構與衛福部辦理。">`;
   s+=`<rect width="1000" height="500" style="fill:var(--sheet)"/>`;
   s+=`<path d="M0 ${G} L110 370 L330 292 L560 190 L760 108 L890 52 L1000 120 L1000 ${G} Z" style="fill:var(--hill)"/>`;
   ST.forEach((t,i)=>{
@@ -791,9 +829,9 @@ function mountain(){
   s+=`<line x1="${hx}" y1="${hy}" x2="${ux}" y2="${uy}" style="stroke:var(--ink);stroke-width:3.5"/>`;
   s+=`<rect x="${hx-62}" y="${hy-6}" width="124" height="58" rx="12" style="fill:var(--accent)"/><text x="${hx}" y="${hy+32}" text-anchor="middle" style="fill:var(--on-accent);font-size:26px;font-weight:700">在家</text>`;
   s+=`<rect x="${ux-78}" y="${uy-50}" width="156" height="58" rx="12" style="fill:var(--accent)"/><text x="${ux}" y="${uy-12}" text-anchor="middle" style="fill:var(--on-accent);font-size:26px;font-weight:700">諮商機構</text>`;
-  const cab=t=>{const x=hx+(ux-hx)*t, y=hy+(uy-hy)*t; return `<line x1="${x}" y1="${y}" x2="${x}" y2="${y+10}" style="stroke:var(--ink);stroke-width:3"/><rect x="${x-50}" y="${y+10}" width="100" height="44" rx="12" style="fill:var(--sun);stroke:var(--ink);stroke-width:2.5"/><text x="${x}" y="${y+40}" text-anchor="middle" style="fill:#3b2a1e;font-size:22px;font-weight:700">說好了</text>`;};
+  const cab=t=>{const x=hx+(ux-hx)*t, y=hy+(uy-hy)*t; return `<line x1="${x}" y1="${y}" x2="${x}" y2="${y+10}" style="stroke:var(--ink);stroke-width:3"/><rect x="${x-50}" y="${y+10}" width="100" height="44" rx="12" style="fill:var(--sun);stroke:var(--ink);stroke-width:2.5"/><text x="${x}" y="${y+40}" text-anchor="middle" style="fill:#3b2a1e;font-size:21px;font-weight:700">線上準備</text>`;};
   s+=cab(0.33)+cab(0.64);
-  s+=`<text x="${hx+(ux-hx)*0.42-150}" y="${hy+(uy-hy)*0.42-38}" style="fill:var(--accent-ink);font-size:28px;font-weight:700">纜車＝說好了平台</text>`;
+  s+=`<text x="${hx+(ux-hx)*0.42-150}" y="${hy+(uy-hy)*0.42-38}" style="fill:var(--accent-ink);font-size:28px;font-weight:700">纜車＝線上準備平台</text>`;
   return s+`</svg>`;
 }
 $("mountain").innerHTML = mountain();
@@ -1520,18 +1558,19 @@ const T = (()=>{
       ["heard","3. 您是否聽過「預立醫療決定」？",["聽過，也大致了解","聽過，但不太清楚","沒有聽過"]],
       ["who","4. 今天的操作方式",["由本人操作","由他人在旁協助或代為操作"]],
       ["dev","5. 使用的裝置",["手機","平板","電腦"]]];
-    sec.innerHTML=`<span class="law">使用者測試・約 30 分鐘</span><h2>感謝您協助試用「說好了」</h2>
-      <div class="howto"><div class="ic">i</div><div><ol>
-        <li>本網站為<strong>示意版本</strong>，不會連線至任何醫療機構或衛福部，也不會實際預約或簽署。</li>
-        <li>本次測試評估的是<strong>網站是否容易使用</strong>，並非評量您。若有看不懂的地方，正是我們需要改進之處。</li>
-        <li>您在網站中填寫的醫療意願與家人稱呼<strong>不會被記錄</strong>。按下「完成問卷」後，<strong>匿名結果會自動傳送給研究者</strong>（存放於研究者的 Google 試算表），內容只有問卷答案與各步驟花費的時間，不含姓名，也不含您填寫的醫療意願。</li>
-        <li>您可以隨時停止，不需說明理由。</li></ol></div></div>
-      <div class="policy" style="margin:0 0 6px"><h4>體驗方式</h4><ol style="margin:0;padding-left:1.3em">
-        <li>從「簡介」開始，依序完成第 1 步到第 5 步，並送出諮商前摘要。</li>
-        <li>在「我的預約」頁，點選「模擬：已完成現場諮商與簽署」。</li>
-        <li>在「簽署之後」頁，依您的想法辦理一次調整（或選擇維持原決定）。</li>
-        <li>完成後頁面會出現問卷，約需 3 分鐘。</li></ol></div>
-      <h3 style="font-size:1.25rem;margin-top:18px">開始前，請先回答幾個問題</h3>
+    sec.innerHTML=`<span class="law">網站試用・約 30 分鐘</span><h2>謝謝您幫忙試用這個網站</h2>
+      ${document.querySelector("#intro .story").outerHTML}
+      <div class="howto"><div class="ic">i</div><div><p style="margin:0 0 6px"><b>請您假裝自己（或家人）就是林阿姨</b>，用這個網站準備看看，告訴我們哪裡好用、哪裡看不懂。</p><ol>
+        <li>這是<strong>示意網站</strong>，不會真的預約、簽署，也不會連到醫院。</li>
+        <li>我們測試的是網站，<strong>不是測試您</strong>。看不懂，就是我們要改的地方。</li>
+        <li>您填的醫療選擇和家人名字<strong>不會被記錄</strong>。填完問卷後，只有問卷答案和花費時間會<strong>匿名自動傳給研究者</strong>。</li>
+        <li>隨時可以停止。</li></ol></div></div>
+      <div class="policy" style="margin:0 0 6px"><h4>怎麼試用</h4><ol style="margin:0;padding-left:1.3em">
+        <li>依序做完第 1 到第 5 步，最後按「送出摘要」。</li>
+        <li>在「我的預約」頁，按「模擬：已完成現場諮商與簽署」。</li>
+        <li>在「簽署之後」頁，試著改一次決定（或選擇不改）。</li>
+        <li>最後填問卷，約 3 分鐘。</li></ol></div>
+      <h3 style="font-size:1.25rem;margin-top:18px">開始前，先回答 6 個問題</h3>
       ${BG.map(([k,q,o])=>`<div class="sq"><p>${q}</p>${radio(k,o,D.bg[k])}</div>`).join("")}
       <div class="sq"><p>6. 目前您對「預立醫療決定」的想法，最接近下列哪一項？</p>${radio("pre",STAGES,D.pre)}</div>
       <div class="row" style="margin-top:12px"><label style="display:flex;gap:10px;align-items:center;font-weight:700"><input type="checkbox" id="tAgree" style="width:26px;height:26px"> 我已了解以上說明，同意參加本次測試</label></div>
@@ -1619,6 +1658,13 @@ const T = (()=>{
   }
   return {ev, redraw, mountStart, mountEntries, D};
 })();
+/* ---------- font size (per-viewer convenience) ---------- */
+(function(){
+  const apply=v=>{ document.documentElement.style.fontSize=v+"%"; document.querySelectorAll("[data-fs]").forEach(b=>b.setAttribute("aria-pressed", b.dataset.fs===String(v))); };
+  let v="100"; try{ v=localStorage.getItem("shl-fs")||"100"; }catch(e){}
+  apply(v);
+  document.querySelectorAll("[data-fs]").forEach(b=>b.onclick=()=>{ apply(b.dataset.fs); try{ localStorage.setItem("shl-fs",b.dataset.fs); }catch(e){} });
+})();
 /* ---------- boot ---------- */
 $("badge").textContent = DEMO ? "示意資料：王阿姨，72 歲" : (TEST ? "易用性測試版・匿名" : "體驗版・不會傳送任何資料");
 $("trialNote").hidden = DEMO;
@@ -1627,6 +1673,7 @@ renderQuiz(); renderValues(); updateNav();
 if(TEST){
   $("trialNote").querySelector("strong").textContent="測試版：";
   T.mountStart(); T.mountEntries();
+  document.querySelector("#intro .story").hidden=true; // already shown on the start page
   document.querySelector("nav").hidden=true;
   document.querySelectorAll("section.sheet").forEach(x=>x.hidden = x.id!=="tstart");
   const _show=show; show=function(step){ _show(step); if($("tstart")) $("tstart").hidden=true; };
