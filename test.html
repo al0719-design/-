@@ -327,7 +327,12 @@ details.future summary{cursor:pointer;font-weight:700;font-size:1.1rem;color:var
 .qbar b{font-size:1.12rem}
 .qbar small{display:block;opacity:.92}
 .qbar button{font:inherit;font-weight:700;font-size:1.12rem;border:0;border-radius:14px;background:#fff;color:var(--accent-ink);padding:10px 22px;min-height:50px;cursor:pointer}
-body.has-qbar{padding-bottom:110px}
+body.has-qbar{padding-bottom:130px}
+.coach{outline:4px solid #e0201b !important;outline-offset:4px;border-radius:14px;animation:coachP 1.4s ease-in-out infinite}
+@keyframes coachP{0%,100%{outline-color:#e0201b}50%{outline-color:rgba(224,32,27,.25)}}
+.coachtip{display:block;background:#e0201b;color:#fff;font-weight:700;border-radius:12px;padding:8px 12px;margin:14px 0 10px;font-size:1.05rem;line-height:1.45;position:relative}
+.coachtip::after{content:"";position:absolute;left:24px;bottom:-9px;border:10px solid transparent;border-bottom:0;border-top-color:#e0201b}
+@media (prefers-reduced-motion:reduce){.coach{animation:none}}
 @media (max-width:980px){nav{grid-template-columns:repeat(4,minmax(0,1fr))} .cols,.sum-cols{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:720px){.vs{grid-template-columns:minmax(0,1fr)} .vsarrow{justify-self:center;transform:rotate(90deg)} .lcmp{grid-template-columns:minmax(0,1fr)} .lcmp .mid{justify-self:center;transform:rotate(90deg)} .optrow{grid-template-columns:minmax(0,1fr)} .likert.l7 button small{display:none}}
 @media (max-width:560px){nav{grid-template-columns:repeat(2,minmax(0,1fr))} .session{grid-template-columns:minmax(0,1fr)} h1{font-size:1.9rem} h2{font-size:1.5rem} .matrix{grid-template-columns:minmax(0,1fr) minmax(0,1fr)} .matrix .c{grid-column:1 / -1} .matrix .h0{display:none} .ccard .tr{grid-template-columns:minmax(0,1fr)} .cmp{grid-template-columns:minmax(0,1fr)} .cmp .mid{justify-self:center;transform:rotate(90deg)} .sum-book{margin-left:0} .dgrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)} .dgrid .cn{grid-column:1 / -1} .dgrid .h0{display:none}}
@@ -1560,14 +1565,48 @@ const T = (()=>{
       bar.hidden=false; document.body.classList.add("has-qbar");
       const cur=(document.querySelector("section.sheet:not([hidden])")||{}).id;
       const NUM={intro:0,learn:1,quiz:2,values:3,group:4,summary:5,booked:5,keep:6};
-      let msg, btn=null;
-      if(S.signed){ msg = done ? "<b>完成了！最後一步：填寫問卷</b><small>約 3 分鐘，填完問卷才算完成測試</small>"
-                              : "<b>還沒結束！最後一步：填寫問卷（約 3 分鐘）</b><small>可先在本頁試著改一次決定，也可以直接按右邊填寫</small>"; btn="填寫問卷 →"; }
-      else if(S.submitted){ msg="<b>還沒結束！請按「模擬：已完成現場諮商與簽署」</b><small>在「我的預約」頁下方。之後還有第 6 步和問卷</small>"; btn="帶我去 →"; }
-      else { const n=NUM[cur]||0; msg=`<b>測試進行中・${n?`第 ${n} 步／共 6 步`:"開始"}</b><small>做完 6 步後還要<strong>填問卷</strong>才算完成，請不要中途關閉</small>`; }
+      const dlgOpen=!$("dlg").hidden;
+      let msg, btn=null, tgt=null, tip="";
+      if(S.signed && done){ msg="<b>第 6 步完成了！最後一步：填寫問卷</b><small>約 3 分鐘，按「完成問卷」才算完成測試</small>"; btn="填寫問卷 →"; }
+      else if(S.signed){
+        if(cur!=="keep"){ msg="<b>還沒結束！請前往第 6 步「簽署之後」</b><small>按右邊按鈕就會帶您過去</small>"; btn="前往第 6 步 →"; }
+        else if(dlgOpen){ msg="<b>第 6 步：請在跳出的視窗中操作</b><small>選好新的選項後，按視窗裡的「確認這項修改」</small>"; }
+        else if(!S.why){ tgt="#whyBox"; tip="👇 第 6 步（1/3）：請點一個原因。建議點「我自己的想法改變了」"; msg="<b>第 6 步（1/3）：請點一個「原因」</b><small>建議點「我自己的想法改變了」</small>"; btn="帶我去 →"; }
+        else if(S.why==="law" && !S.lawDecision){ tgt="#lawKeep"; tip="👇 第 6 步（2/3）：選「維持原決定」，或按「我要調整決定」試著修改"; msg="<b>第 6 步（2/3）：選「維持原決定」或「我要調整決定」</b><small>兩個都可以</small>"; btn="帶我去 →"; }
+        else { const d=direction();
+          if(d==="none"){
+            if(S.act==="agent"){ tgt="#agentNew"; tip="👇 第 6 步（2/3）：寫下新的代理人稱呼"; msg="<b>第 6 步（2/3）：寫下新的代理人稱呼</b><small>例如：二女兒</small>"; }
+            else { tgt="#matrix"; tip="👇 第 6 步（2/3）：點下面任何一個格子，換一個選項，再按「確認這項修改」"; msg="<b>第 6 步（2/3）：點一個格子，改一個選項</b><small>改完按視窗裡的「確認這項修改」</small>"; }
+            btn="帶我去 →"; }
+          else if($("submitBtn").disabled && $("gateWrap").innerHTML.trim()){ tgt="#gateWrap"; tip="👇 先回答下面的確認題，再按「送出」"; msg="<b>第 6 步（3/3）：先回答確認題</b><small>答完後按「送出」</small>"; btn="帶我去 →"; }
+          else { tgt="#submitBtn"; tip="👇 第 6 步（3/3）：最後按「送出」，再按「確認送出」"; msg="<b>第 6 步（3/3）：按「送出」</b><small>再按「確認送出」就完成了</small>"; btn="帶我去 →"; } }
+      }
+      else if(S.submitted){ msg="<b>還沒結束！請按「模擬：已完成現場諮商與簽署」</b><small>在「我的預約」頁下方，按了才會進入第 6 步</small>"; btn="帶我去 →";
+        if(cur==="booked" && !dlgOpen){ tgt="#simSign"; tip="👇 按這個按鈕，進入第 6 步（最後一步）"; } }
+      else { const n=NUM[cur]||0; msg=`<b>測試進行中・${n?`第 ${n} 步／共 6 步`:"開始"}</b><small>做完 6 步後還要<strong>填問卷</strong>才算完成，請不要中途關閉</small>`;
+        if(cur==="summary" && !dlgOpen && $("sendBtn")){ tgt="#sendBtn"; tip="👇 看完摘要，按這裡送出（第 5 步）"; } }
       $("tBarMsg").innerHTML=msg; const bb=$("tBarBtn"); bb.hidden=!btn; if(btn) bb.textContent=btn;
+      coach(tgt, tip);
     }
     if(done && !D.asked && $("dlg").hidden){ D.asked=true; setTimeout(()=>{ if(!ended) confirmBox("完成體驗了，謝謝您！","<p>最後請花約 3 分鐘填寫問卷，告訴我們使用感受。</p>","現在填寫問卷","稍後（按畫面下方按鈕）",showEnd); },1500); }
+  }
+  /* ---- coach: red outline + tip above the next thing to press ---- */
+  let coachKey="";
+  function coach(sel, tip){
+    const t = sel ? document.querySelector(sel) : null;
+    document.querySelectorAll(".coach").forEach(e=>{ if(e!==t) e.classList.remove("coach"); });
+    const anc = t ? (t.closest(".row")||t) : null;
+    document.querySelectorAll(".coachtip").forEach(e=>{ if(!anc || e.nextElementSibling!==anc || e.textContent!==tip) e.remove(); });
+    if(!t || t.offsetParent===null){ coachKey=""; return; }
+    t.classList.add("coach");
+    if(!(anc.previousElementSibling && anc.previousElementSibling.classList.contains("coachtip"))){
+      const c=document.createElement("div"); c.className="coachtip"; c.textContent=tip; anc.parentNode.insertBefore(c,anc); }
+    const key=sel+"|"+tip;
+    if(key!==coachKey){ coachKey=key; if(sel!=="#sendBtn") goCoach(false); }
+  }
+  function goCoach(force){
+    const t=document.querySelector(".coachtip"); if(!t) { if(force) window.scrollTo({top:0,behavior:"smooth"}); return; }
+    setTimeout(()=>t.scrollIntoView({behavior:"smooth",block:"start"}), force?0:350);
   }
   /* ---- start page ---- */
   function mountStart(){
@@ -1589,7 +1628,7 @@ const T = (()=>{
         <li>在「我的預約」頁，按「模擬：已完成現場諮商與簽署」。</li>
         <li>在「簽署之後」頁，試著改一次決定（或選擇不改）。</li>
         <li>最後填問卷，約 3 分鐘。<strong>按下「完成問卷」才算完成</strong>。</li></ol>
-        <p style="margin:8px 0 0">畫面最下方的<strong>橘色提示條</strong>會告訴您目前在第幾步、下一步要做什麼。</p></div>
+        <p style="margin:8px 0 0">畫面最下方的<strong>橘色提示條</strong>會告訴您目前在第幾步；需要按的地方會有<strong>紅色框</strong>標示。</p></div>
       <h3 style="font-size:1.25rem;margin-top:18px">開始前，先回答 6 個問題</h3>
       ${BG.map(([k,q,o])=>`<div class="sq"><p>${q}</p>${radio(k,o,D.bg[k])}</div>`).join("")}
       <div class="sq"><p>6. 目前您對「預立醫療決定」的想法，最接近下列哪一項？</p>${radio("pre",STAGES,D.pre)}</div>
@@ -1617,11 +1656,14 @@ const T = (()=>{
     bar.innerHTML=`<div class="in"><div id="tBarMsg"></div><button id="tBarBtn">填寫問卷 →</button></div>`;
     document.body.appendChild(bar);
     $("tBarBtn").onclick=()=>{
-      if(S.signed) return showEnd();
-      if(S.submitted){ show("booked"); setTimeout(()=>{ const t=$("simSign"); if(t){ t.scrollIntoView({behavior:"smooth",block:"center"}); t.focus(); } },120); }
+      if(S.signed && D.ms.keep!==undefined) return showEnd();
+      const cur=(document.querySelector("section.sheet:not([hidden])")||{}).id;
+      if(S.signed && cur!=="keep") show("keep");
+      else if(!S.signed && S.submitted && cur!=="booked") show("booked");
+      setTimeout(()=>{ tick(); goCoach(true); },150);
     };
     const kb=document.createElement("div"); kb.id="tKeepNote"; kb.className="howto"; kb.style.margin="10px 0 6px";
-    kb.innerHTML=`<div class="ic">!</div><div><b>測試還沒結束：這是第 6 步（最後一步）。</b><br>請在本頁先選一個原因，再選「維持原決定」或試著修改一次；完成後畫面會請您<strong>填寫問卷</strong>。也可以直接按畫面最下方的「填寫問卷」。</div>`;
+    kb.innerHTML=`<div class="ic">!</div><div><b>測試還沒結束：這是第 6 步（最後一步）。</b><br>請在本頁先選一個原因，再選「維持原決定」或試著修改一次；完成後畫面會請您<strong>填寫問卷</strong>。<br>不知道下一步？請看<strong>紅色框</strong>，或按畫面最下方的「帶我去」。</div>`;
     const ks=$("keep"); ks.insertBefore(kb, $("keepLocked"));
     const ex=document.createElement("p"); ex.id="tExit"; ex.hidden=true; ex.className="why"; ex.style.cssText="text-align:center;margin-top:18px";
     document.querySelector(".wrap").appendChild(ex);
