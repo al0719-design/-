@@ -322,6 +322,12 @@ details.future summary{cursor:pointer;font-weight:700;font-size:1.1rem;color:var
 .vids a .pl{width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-size:.85rem;flex:none}
 .vids a small{display:block;font-weight:400;color:var(--muted);font-size:.9rem}
 @media (max-width:560px){.story{grid-template-columns:minmax(0,1fr);padding:14px 16px}.story .face{width:48px;height:48px;font-size:1.3rem}}
+.qbar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--accent);color:var(--on-accent);box-shadow:0 -4px 16px rgba(0,0,0,.18);padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.qbar .in{max-width:1080px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap}
+.qbar b{font-size:1.12rem}
+.qbar small{display:block;opacity:.92}
+.qbar button{font:inherit;font-weight:700;font-size:1.12rem;border:0;border-radius:14px;background:#fff;color:var(--accent-ink);padding:10px 22px;min-height:50px;cursor:pointer}
+body.has-qbar{padding-bottom:110px}
 @media (max-width:980px){nav{grid-template-columns:repeat(4,minmax(0,1fr))} .cols,.sum-cols{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:720px){.vs{grid-template-columns:minmax(0,1fr)} .vsarrow{justify-self:center;transform:rotate(90deg)} .lcmp{grid-template-columns:minmax(0,1fr)} .lcmp .mid{justify-self:center;transform:rotate(90deg)} .optrow{grid-template-columns:minmax(0,1fr)} .likert.l7 button small{display:none}}
 @media (max-width:560px){nav{grid-template-columns:repeat(2,minmax(0,1fr))} .session{grid-template-columns:minmax(0,1fr)} h1{font-size:1.9rem} h2{font-size:1.5rem} .matrix{grid-template-columns:minmax(0,1fr) minmax(0,1fr)} .matrix .c{grid-column:1 / -1} .matrix .h0{display:none} .ccard .tr{grid-template-columns:minmax(0,1fr)} .cmp{grid-template-columns:minmax(0,1fr)} .cmp .mid{justify-self:center;transform:rotate(90deg)} .sum-book{margin-left:0} .dgrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)} .dgrid .cn{grid-column:1 / -1} .dgrid .h0{display:none}}
@@ -1290,7 +1296,7 @@ function doSign(){
   const b=S.book; S.signPlace = b ? b.inst : "您選擇的機構"; S.signDate = b ? `${b.date.getFullYear()}/${b.date.getMonth()+1}/${b.date.getDate()}` : "—";
   S.signKind = b ? (b.kind==="solo"?"個別諮商":"團體諮商") : "—";
   const ag=S.family.find(isAgent); S.agent=ag?ag.name:"";
-  notifyBox("已完成簽署（模擬）", `<p>實際流程中，機構會掃描上傳，再由衛福部註記於健保卡。</p><p>接下來將進入「我的預立醫療決定」個人頁面。</p>`, "前往個人頁面", ()=>show("keep"));
+  notifyBox("已完成簽署（模擬）", `<p>實際流程中，機構會掃描上傳，再由衛福部註記於健保卡。</p><p>接下來將進入「我的預立醫療決定」個人頁面。</p>${MODE==="test"?`<div class="warnline"><b>測試還沒結束！</b>下一頁是第 6 步，做完後要填問卷（約 3 分鐘）。</div>`:""}`, "前往個人頁面", ()=>show("keep"));
 }
 
 /* ---------- step 6 ---------- */
@@ -1549,6 +1555,19 @@ const T = (()=>{
     const done = D.ms.keep!==undefined;
     const box=$("tDoneBox");
     if(box) box.hidden=!done;
+    const bar=$("tBar");
+    if(bar){
+      bar.hidden=false; document.body.classList.add("has-qbar");
+      const cur=(document.querySelector("section.sheet:not([hidden])")||{}).id;
+      const NUM={intro:0,learn:1,quiz:2,values:3,group:4,summary:5,booked:5,keep:6};
+      let msg, btn=null;
+      if(S.signed){ msg = done ? "<b>完成了！最後一步：填寫問卷</b><small>約 3 分鐘，填完問卷才算完成測試</small>"
+                              : "<b>還沒結束！最後一步：填寫問卷（約 3 分鐘）</b><small>可先在本頁試著改一次決定，也可以直接按右邊填寫</small>"; btn="填寫問卷 →"; }
+      else if(S.submitted){ msg="<b>還沒結束！請按「模擬：已完成現場諮商與簽署」</b><small>在「我的預約」頁下方。之後還有第 6 步和問卷</small>"; btn="帶我去 →"; }
+      else { const n=NUM[cur]||0; msg=`<b>測試進行中・${n?`第 ${n} 步／共 6 步`:"開始"}</b><small>做完 6 步後還要<strong>填問卷</strong>才算完成，請不要中途關閉</small>`; }
+      $("tBarMsg").innerHTML=msg; const bb=$("tBarBtn"); bb.hidden=!btn; if(btn) bb.textContent=btn;
+    }
+    if(done && !D.asked && $("dlg").hidden){ D.asked=true; setTimeout(()=>{ if(!ended) confirmBox("完成體驗了，謝謝您！","<p>最後請花約 3 分鐘填寫問卷，告訴我們使用感受。</p>","現在填寫問卷","稍後（按畫面下方按鈕）",showEnd); },1500); }
   }
   /* ---- start page ---- */
   function mountStart(){
@@ -1569,7 +1588,8 @@ const T = (()=>{
         <li>依序做完第 1 到第 5 步，最後按「送出摘要」。</li>
         <li>在「我的預約」頁，按「模擬：已完成現場諮商與簽署」。</li>
         <li>在「簽署之後」頁，試著改一次決定（或選擇不改）。</li>
-        <li>最後填問卷，約 3 分鐘。</li></ol></div>
+        <li>最後填問卷，約 3 分鐘。<strong>按下「完成問卷」才算完成</strong>。</li></ol>
+        <p style="margin:8px 0 0">畫面最下方的<strong>橘色提示條</strong>會告訴您目前在第幾步、下一步要做什麼。</p></div>
       <h3 style="font-size:1.25rem;margin-top:18px">開始前，先回答 6 個問題</h3>
       ${BG.map(([k,q,o])=>`<div class="sq"><p>${q}</p>${radio(k,o,D.bg[k])}</div>`).join("")}
       <div class="sq"><p>6. 目前您對「預立醫療決定」的想法，最接近下列哪一項？</p>${radio("pre",STAGES,D.pre)}</div>
@@ -1593,12 +1613,23 @@ const T = (()=>{
     box.innerHTML=`<strong>感謝您完成整個流程。</strong><p style="margin:6px 0 10px">最後請花約 3 分鐘填寫問卷，協助我們改進。</p><button class="btn" id="tToQ">填寫問卷</button>`;
     $("keepBody").appendChild(box);
     $("tToQ").onclick=showEnd;
+    const bar=document.createElement("div"); bar.id="tBar"; bar.className="qbar"; bar.hidden=true;
+    bar.innerHTML=`<div class="in"><div id="tBarMsg"></div><button id="tBarBtn">填寫問卷 →</button></div>`;
+    document.body.appendChild(bar);
+    $("tBarBtn").onclick=()=>{
+      if(S.signed) return showEnd();
+      if(S.submitted){ show("booked"); setTimeout(()=>{ const t=$("simSign"); if(t){ t.scrollIntoView({behavior:"smooth",block:"center"}); t.focus(); } },120); }
+    };
+    const kb=document.createElement("div"); kb.id="tKeepNote"; kb.className="howto"; kb.style.margin="10px 0 6px";
+    kb.innerHTML=`<div class="ic">!</div><div><b>測試還沒結束：這是第 6 步（最後一步）。</b><br>請在本頁先選一個原因，再選「維持原決定」或試著修改一次；完成後畫面會請您<strong>填寫問卷</strong>。也可以直接按畫面最下方的「填寫問卷」。</div>`;
+    const ks=$("keep"); ks.insertBefore(kb, $("keepLocked"));
     const ex=document.createElement("p"); ex.id="tExit"; ex.hidden=true; ex.className="why"; ex.style.cssText="text-align:center;margin-top:18px";
     document.querySelector(".wrap").appendChild(ex);
   }
   /* ---- questionnaire ---- */
   function showEnd(){
-    tick(); ended=true; clearInterval(timerId); D.total=Math.round((now()-t0)/1000);
+    $("dlg").hidden=true;
+    tick(); ended=true; const qb=$("tBar"); if(qb) qb.hidden=true; document.body.classList.remove("has-qbar"); clearInterval(timerId); D.total=Math.round((now()-t0)/1000);
     let sec=$("tend"); if(!sec){ sec=document.createElement("section"); sec.className="sheet"; sec.id="tend"; document.querySelector(".wrap").insertBefore(sec,$("tExit")); }
     document.querySelector("nav").hidden=true; $("keepBar").hidden=true; $("navNote").hidden=true; $("tExit").hidden=true;
     document.querySelectorAll("section.sheet").forEach(x=>x.hidden = x.id!=="tend");
