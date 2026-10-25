@@ -2,9 +2,10 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<meta name="color-scheme" content="light only">
 <style>
 /* Layout: white / off-white sheets with warm terracotta + honey accents; color lives in borders, icons and text, not in large fills. Large type for older readers. */
-:root{
+:root{color-scheme:light;
   --bg:#fcf9f3; --sheet:#ffffff; --ink:#3b2a1e; --muted:#6e5646; --line:#eadccb;
   --accent:#b8521c; --accent-ink:#9a4214; --tint:#fdf6ef;
   --sun:#d99a22; --sun-ink:#8a5a00;
@@ -13,16 +14,6 @@
   --display:"LXGW WenKai TC","Noto Serif TC","Noto Serif CJK TC",serif;
   --body:"Noto Sans TC","Noto Sans CJK TC","PingFang TC","Microsoft JhengHei",sans-serif;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#1d1813; --sheet:#25201a; --ink:#f6ece0; --muted:#cbb6a2; --line:#4a3d31;
-  --accent:#f0945a; --accent-ink:#f6ad7d; --tint:#2e251d; --sun:#f0bf5a; --sun-ink:#f3cf83;
-  --good:#8acf96; --good-tint:#1f2c21; --bad:#f08a80; --bad-tint:#33201d; --mid:#f0bf5a; --mid-tint:#30281a;
-  --on-accent:#1d1813; --hill:#2e261e; --stair:#25201a; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#1d1813; --sheet:#25201a; --ink:#f6ece0; --muted:#cbb6a2; --line:#4a3d31;
-  --accent:#f0945a; --accent-ink:#f6ad7d; --tint:#2e251d; --sun:#f0bf5a; --sun-ink:#f3cf83;
-  --good:#8acf96; --good-tint:#1f2c21; --bad:#f08a80; --bad-tint:#33201d; --mid:#f0bf5a; --mid-tint:#30281a;
-  --on-accent:#1d1813; --hill:#2e261e; --stair:#25201a; color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:1.125rem;line-height:1.7;margin:0}
